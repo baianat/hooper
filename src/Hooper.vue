@@ -139,6 +139,11 @@ export default {
       this.slideTo(this.currentSlide - this.itemsToSlide);
     }
   },
+  created () {
+    if (typeof window !== undefined) {
+      window.addEventListener('resize', this.updateWidth);
+    }
+  },
   mounted () {
     this.slides = Array.from(this.$refs.track.children);
     this.updateWidth();
