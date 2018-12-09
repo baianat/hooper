@@ -49,7 +49,7 @@ export default {
     </div>
 
 
-    <!-- optionaly elements -->
+    <!-- optionally elements -->
     <span slot="hooper-next">>></span>
     <span slot="hooper-prev"><<</span>
   </hooper>
