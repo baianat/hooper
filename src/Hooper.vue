@@ -38,7 +38,7 @@ export default {
   props: {
     // count of items to showen per view
     itemsToShow: {
-      default: 3,
+      default: 1,
       type: Number
     },
     // conut of items to slide when use navigation buttons
@@ -76,8 +76,9 @@ export default {
   },
   computed: {
     translate () {
+      const centeringSpace = this.centerMode ? (this.containerWidth - this.slideWidth) / 2 : 0;
       return {
-        x: this.delta.x - (this.currentSlide * this.slideWidth),
+        x: this.delta.x + centeringSpace - (this.currentSlide * this.slideWidth),
         y: 0
       }
     }
@@ -102,6 +103,15 @@ export default {
       this.$refs.track.style.transition = `${this.transition}ms`;
       this.currentSlide = normalized;
       this.isSliding = true;
+
+      // show the onrignal slide instead of the clone
+      if (this.infiniteScroll) {
+        const temp = () => {
+          this.normalizeCurrentSlideIndex();
+          this.$refs.track.addEventListener('transitionend', temp);
+        }
+        this.$refs.track.addEventListener('transitionend', temp);
+      }
     },
     slideNext () {
       this.slideTo(this.currentSlide + this.itemsToSlide);
@@ -162,9 +172,6 @@ export default {
     transitionEndHandler () {
       this.$refs.track.style.transition = '';
       this.isSliding = false;
-      if (this.infiniteScroll) {
-        this.normalizeCurrentSlideIndex();
-      }
     },
 
     // utitlite functions

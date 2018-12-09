@@ -1,7 +1,7 @@
 <template>
 
 <div class="wrapper">
-  <hooper>
+  <hooper :itemsToShow="3" :centerMode="true">
     <div class="hooper-slide">
       slide 1
     </div>
