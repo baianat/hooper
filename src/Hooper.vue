@@ -48,7 +48,7 @@ export default {
     },
     // enable infinite scrolling mode
     infiniteScroll: {
-      defulat: false,
+      default: false,
       type: Boolean
     },
     // enable center mode
@@ -87,9 +87,12 @@ export default {
     updateWidth () {
       this.containerWidth = this.$el.offsetWidth;
       this.slideWidth = (this.containerWidth / this.$props.itemsToShow);
-      this.slides.forEach(slide => {
+      this.allSlides.forEach(slide => {
         slide.style.width = `${this.slideWidth}px`;
-      })
+      });
+      if (this.infiniteScroll) {
+        this.$refs.track.style.marginLeft = `-${this.slideWidth * this.slides.length}px`;
+      }
     },
     slideTo (slideIndex) {
       const normalized = this.normalizeSlideIndex(slideIndex);
@@ -105,6 +108,23 @@ export default {
     },
     slidePrev () {
       this.slideTo(this.currentSlide - this.itemsToSlide);
+    },
+
+    // init methods
+    initClones () {
+      const slidesBefore = document.createDocumentFragment();
+      const slidesAfter = document.createDocumentFragment();
+      this.slides.forEach((slide) => {
+        const before = slide.cloneNode(true);
+        const after = slide.cloneNode(true);
+        before.classList.add('veer-clone');
+        after.classList.add('veer-clone');
+        slidesBefore.appendChild(before);
+        slidesAfter.appendChild(after);
+        this.allSlides.push(before, after);
+      });
+      this.$refs.track.appendChild(slidesAfter);
+      this.$refs.track.insertBefore(slidesBefore, this.$refs.track.firstChild);
     },
 
     // events handlers
@@ -142,11 +162,27 @@ export default {
     transitionEndHandler () {
       this.$refs.track.style.transition = '';
       this.isSliding = false;
+      if (this.infiniteScroll) {
+        this.normalizeCurrentSlideIndex();
+      }
     },
 
     // utitlite functions
     normalizeSlideIndex (index) {
+      if (this.infiniteScroll) {
+        return index;
+      }
       return Math.max(Math.min(index, this.slides.length - 1), 0)
+    },
+    normalizeCurrentSlideIndex() {
+      if (this.currentSlide >= this.slidesCount) {
+        this.currentSlide = this.currentSlide - this.slidesCount;
+        return this.normalizeCurrentSlideIndex();
+      }
+      if (this.currentSlide < 0) {
+        this.currentSlide = this.currentSlide + this.slidesCount;
+        return this.normalizeCurrentSlideIndex();
+      }
     }
   },
   created () {
@@ -156,7 +192,13 @@ export default {
   },
   mounted () {
     this.slides = Array.from(this.$refs.track.children);
+    this.allSlides = Array.from(this.slides);
+    this.slidesCount = this.slides.length;
     this.updateWidth();
+    if(this.infiniteScroll) {
+      console.log('dda');
+      this.initClones();
+    }
   }
 }
 </script>
