@@ -36,22 +36,27 @@
 export default {
   name: 'Hooper',
   props: {
+    // count of items to showen per view
     itemsToShow: {
       default: 3,
       type: Number
     },
+    // conut of items to slide when use navigation buttons
     itemsToSlide: {
       default: 1,
       type: Number
     },
+    // enable infinite scrolling mode
     infiniteScroll: {
       defulat: false,
       type: Boolean
     },
+    // enable center mode
     centerMode: {
       default: false,
       type: Boolean
     },
+    // sliding transition time in ms
     transition: {
       default: 300,
       type: Number
@@ -78,6 +83,7 @@ export default {
     }
   },
   methods: {
+    // controling methods
     updateWidth () {
       this.containerWidth = this.$el.offsetWidth;
       this.slideWidth = (this.containerWidth / this.$props.itemsToShow);
@@ -85,6 +91,23 @@ export default {
         slide.style.width = `${this.slideWidth}px`;
       })
     },
+    slideTo (slideIndex) {
+      const normalized = this.normalizeSlideIndex(slideIndex);
+      if (this.isSliding || this.currentSlide === normalized) { 
+        return;
+      }
+      this.$refs.track.style.transition = `${this.transition}ms`;
+      this.currentSlide = normalized;
+      this.isSliding = true;
+    },
+    slideNext () {
+      this.slideTo(this.currentSlide + this.itemsToSlide);
+    },
+    slidePrev () {
+      this.slideTo(this.currentSlide - this.itemsToSlide);
+    },
+
+    // events handlers
     downHandler (event) {
       if (event.button !== 0) return;
       event.preventDefault();
@@ -120,23 +143,10 @@ export default {
       this.$refs.track.style.transition = '';
       this.isSliding = false;
     },
+
+    // utitlite functions
     normalizeSlideIndex (index) {
       return Math.max(Math.min(index, this.slides.length - 1), 0)
-    },
-    slideTo (slideIndex) {
-      const normalized = this.normalizeSlideIndex(slideIndex);
-      if (this.isSliding || this.currentSlide === normalized) { 
-        return;
-      }
-      this.$refs.track.style.transition = `${this.transition}ms`;
-      this.currentSlide = normalized;
-      this.isSliding = true;
-    },
-    slideNext () {
-      this.slideTo(this.currentSlide + this.itemsToSlide);
-    },
-    slidePrev () {
-      this.slideTo(this.currentSlide - this.itemsToSlide);
     }
   },
   created () {
