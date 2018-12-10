@@ -14,6 +14,15 @@
       class="hopper-navigation"
       ref="nav"
     >
+      <ol class="hooper-pagination">
+        <li v-for="(slide, index) in slides" :key="index">
+          <button
+            @click="slideTo(index)"
+            class="hooper-indicator"
+            :class="{ 'is-active': currentSlide === index }"
+          ></button>
+        </li>
+      </ol>
       <button
         class="hooper-next"
         @click="slideNext"
@@ -67,6 +76,8 @@ export default {
       isDraging: false,
       isSliding: false,
       slideWidth: 0,
+      slides: [],
+      slidesCount: 0,
       currentSlide: 0,
       delta: {
         x: 0,
@@ -226,6 +237,30 @@ export default {
 }
 .hooper-slide {
   flex-shrink: 0;
+}
+.hooper-pagination {
+  position: absolute;
+  margin: 10px 0;
+  padding: 0;
+  bottom: 0;
+  right: 50%;
+  transform: translateX(50%);
+  display: flex;
+  list-style: none;
+}
+.hooper-indicator {
+  margin: 0 2px;
+  width: 12px;
+  height: 4px;
+  border-radius: 2px;
+  border: none;
+  padding: 0;
+  background-color: #fff;
+  cursor: pointer;
+}
+.hooper-indicator:hover,
+.hooper-indicator.is-active {
+  background-color: #4285f4;
 }
 .hooper-next,
 .hooper-prev {
