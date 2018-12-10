@@ -1,6 +1,6 @@
 {
   "name": "hooper",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Declarative Vue.js animations library",
   "module": "dist/hooper.esm.js",
   "unpkg": "dist/hooper.js",
