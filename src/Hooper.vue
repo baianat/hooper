@@ -14,15 +14,20 @@
       class="hopper-navigation"
       ref="nav"
     >
-      <ol class="hooper-pagination">
+      <ol class="hooper-pagination" v-if="pagination === 'indecator'">
         <li v-for="(slide, index) in slides" :key="index">
           <button
             @click="slideTo(index)"
             class="hooper-indicator"
-            :class="{ 'is-active': currentSlide === index }"
+            :class="{ 'is-active': getInRange(currentSlide) === index }"
           ></button>
         </li>
       </ol>
+      <div class="hooper-pagination" v-if="pagination === 'fraction'">
+        <span>{{ getInRange(currentSlide) + 1 }}</span>
+        <span>/</span>
+        <span>{{ slidesCount }}</span>
+      </div>
       <button
         class="hooper-next"
         @click="slideNext"
@@ -69,6 +74,11 @@ export default {
     transition: {
       default: 300,
       type: Number
+    },
+    // the type of pagination indecator, progress or fraction
+    pagination: {
+      default: 'indecator',
+      type: String
     }
   },
   data () {
@@ -107,18 +117,18 @@ export default {
       }
     },
     slideTo (slideIndex) {
-      const normalized = this.normalizeSlideIndex(slideIndex);
-      if (this.isSliding || this.currentSlide === normalized) { 
+      const index = this.infiniteScroll ? slideIndex :this.getInRange(slideIndex);
+      if (this.isSliding || this.currentSlide === index) { 
         return;
       }
       this.$refs.track.style.transition = `${this.transition}ms`;
-      this.currentSlide = normalized;
+      this.currentSlide = index;
       this.isSliding = true;
 
       // show the onrignal slide instead of the clone
       if (this.infiniteScroll) {
         const temp = () => {
-          this.normalizeCurrentSlideIndex();
+          this.currentSlide = this.normalizeCurrentSlideIndex(this.currentSlide);
           this.$refs.track.addEventListener('transitionend', temp);
         }
         this.$refs.track.addEventListener('transitionend', temp);
@@ -186,21 +196,19 @@ export default {
     },
 
     // utitlite functions
-    normalizeSlideIndex (index) {
-      if (this.infiniteScroll) {
-        return index;
-      }
+    getInRange (index) {
       return Math.max(Math.min(index, this.slides.length - 1), 0)
     },
-    normalizeCurrentSlideIndex() {
-      if (this.currentSlide >= this.slidesCount) {
-        this.currentSlide = this.currentSlide - this.slidesCount;
-        return this.normalizeCurrentSlideIndex();
+    normalizeCurrentSlideIndex(index) {
+      if (index >= this.slidesCount) {
+        index = index - this.slidesCount;
+        return this.normalizeCurrentSlideIndex(index);
       }
-      if (this.currentSlide < 0) {
-        this.currentSlide = this.currentSlide + this.slidesCount;
-        return this.normalizeCurrentSlideIndex();
+      if (index < 0) {
+        index = index + this.slidesCount;
+        return this.normalizeCurrentSlideIndex(index);
       }
+      return index;
     }
   },
   created () {
