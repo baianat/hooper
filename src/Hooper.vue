@@ -103,6 +103,8 @@ export default {
       slidesCount: 0,
       currentSlide: 0,
       $settings: {},
+      $defaults: {},
+      $breakpoints:{},
       delta: {
         x: 0,
         y: 0
@@ -120,16 +122,6 @@ export default {
   },
   methods: {
     // controling methods
-    updateWidth () {
-      this.containerWidth = this.$el.offsetWidth;
-      this.slideWidth = (this.containerWidth / this.$settings.itemsToShow);
-      this.allSlides.forEach(slide => {
-        slide.style.width = `${this.slideWidth}px`;
-      });
-      if (this.$settings.infiniteScroll) {
-        this.$refs.track.style.marginLeft = `-${this.slideWidth * this.slides.length}px`;
-      }
-    },
     slideTo (slideIndex) {
       const index = this.$settings.infiniteScroll ? slideIndex :this.getInRange(slideIndex);
       if (this.isSliding || this.currentSlide === index) { 
@@ -170,6 +162,44 @@ export default {
       });
       this.$refs.track.appendChild(slidesAfter);
       this.$refs.track.insertBefore(slidesBefore, this.$refs.track.firstChild);
+    },
+    initDefaults () {
+      this.$breakpoints = this.settings.breakpoints;
+      this.$defaults = {...this.$props, ...this.settings};
+      this.$settings = this.$defaults;
+    },
+
+    // updating methods
+    update () {
+      this.updateBreakpoints();
+      this.updateWidth();
+    },
+    updateWidth () {
+      this.containerWidth = this.$el.offsetWidth;
+      this.slideWidth = (this.containerWidth / this.$settings.itemsToShow);
+      this.allSlides.forEach(slide => {
+        slide.style.width = `${this.slideWidth}px`;
+      });
+      if (this.$settings.infiniteScroll) {
+        this.$refs.track.style.marginLeft = `-${this.slideWidth * this.slides.length}px`;
+      }
+    },
+    updateBreakpoints () {
+      if (!this.$breakpoints) {
+        return;
+      }
+      const breakpoints = Object.keys(this.$breakpoints).sort((a, b) => a - b);
+      let matched;
+      breakpoints.forEach(breakpoint => {
+        if (window.matchMedia(`(min-width: ${breakpoint}px)`).matches) {
+          this.$settings = Object.assign({}, this.$defaults, this.$breakpoints[breakpoint]);
+          matched = breakpoint;
+          return;
+        }
+      });
+      if (!matched) {
+        this.$settings = this.$defaults;
+      }
     },
 
     // events handlers
@@ -226,23 +256,21 @@ export default {
     }
   },
   created () {
-    this.$settings = {
-      ...this.$props,
-      ...this.settings
-    }
+    this.initDefaults();
     if (typeof window !== undefined) {
-      window.addEventListener('resize', this.updateWidth);
+      window.addEventListener('resize', this.update);
     }
   },
   mounted () {
     this.slides = Array.from(this.$refs.track.children);
     this.allSlides = Array.from(this.slides);
     this.slidesCount = this.slides.length;
-    this.updateWidth();
     if(this.$settings.infiniteScroll) {
-      console.log('dda');
       this.initClones();
     }
+    this.$nextTick(() => {
+      this.update();
+    });
   }
 }
 </script>
