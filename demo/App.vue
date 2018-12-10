@@ -48,6 +48,8 @@ export default {
         itemsToShow: 2,
         centerMode: true,
         progress: true,
+        autoPlay: true,
+        infiniteScroll: false,
         breakpoints: {
           800: {
             centerMode: false,
@@ -55,7 +57,7 @@ export default {
             itemsToShow: 3
           },
           1000: {
-            itemsToShow: 5,
+            itemsToShow: 6,
             pagination: 'fraction'
           }
         }

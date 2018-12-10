@@ -78,6 +78,14 @@ export default {
       default: false,
       type: Boolean
     },
+    autoPlay: {
+      default: false,
+      type: Boolean
+    },
+    playSpeed: {
+      default: 3000,
+      type: Number
+    },
     // sliding transition time in ms
     transition: {
       default: 300,
@@ -105,10 +113,7 @@ export default {
       $settings: {},
       $defaults: {},
       $breakpoints:{},
-      delta: {
-        x: 0,
-        y: 0
-      }
+      delta: { x: 0, y: 0 }
     }
   },
   computed: {
@@ -162,6 +167,18 @@ export default {
       });
       this.$refs.track.appendChild(slidesAfter);
       this.$refs.track.insertBefore(slidesBefore, this.$refs.track.firstChild);
+    },
+    initAutoPlay () {
+      setInterval(() => {
+        if (
+          this.currentSlide === this.slidesCount - 1 &&
+          !this.$settings.infiniteScroll
+        ) {
+          this.slideTo(0);
+          return;
+        }
+        this.slideNext();
+      }, this.$settings.playSpeed);
     },
     initDefaults () {
       this.$breakpoints = this.settings.breakpoints;
@@ -267,6 +284,9 @@ export default {
     this.slidesCount = this.slides.length;
     if(this.$settings.infiniteScroll) {
       this.initClones();
+    }
+    if(this.$settings.autoPlay) {
+      this.initAutoPlay();
     }
     this.$nextTick(() => {
       this.update();
