@@ -1,7 +1,7 @@
 <template>
 
 <div class="wrapper">
-  <hooper :itemsToShow="3" :centerMode="true">
+  <hooper :settings="hooperSettings">
     <div class="hooper-slide">
       slide 1
     </div>
@@ -20,8 +20,6 @@
     <div class="hooper-slide">
       slide 6
     </div>
-
-
     <!-- optionaly elements -->
     <svg height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-right" slot="hooper-next">
       <title>keyboard arrow right</title>
@@ -43,6 +41,14 @@ export default {
   name: 'App',
   components: {
     Hooper
+  },
+  data () {
+    return {
+      hooperSettings: {
+        itemsToShow: 2,
+        centerMode: true
+      }
+    }
   }
 }
 </script>

@@ -10,24 +10,27 @@
     >
       <slot></slot>
     </div>
+    <div class="hooper-progress" v-if="$settings.progress">
+      <div class="hooper-progress-inner" :style="`width: ${getInRange(currentSlide) * 100 / (slidesCount - 1)}%`"></div>
+    </div>
+    <ol class="hooper-pagination" v-if="$settings.pagination === 'indecator'">
+      <li v-for="(slide, index) in slides" :key="index">
+        <button
+          @click="slideTo(index)"
+          class="hooper-indicator"
+          :class="{ 'is-active': getInRange(currentSlide) === index }"
+        ></button>
+      </li>
+    </ol>
+    <div class="hooper-pagination" v-if="$settings.pagination === 'fraction'">
+      <span>{{ getInRange(currentSlide) + 1 }}</span>
+      <span>/</span>
+      <span>{{ slidesCount }}</span>
+    </div>
     <div 
       class="hopper-navigation"
       ref="nav"
     >
-      <ol class="hooper-pagination" v-if="pagination === 'indecator'">
-        <li v-for="(slide, index) in slides" :key="index">
-          <button
-            @click="slideTo(index)"
-            class="hooper-indicator"
-            :class="{ 'is-active': getInRange(currentSlide) === index }"
-          ></button>
-        </li>
-      </ol>
-      <div class="hooper-pagination" v-if="pagination === 'fraction'">
-        <span>{{ getInRange(currentSlide) + 1 }}</span>
-        <span>/</span>
-        <span>{{ slidesCount }}</span>
-      </div>
       <button
         class="hooper-next"
         @click="slideNext"
@@ -70,6 +73,11 @@ export default {
       default: false,
       type: Boolean
     },
+    // enable progress slider
+    progress: {
+      default: false,
+      type: Boolean
+    },
     // sliding transition time in ms
     transition: {
       default: 300,
@@ -79,6 +87,11 @@ export default {
     pagination: {
       default: 'indecator',
       type: String
+    },
+    // an object to pass all settings
+    settings: {
+      default: null,
+      type: Object
     }
   },
   data () {
@@ -89,6 +102,7 @@ export default {
       slides: [],
       slidesCount: 0,
       currentSlide: 0,
+      $settings: {},
       delta: {
         x: 0,
         y: 0
@@ -97,36 +111,36 @@ export default {
   },
   computed: {
     translate () {
-      const centeringSpace = this.centerMode ? (this.containerWidth - this.slideWidth) / 2 : 0;
+      const centeringSpace = this.$settings.centerMode ? (this.containerWidth - this.slideWidth) / 2 : 0;
       return {
         x: this.delta.x + centeringSpace - (this.currentSlide * this.slideWidth),
         y: 0
       }
-    }
+    },
   },
   methods: {
     // controling methods
     updateWidth () {
       this.containerWidth = this.$el.offsetWidth;
-      this.slideWidth = (this.containerWidth / this.$props.itemsToShow);
+      this.slideWidth = (this.containerWidth / this.$settings.itemsToShow);
       this.allSlides.forEach(slide => {
         slide.style.width = `${this.slideWidth}px`;
       });
-      if (this.infiniteScroll) {
+      if (this.$settings.infiniteScroll) {
         this.$refs.track.style.marginLeft = `-${this.slideWidth * this.slides.length}px`;
       }
     },
     slideTo (slideIndex) {
-      const index = this.infiniteScroll ? slideIndex :this.getInRange(slideIndex);
+      const index = this.$settings.infiniteScroll ? slideIndex :this.getInRange(slideIndex);
       if (this.isSliding || this.currentSlide === index) { 
         return;
       }
-      this.$refs.track.style.transition = `${this.transition}ms`;
+      this.$refs.track.style.transition = `${this.$settings.transition}ms`;
       this.currentSlide = index;
       this.isSliding = true;
 
       // show the onrignal slide instead of the clone
-      if (this.infiniteScroll) {
+      if (this.$settings.infiniteScroll) {
         const temp = () => {
           this.currentSlide = this.normalizeCurrentSlideIndex(this.currentSlide);
           this.$refs.track.addEventListener('transitionend', temp);
@@ -135,10 +149,10 @@ export default {
       }
     },
     slideNext () {
-      this.slideTo(this.currentSlide + this.itemsToSlide);
+      this.slideTo(this.currentSlide + this.$settings.itemsToSlide);
     },
     slidePrev () {
-      this.slideTo(this.currentSlide - this.itemsToSlide);
+      this.slideTo(this.currentSlide - this.$settings.itemsToSlide);
     },
 
     // init methods
@@ -212,6 +226,10 @@ export default {
     }
   },
   created () {
+    this.$settings = {
+      ...this.$props,
+      ...this.settings
+    }
     if (typeof window !== undefined) {
       window.addEventListener('resize', this.updateWidth);
     }
@@ -221,7 +239,7 @@ export default {
     this.allSlides = Array.from(this.slides);
     this.slidesCount = this.slides.length;
     this.updateWidth();
-    if(this.infiniteScroll) {
+    if(this.$settings.infiniteScroll) {
       console.log('dda');
       this.initClones();
     }
@@ -285,5 +303,18 @@ export default {
 }
 .hooper-prev {
   left: 0;
+}
+.hooper-progress {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 6px;
+  background-color: #efefef;
+}
+.hooper-progress-inner {
+  height: 100%;
+  background-color: #4285f4;
+  transition: 300ms;
 }
 </style>
