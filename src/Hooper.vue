@@ -1,12 +1,12 @@
 <template>
-  <div class="hooper">
+  <div class="hooper" :class="{ 'is-vertical': $settings.vertical }">
     <div
       class="hooper-track"
       :class="{ 'is-dragging': isDraging }"
       ref="track"
       @mousedown="downHandler"
       @transitionend="transitionEndHandler"
-      :style="`transform: translateX(${translate.x}px)`"
+      :style="trackStyle"
     >
       <slot></slot>
     </div>
@@ -78,10 +78,12 @@ export default {
       default: false,
       type: Boolean
     },
+    // enable auto sliding to carosaul
     autoPlay: {
       default: false,
       type: Boolean
     },
+    // speed of auto play to trigger slide
     playSpeed: {
       default: 3000,
       type: Number
@@ -96,6 +98,11 @@ export default {
       default: 'indecator',
       type: String
     },
+    // vertical sliding mode
+    vertical: {
+      default: false,
+      type: Boolean
+    },
     // an object to pass all settings
     settings: {
       default: null,
@@ -107,6 +114,7 @@ export default {
       isDraging: false,
       isSliding: false,
       slideWidth: 0,
+      slideHeight: 0,
       slides: [],
       slidesCount: 0,
       currentSlide: 0,
@@ -119,11 +127,29 @@ export default {
   computed: {
     translate () {
       const centeringSpace = this.$settings.centerMode ? (this.containerWidth - this.slideWidth) / 2 : 0;
+      if (this.$settings.vertical) {
+        return {
+          x: 0,
+          y: this.delta.y - (this.currentSlide * this.slideHeight)
+        }
+      }
       return {
         x: this.delta.x + centeringSpace - (this.currentSlide * this.slideWidth),
         y: 0
       }
     },
+    trackStyle () {
+      const { infiniteScroll, vertical } = this.$settings;
+      let marginLeft = 0;
+      let marginTop = 0;
+      if (infiniteScroll && !vertical) {
+        marginLeft = this.slideWidth * this.slidesCount;
+      }
+      if (infiniteScroll && vertical) {
+        marginTop = this.slideHeight * this.slidesCount;
+      }
+      return `transform: translate(${this.translate.x - marginLeft}px, ${this.translate.y - marginTop}px);`
+    }
   },
   methods: {
     // controling methods
@@ -192,14 +218,18 @@ export default {
       this.updateWidth();
     },
     updateWidth () {
-      this.containerWidth = this.$el.offsetWidth;
+      const rect = this.$el.getBoundingClientRect();
+      this.containerWidth = rect.width;
+      this.containerHeight = rect.height;
       this.slideWidth = (this.containerWidth / this.$settings.itemsToShow);
+      this.slideHeight = (this.containerHeight / this.$settings.itemsToShow);
       this.allSlides.forEach(slide => {
+        if (this.$settings.vertical) {
+          slide.style.height = `${this.slideHeight}px`;
+          return;
+        }
         slide.style.width = `${this.slideWidth}px`;
       });
-      if (this.$settings.infiniteScroll) {
-        this.$refs.track.style.marginLeft = `-${this.slideWidth * this.slides.length}px`;
-      }
     },
     updateBreakpoints () {
       if (!this.$breakpoints) {
@@ -308,14 +338,15 @@ export default {
 .hooper-track {
   display: flex;
   box-sizing: border-box;
+  width: 100%;
 }
 .hooper-slide {
   flex-shrink: 0;
 }
 .hooper-pagination {
   position: absolute;
-  margin: 10px 0;
-  padding: 0;
+  margin: 0;
+  padding: 5px 10px;
   bottom: 0;
   right: 50%;
   transform: translateX(50%);
@@ -357,12 +388,39 @@ export default {
   top: 0;
   right: 0;
   left: 0;
-  height: 6px;
+  height: 4px;
   background-color: #efefef;
 }
 .hooper-progress-inner {
   height: 100%;
   background-color: #4285f4;
   transition: 300ms;
+}
+
+.hooper.is-vertical .hooper-track {
+  flex-direction: column;
+  height: 200px;
+}
+.hooper.is-vertical .hooper-next {
+  top: auto;
+  bottom: 0;
+  transform: initial;
+}
+.hooper.is-vertical .hooper-prev {
+  top: 0;
+  bottom: auto;
+  right: 0;
+  left: auto;
+  transform: initial;
+}
+.hooper.is-vertical .hooper-pagination {
+  bottom: auto;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  flex-direction: column;
+}
+.hooper.is-vertical .hooper-indicator {
+  width: 4px;
 }
 </style>

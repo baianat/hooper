@@ -1,7 +1,7 @@
 <template>
 
 <div class="wrapper">
-  <hooper :settings="hooperSettings">
+  <hooper :settings="hooper">
     <div class="hooper-slide">
       slide 1
     </div>
@@ -30,6 +30,36 @@
     </svg>
 
   </hooper>
+
+  <hooper :settings="hooperVertical" style="height: 300px">
+    <div class="hooper-slide">
+      slide 1
+    </div>
+    <div class="hooper-slide">
+      slide 2
+    </div>
+    <div class="hooper-slide">
+      slide 3
+    </div>
+    <div class="hooper-slide">
+      slide 4
+    </div>
+    <div class="hooper-slide">
+      slide 5
+    </div>
+    <div class="hooper-slide">
+      slide 6
+    </div>
+    <!-- optionaly elements -->
+    <svg height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-down" slot="hooper-next">
+      <title>keyboard arrow right</title>
+      <path d="M11.29,15.71l-6-6A1,1,0,0,1,6.71,8.29L12,13.59l5.29-5.3a1,1,0,0,1,1.42,1.42l-6,6a1,1,0,0,1-1.42,0Z" />
+    </svg>
+    <svg width="24" height="24" viewBox="0 0 20 20" class="icon-keyboard-arrow-up" slot="hooper-prev">
+      <path d="M5.29,15.71a1,1,0,0,1,0-1.42l6-6a1,1,0,0,1,1.42,0l6,6a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0L12,10.41l-5.29,5.3A1,1,0,0,1,5.29,15.71Z" />
+    </svg>
+
+  </hooper>
 </div>
 
 </template>
@@ -44,16 +74,15 @@ export default {
   },
   data () {
     return {
-      hooperSettings: {
+      hooper: {
         itemsToShow: 2,
         centerMode: true,
         progress: true,
-        autoPlay: true,
+        autoPlay: false,
         infiniteScroll: false,
         breakpoints: {
           800: {
             centerMode: false,
-            progress: false,
             itemsToShow: 3
           },
           1000: {
@@ -61,6 +90,11 @@ export default {
             pagination: 'fraction'
           }
         }
+      },
+      hooperVertical: {
+        itemsToShow: 2,
+        infiniteScroll: true,
+        vertical: true
       },
     }
   }
