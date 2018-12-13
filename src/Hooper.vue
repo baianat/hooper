@@ -1,5 +1,11 @@
 <template>
-  <div class="hooper" :class="{ 'is-vertical': $settings.vertical }">
+  <div 
+    class="hooper"
+    :class="{
+      'is-vertical': $settings.vertical,
+      'is-rtl': $settings.rtl,
+    }"
+  >
     <div
       class="hooper-track"
       :class="{ 'is-dragging': isDraging }"
@@ -103,6 +109,11 @@ export default {
       default: false,
       type: Boolean
     },
+    // enable rtl mode
+    rtl: {
+      default: false,
+      type: Boolean
+    },
     // an object to pass all settings
     settings: {
       default: null,
@@ -126,31 +137,30 @@ export default {
     }
   },
   computed: {
-    translate () {
-      if (this.$settings.vertical) {
-        const centeringSpace = this.$settings.centerMode ? (this.containerHeight - this.slideHeight) / 2 : 0;
-        return {
-          x: 0,
-          y: this.delta.y + centeringSpace - (this.currentSlide * this.slideHeight)
-        }
-      }
-      const centeringSpace = this.$settings.centerMode ? (this.containerWidth - this.slideWidth) / 2 : 0;
-      return {
-        x: this.delta.x + centeringSpace - (this.currentSlide * this.slideWidth),
-        y: 0
-      }
-    },
     trackTransform () {
-      const { infiniteScroll, vertical } = this.$settings;
-      let marginLeft = 0;
-      let marginTop = 0;
-      if (infiniteScroll && !vertical) {
-        marginLeft = this.slideWidth * this.slidesCount;
+      const { infiniteScroll, vertical, rtl, centerMode } = this.$settings;
+      const direction = rtl ? -1 : 1;
+      let clonesSpace = 0;
+      let centeringSpace = 0;
+      let translate = 0;
+      if (centerMode) {
+        centeringSpace = vertical 
+        ? (this.containerHeight - this.slideHeight) / 2 
+        : (this.containerWidth - this.slideWidth) / 2;
       }
-      if (infiniteScroll && vertical) {
-        marginTop = this.slideHeight * this.slidesCount;
+      if (infiniteScroll) {
+        clonesSpace = vertical 
+        ? this.slideHeight * this.slidesCount
+        : this.slideWidth * this.slidesCount * direction;
       }
-      return `transform: translate(${this.translate.x - marginLeft}px, ${this.translate.y - marginTop}px);`
+      if (vertical) {
+        translate = this.delta.y + direction * (centeringSpace - this.currentSlide * this.slideHeight);
+        return `transform: translate(0, ${translate - clonesSpace}px);`
+      }
+      if (!vertical) {
+        translate = this.delta.x + direction * (centeringSpace - this.currentSlide * this.slideWidth);
+        return `transform: translate(${translate - clonesSpace}px, 0);`
+      }
     }
   },
   watch: {
@@ -175,7 +185,7 @@ export default {
       this.currentSlide = index;
       this.isSliding = true;
 
-      // show the onrignal slide instead of the clone
+      // show the onrignal slide instead of the cloned one
       if (this.$settings.infiniteScroll) {
         const temp = () => {
           this.currentSlide = this.normalizeCurrentSlideIndex(this.currentSlide);
@@ -243,7 +253,6 @@ export default {
       this.slideWidth = (this.containerWidth / this.$settings.itemsToShow);
       this.slideHeight = (this.containerHeight / this.$settings.itemsToShow);
       this.allSlides.forEach(slide => {
-        console.log(slide);
         if (this.$settings.vertical) {
           slide.style.height = `${this.slideHeight}px`;
           return;
@@ -294,14 +303,14 @@ export default {
       document.removeEventListener('mouseup', this.upHandler);
       document.removeEventListener('touchmove', this.moveHandler);
       document.removeEventListener('touchend', this.upHandler);
-
       if (this.$settings.vertical) {
         const draggedSlides = Math.round(Math.abs(this.delta.y / this.slideHeight) + 0.2);
         this.slideTo(this.currentSlide - Math.sign(this.delta.y) * draggedSlides);
       }
       if (!this.$settings.vertical) {
+        const direction = (this.$settings.rtl ? -1 : 1) * Math.sign(this.delta.x);
         const draggedSlides = Math.round(Math.abs(this.delta.x / this.slideWidth) + 0.2);
-        this.slideTo(this.currentSlide - Math.sign(this.delta.x) * draggedSlides);
+        this.slideTo(this.currentSlide - direction * draggedSlides);
       }
       this.isDraging = false;
       this.delta.x = 0;
@@ -449,5 +458,16 @@ export default {
 }
 .hooper.is-vertical .hooper-indicator {
   width: 4px;
+}
+.hooper.is-rtl {
+  direction: rtl;
+}
+.hooper.is-rtl .hooper-prev {
+  left: auto;
+  right: 0;
+}
+.hooper.is-rtl .hooper-next {
+  right: auto;
+  left: 0;
 }
 </style>
