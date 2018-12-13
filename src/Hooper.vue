@@ -19,7 +19,7 @@
     <div class="hooper-progress" v-if="$settings.progress">
       <div class="hooper-progress-inner" :style="`width: ${getInRange(currentSlide) * 100 / (slidesCount - 1)}%`"></div>
     </div>
-    <ol class="hooper-pagination" v-if="$settings.pagination === 'indecator'">
+    <ol class="hooper-pagination" v-if="$settings.pagination === 'indicator'">
       <li v-for="(slide, index) in slides" :key="index">
         <button
           @click="slideTo(index)"
@@ -59,32 +59,42 @@
 export default {
   name: 'Hooper',
   props: {
-    // count of items to showen per view
+    // count of items to showed per view
     itemsToShow: {
       default: 1,
       type: Number
     },
-    // conut of items to slide when use navigation buttons
+    // count of items to slide when use navigation buttons
     itemsToSlide: {
       default: 1,
       type: Number
     },
-    // enable infinite scrolling mode
+    // control infinite scrolling mode
     infiniteScroll: {
       default: false,
       type: Boolean
     },
-    // enable center mode
+    // control center mode
     centerMode: {
       default: false,
       type: Boolean
     },
-    // enable progress slider
+    // vertical sliding mode
+    vertical: {
+      default: false,
+      type: Boolean
+    },
+    // enable rtl mode
+    rtl: {
+      default: false,
+      type: Boolean
+    },
+    // control progress slider visibility
     progress: {
       default: false,
       type: Boolean
     },
-    // enable auto sliding to carosaul
+    // enable auto sliding to carousal
     autoPlay: {
       default: false,
       type: Boolean
@@ -99,20 +109,10 @@ export default {
       default: 300,
       type: Number
     },
-    // the type of pagination indecator, progress or fraction
+    // the type of pagination indicator or fraction
     pagination: {
-      default: 'indecator',
+      default: 'indicator',
       type: String
-    },
-    // vertical sliding mode
-    vertical: {
-      default: false,
-      type: Boolean
-    },
-    // enable rtl mode
-    rtl: {
-      default: false,
-      type: Boolean
     },
     // an object to pass all settings
     settings: {
