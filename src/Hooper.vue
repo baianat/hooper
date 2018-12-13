@@ -295,8 +295,14 @@ export default {
       document.removeEventListener('touchmove', this.moveHandler);
       document.removeEventListener('touchend', this.upHandler);
 
-      const draggedSlides = Math.round(Math.abs(this.delta.x / this.slideWidth) + 0.5);
-      this.slideTo(this.currentSlide - Math.sign(this.delta.x) * draggedSlides);
+      if (this.$settings.vertical) {
+        const draggedSlides = Math.round(Math.abs(this.delta.y / this.slideHeight) + 0.2);
+        this.slideTo(this.currentSlide - Math.sign(this.delta.y) * draggedSlides);
+      }
+      if (!this.$settings.vertical) {
+        const draggedSlides = Math.round(Math.abs(this.delta.x / this.slideWidth) + 0.2);
+        this.slideTo(this.currentSlide - Math.sign(this.delta.x) * draggedSlides);
+      }
       this.isDraging = false;
       this.delta.x = 0;
       this.delta.y = 0;
