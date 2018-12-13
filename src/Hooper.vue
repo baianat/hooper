@@ -6,7 +6,7 @@
       ref="track"
       @mousedown="downHandler"
       @transitionend="transitionEndHandler"
-      :style="trackStyle"
+      :style="trackTransform"
     >
       <slot></slot>
     </div>
@@ -116,29 +116,31 @@ export default {
       slideWidth: 0,
       slideHeight: 0,
       slides: [],
+      allSlides: [],
       slidesCount: 0,
       currentSlide: 0,
-      $settings: {},
-      $defaults: {},
-      $breakpoints:{},
-      delta: { x: 0, y: 0 }
+      defaults: {},
+      breakpoints:{},
+      delta: { x: 0, y: 0 },
+      $settings: {}
     }
   },
   computed: {
     translate () {
-      const centeringSpace = this.$settings.centerMode ? (this.containerWidth - this.slideWidth) / 2 : 0;
       if (this.$settings.vertical) {
+        const centeringSpace = this.$settings.centerMode ? (this.containerHeight - this.slideHeight) / 2 : 0;
         return {
           x: 0,
-          y: this.delta.y - (this.currentSlide * this.slideHeight)
+          y: this.delta.y + centeringSpace - (this.currentSlide * this.slideHeight)
         }
       }
+      const centeringSpace = this.$settings.centerMode ? (this.containerWidth - this.slideWidth) / 2 : 0;
       return {
         x: this.delta.x + centeringSpace - (this.currentSlide * this.slideWidth),
         y: 0
       }
     },
-    trackStyle () {
+    trackTransform () {
       const { infiniteScroll, vertical } = this.$settings;
       let marginLeft = 0;
       let marginTop = 0;
@@ -149,6 +151,17 @@ export default {
         marginTop = this.slideHeight * this.slidesCount;
       }
       return `transform: translate(${this.translate.x - marginLeft}px, ${this.translate.y - marginTop}px);`
+    }
+  },
+  watch: {
+    currentSlide (newVal, oldVal) {
+      if (!this.$settings.infiniteScroll) {
+        this.slides[newVal].classList.add('is-active');
+        this.slides[oldVal].classList.remove('is-active');
+        return;
+      }
+      this.allSlides[newVal + this.slidesCount].classList.add('is-active');
+      this.allSlides[oldVal + this.slidesCount].classList.remove('is-active');
     }
   },
   methods: {
@@ -182,15 +195,21 @@ export default {
     initClones () {
       const slidesBefore = document.createDocumentFragment();
       const slidesAfter = document.createDocumentFragment();
+      let before = [];
+      let after = [];
+
       this.slides.forEach((slide) => {
-        const before = slide.cloneNode(true);
-        const after = slide.cloneNode(true);
-        before.classList.add('veer-clone');
-        after.classList.add('veer-clone');
-        slidesBefore.appendChild(before);
-        slidesAfter.appendChild(after);
-        this.allSlides.push(before, after);
+        const elBefore = slide.cloneNode(true);
+        const elAfter = slide.cloneNode(true);
+        elBefore.classList.add('veer-clone');
+        elAfter.classList.add('veer-clone');
+        slidesBefore.appendChild(elBefore);
+        slidesAfter.appendChild(elAfter);
+        before.push(elBefore);
+        after.push(elAfter);
       });
+      this.allSlides.push(...after);
+      this.allSlides.unshift(...before);
       this.$refs.track.appendChild(slidesAfter);
       this.$refs.track.insertBefore(slidesBefore, this.$refs.track.firstChild);
     },
@@ -207,9 +226,9 @@ export default {
       }, this.$settings.playSpeed);
     },
     initDefaults () {
-      this.$breakpoints = this.settings.breakpoints;
-      this.$defaults = {...this.$props, ...this.settings};
-      this.$settings = this.$defaults;
+      this.breakpoints = this.settings.breakpoints;
+      this.defaults = {...this.$props, ...this.settings};
+      this.$settings = this.defaults;
     },
 
     // updating methods
@@ -224,6 +243,7 @@ export default {
       this.slideWidth = (this.containerWidth / this.$settings.itemsToShow);
       this.slideHeight = (this.containerHeight / this.$settings.itemsToShow);
       this.allSlides.forEach(slide => {
+        console.log(slide);
         if (this.$settings.vertical) {
           slide.style.height = `${this.slideHeight}px`;
           return;
@@ -232,20 +252,20 @@ export default {
       });
     },
     updateBreakpoints () {
-      if (!this.$breakpoints) {
+      if (!this.breakpoints) {
         return;
       }
-      const breakpoints = Object.keys(this.$breakpoints).sort((a, b) => a - b);
+      const breakpoints = Object.keys(this.breakpoints).sort((a, b) => a - b);
       let matched;
       breakpoints.forEach(breakpoint => {
         if (window.matchMedia(`(min-width: ${breakpoint}px)`).matches) {
-          this.$settings = Object.assign({}, this.$defaults, this.$breakpoints[breakpoint]);
+          this.$settings = Object.assign({}, this.defaults, this.breakpoints[breakpoint]);
           matched = breakpoint;
           return;
         }
       });
       if (!matched) {
-        this.$settings = this.$defaults;
+        this.$settings = this.defaults;
       }
     },
 
@@ -320,6 +340,7 @@ export default {
     }
     this.$nextTick(() => {
       this.update();
+      this.slides[this.currentSlide].classList.add('is-active');
     });
   }
 }

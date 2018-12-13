@@ -94,6 +94,7 @@ export default {
       hooperVertical: {
         itemsToShow: 2,
         infiniteScroll: true,
+        centerMode: true,
         vertical: true
       },
     }
@@ -103,9 +104,7 @@ export default {
 
 <style>
 
-  .is-current { 
-    background: green;
-  }
+
   .hooper-slide {
     height: 200px;
     background-color: #62CAAA;
@@ -117,6 +116,9 @@ export default {
     border: 2px solid #fff;
     font-size: 30px;
     border-radius: 10px;
+  }
+  .is-active { 
+    background-color: rgb(71, 218, 127);
   }
 </style>
 
