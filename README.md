@@ -17,18 +17,8 @@ yarn add hooper
 
 ### Use Carousel
 
-```js
-import Hooper from '../dist/hooper.js'
-
-export default {
-  components: {
-    Hooper
-  }
-}
-```
-
 ```html
-  <hooper>
+  <hooper :settings="hooper">
     <div class="hooper-slide">
       slide 1
     </div>
@@ -49,8 +39,57 @@ export default {
     </div>
 
 
-    <!-- optionally elements -->
-    <span slot="hooper-next">>></span>
-    <span slot="hooper-prev"><<</span>
+    <!-- optional elements -->
+    <span slot="hooper-next">next</span>
+    <span slot="hooper-prev">prev</span>
   </hooper>
+  <script>
+    import { Hooper } from '../dist/hooper.js'
+
+    export default {
+      name: 'App',
+      components: {
+        Hooper
+      },
+      data () {
+        return {
+          hooper: {
+            itemsToShow: 2,
+            centerMode: true,
+            progress: false,
+            autoPlay: false,
+            infiniteScroll: true,
+            rtl: false,
+            breakpoints: {
+              800: {
+                centerMode: false,
+                itemsToShow: 3
+              },
+              1000: {
+                itemsToShow: 6,
+                pagination: 'fraction'
+              }
+            }
+          }
+        }
+      }
+    }
+</script>
 ```
+
+### Available Props
+
+|Prop             |Default |Description|
+|-----------------|-----|-----------|
+|`itemsToShow`    |1    |count of items to showed per view.|
+|`itemsToSlide`   |1    |count of items to slide when use navigation buttons|
+|`infiniteScroll` |false|control infinite scrolling mode.|
+|`centerMode`     |false|control center mode|
+|`vertical`       |false|control vertical sliding mode|
+|`rtl`            |false|control rtl mode|
+|`progress`       |false|control progress slider visibility|
+|`autoPlay`       |false|enable auto sliding to carousal|
+|`playSpeed`      |3000 |speed of auto play to trigger slide in ms|
+|`transition`     |300  |sliding transition time in ms|
+|`pagination`     |'indicator'|the type of pagination indicator or fraction|
+|`settings`       |null|an object to pass all settings|
