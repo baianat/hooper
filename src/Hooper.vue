@@ -369,7 +369,7 @@ export default {
   },
   created () {
     this.initDefaults();
-    if (typeof window !== undefined) {
+    if (typeof window !== 'undefined') {
       window.addEventListener('resize', this.update);
     }
   },
