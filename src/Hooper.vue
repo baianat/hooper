@@ -39,6 +39,7 @@
     >
       <button
         class="hooper-next"
+        :class="{ 'is-disabled': !$settings.infiniteScroll && currentSlide === slidesCount - 1 }"
         @click="slideNext"
         v-if="$slots['hooper-next']"
       >
@@ -46,6 +47,7 @@
       </button>
       <button
         class="hooper-prev"
+        :class="{ 'is-disabled': !$settings.infiniteScroll && currentSlide === 0 }"
         @click="slidePrev"
         v-if="$slots['hooper-prev']"
       >
@@ -421,6 +423,11 @@ export default {
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
+}
+.hooper-next.is-disabled,
+.hooper-prev.is-disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 .hooper-next {
   right: 0;
