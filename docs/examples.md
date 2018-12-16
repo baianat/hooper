@@ -72,7 +72,7 @@
     <title>keyboard arrow right</title>
     <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
   </svg>
-  <svg width="24" height="24" viewBox="0 0 20 4204" class="icon-keyboard-arrow-up" slot="hooper-prev">
+  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
     <title>keyboard arrow left</title>
     <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
   </svg>
@@ -102,7 +102,7 @@
   <svg viewBox="0 0 24 24" slot="hooper-next">
     <path d="..." />
   </svg>
-  <svg viewBox="0 0 20 4204" slot="hooper-prev">
+  <svg viewBox="0 0 24 24" slot="hooper-prev">
     <path d="..." />
   </svg>
 </hooper>
@@ -134,7 +134,7 @@
     <title>keyboard arrow right</title>
     <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
   </svg>
-  <svg width="24" height="24" viewBox="0 0 20 4204" class="icon-keyboard-arrow-up" slot="hooper-prev">
+  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
     <title>keyboard arrow left</title>
     <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
   </svg>
@@ -164,7 +164,7 @@
   <svg viewBox="0 0 24 24" slot="hooper-next">
     <path d="..." />
   </svg>
-  <svg viewBox="0 0 20 4204" slot="hooper-prev">
+  <svg viewBox="0 0 24 24" slot="hooper-prev">
     <path d="..." />
   </svg>
 </hooper>
@@ -196,7 +196,7 @@
     <title>keyboard arrow right</title>
     <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
   </svg>
-  <svg width="24" height="24" viewBox="0 0 20 4204" class="icon-keyboard-arrow-up" slot="hooper-prev">
+  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
     <title>keyboard arrow left</title>
     <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
   </svg>
@@ -226,7 +226,7 @@
   <svg viewBox="0 0 24 24" slot="hooper-next">
     <path d="..." />
   </svg>
-  <svg viewBox="0 0 20 4204" slot="hooper-prev">
+  <svg viewBox="0 0 24 24" slot="hooper-prev">
     <path d="..." />
   </svg>
 </hooper>
@@ -258,7 +258,7 @@
     <title>keyboard arrow right</title>
     <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
   </svg>
-  <svg width="24" height="24" viewBox="0 0 20 4204" class="icon-keyboard-arrow-up" slot="hooper-prev">
+  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
     <title>keyboard arrow left</title>
     <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
   </svg>
@@ -288,7 +288,7 @@
   <svg viewBox="0 0 24 24" slot="hooper-next">
     <path d="..." />
   </svg>
-  <svg viewBox="0 0 20 4204" slot="hooper-prev">
+  <svg viewBox="0 0 24 24" slot="hooper-prev">
     <path d="..." />
   </svg>
 </hooper>
@@ -320,7 +320,7 @@
     <title>keyboard arrow right</title>
     <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
   </svg>
-  <svg width="24" height="24" viewBox="0 0 20 4204" class="icon-keyboard-arrow-up" slot="hooper-prev">
+  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
     <title>keyboard arrow left</title>
     <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
   </svg>
@@ -350,7 +350,7 @@
   <svg viewBox="0 0 24 24" slot="hooper-next">
     <path d="..." />
   </svg>
-  <svg viewBox="0 0 20 4204" slot="hooper-prev">
+  <svg viewBox="0 0 24 24" slot="hooper-prev">
     <path d="..." />
   </svg>
 </hooper>
@@ -382,7 +382,7 @@
     <title>keyboard arrow right</title>
     <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
   </svg>
-  <svg width="24" height="24" viewBox="0 0 20 4204" class="icon-keyboard-arrow-up" slot="hooper-prev">
+  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
     <title>keyboard arrow left</title>
     <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
   </svg>
@@ -412,7 +412,7 @@
   <svg viewBox="0 0 24 24" slot="hooper-next">
     <path d="..." />
   </svg>
-  <svg viewBox="0 0 20 4204" slot="hooper-prev">
+  <svg viewBox="0 0 24 24" slot="hooper-prev">
     <path d="..." />
   </svg>
 </hooper>
@@ -444,7 +444,7 @@
     <title>keyboard arrow right</title>
     <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
   </svg>
-  <svg width="24" height="24" viewBox="0 0 20 4204" class="icon-keyboard-arrow-up" slot="hooper-prev">
+  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
     <title>keyboard arrow left</title>
     <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
   </svg>
@@ -474,7 +474,7 @@
   <svg viewBox="0 0 24 24" slot="hooper-next">
     <path d="..." />
   </svg>
-  <svg viewBox="0 0 20 4204" slot="hooper-prev">
+  <svg viewBox="0 0 24 24" slot="hooper-prev">
     <path d="..." />
   </svg>
 </hooper>
@@ -536,7 +536,7 @@
   <svg viewBox="0 0 24 24" slot="hooper-next">
     <path d="..." />
   </svg>
-  <svg viewBox="0 0 20 4204" slot="hooper-prev">
+  <svg viewBox="0 0 24 24" slot="hooper-prev">
     <path d="..." />
   </svg>
 </hooper>
@@ -568,7 +568,7 @@
     <title>keyboard arrow right</title>
     <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
   </svg>
-  <svg width="24" height="24" viewBox="0 0 20 4204" class="icon-keyboard-arrow-up" slot="hooper-prev">
+  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
     <title>keyboard arrow left</title>
     <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
   </svg>
@@ -598,7 +598,7 @@
   <svg viewBox="0 0 24 24" slot="hooper-next">
     <path d="..." />
   </svg>
-  <svg viewBox="0 0 20 4204" slot="hooper-prev">
+  <svg viewBox="0 0 24 24" slot="hooper-prev">
     <path d="..." />
   </svg>
 </hooper>
@@ -630,7 +630,7 @@
     <title>keyboard arrow down</title>
     <path d="M11.29,15.71l-6-6A1,1,0,0,1,6.71,8.29L12,13.59l5.29-5.3a1,1,0,0,1,1.42,1.42l-6,6a1,1,0,0,1-1.42,0Z" />
   </svg>
-  <svg width="24" height="24" viewBox="0 0 20 4204" class="icon-keyboard-arrow-up" slot="hooper-prev">
+  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
     <title>keyboard arrow up</title>
     <path d="M5.29,15.71a1,1,0,0,1,0-1.42l6-6a1,1,0,0,1,1.42,0l6,6a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0L12,10.41l-5.29,5.3A1,1,0,0,1,5.29,15.71Z" />
   </svg>
@@ -660,7 +660,7 @@
   <svg viewBox="0 0 24 24" slot="hooper-next">
     <path d="..." />
   </svg>
-  <svg viewBox="0 0 20 4204" slot="hooper-prev">
+  <svg viewBox="0 0 24 24" slot="hooper-prev">
     <path d="..." />
   </svg>
 </hooper>
