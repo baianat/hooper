@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint ./src --fix",
     "build": "NODE_ENV=production node scripts/build",
-    "demo": "webpack-dev-server --hot --inline --config ./demo/webpack.config.js",
+    "demo": "npm run build && webpack-dev-server --hot --inline --config ./demo/webpack.config.js",
     "dev": "node scripts/watcher"
   },
   "devDependencies": {
