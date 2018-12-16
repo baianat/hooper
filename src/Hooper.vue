@@ -205,7 +205,10 @@ export default {
 
     // init methods
     init () {
-      this.initDefaults();
+      // get the element direction if not explicitly set
+      if (this.defaults !== null) {
+        this.defaults.rtl = getComputedStyle(this.$el).direction === 'rtl';
+      } 
       this.slides = Array.from(this.$refs.track.children);
       this.allSlides = Array.from(this.slides);
       this.slidesCount = this.slides.length;
@@ -252,10 +255,6 @@ export default {
     initDefaults () {
       this.breakpoints = this.settings.breakpoints;
       this.defaults = {...this.$props, ...this.settings};
-      // get the element direction if not explicitly set
-      if (this.$defaults !== null) {
-        this.$defaults.rtl = getComputedStyle(this.$el).direction === 'rtl';
-      } 
       this.$settings = this.defaults;
     },
 
@@ -356,6 +355,7 @@ export default {
     }
   },
   created () {
+    this.initDefaults();
     if (typeof window !== undefined) {
       window.addEventListener('resize', this.update);
     }
