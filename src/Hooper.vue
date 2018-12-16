@@ -86,7 +86,7 @@ export default {
     },
     // enable rtl mode
     rtl: {
-      default: false,
+      default: null,
       type: Boolean
     },
     // control progress slider visibility
@@ -116,7 +116,9 @@ export default {
     },
     // an object to pass all settings
     settings: {
-      default: null,
+      default() {
+        return {};
+      },
       type: Object
     }
   },
@@ -202,6 +204,18 @@ export default {
     },
 
     // init methods
+    init () {
+      this.initDefaults();
+      this.slides = Array.from(this.$refs.track.children);
+      this.allSlides = Array.from(this.slides);
+      this.slidesCount = this.slides.length;
+      if(this.$settings.infiniteScroll) {
+        this.initClones();
+      }
+      if(this.$settings.autoPlay) {
+        this.initAutoPlay();
+      }
+    },
     initClones () {
       const slidesBefore = document.createDocumentFragment();
       const slidesAfter = document.createDocumentFragment();
@@ -238,6 +252,10 @@ export default {
     initDefaults () {
       this.breakpoints = this.settings.breakpoints;
       this.defaults = {...this.$props, ...this.settings};
+      // get the element direction if not explicitly set
+      if (this.$defaults !== null) {
+        this.$defaults.rtl = getComputedStyle(this.$el).direction === 'rtl';
+      } 
       this.$settings = this.defaults;
     },
 
@@ -338,21 +356,12 @@ export default {
     }
   },
   created () {
-    this.initDefaults();
     if (typeof window !== undefined) {
       window.addEventListener('resize', this.update);
     }
   },
   mounted () {
-    this.slides = Array.from(this.$refs.track.children);
-    this.allSlides = Array.from(this.slides);
-    this.slidesCount = this.slides.length;
-    if(this.$settings.infiniteScroll) {
-      this.initClones();
-    }
-    if(this.$settings.autoPlay) {
-      this.initAutoPlay();
-    }
+    this.init();
     this.$nextTick(() => {
       this.update();
       this.slides[this.currentSlide].classList.add('is-active');
