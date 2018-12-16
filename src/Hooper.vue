@@ -10,7 +10,7 @@
       class="hooper-track"
       :class="{ 'is-dragging': isDraging }"
       ref="track"
-      @mousedown="downHandler"
+      v-on="{ mousedown: this.$settings.mouseDrag ? downHandler : () => {} }"
       @transitionend="transitionEndHandler"
       :style="trackTransform"
     >
@@ -105,6 +105,16 @@ export default {
     playSpeed: {
       default: 3000,
       type: Number
+    },
+    // control mouse draging to slide
+    mouseDrag: {
+      default: true,
+      type: Boolean
+    },
+    // enable any move to commit a slide
+    shortDrag: {
+      default: false,
+      type: Boolean
     },
     // sliding transition time in ms
     transition: {
@@ -322,13 +332,14 @@ export default {
       document.removeEventListener('mouseup', this.upHandler);
       document.removeEventListener('touchmove', this.moveHandler);
       document.removeEventListener('touchend', this.upHandler);
+      const tolerance = this.$settings.shortDrag ? 0.5 : 0.15;
       if (this.$settings.vertical) {
-        const draggedSlides = Math.round(Math.abs(this.delta.y / this.slideHeight) + 0.2);
+        const draggedSlides = Math.round(Math.abs(this.delta.y / this.slideHeight) + tolerance);
         this.slideTo(this.currentSlide - Math.sign(this.delta.y) * draggedSlides);
       }
       if (!this.$settings.vertical) {
         const direction = (this.$settings.rtl ? -1 : 1) * Math.sign(this.delta.x);
-        const draggedSlides = Math.round(Math.abs(this.delta.x / this.slideWidth) + 0.2);
+        const draggedSlides = Math.round(Math.abs(this.delta.x / this.slideWidth) + tolerance);
         this.slideTo(this.currentSlide - direction * draggedSlides);
       }
       this.isDraging = false;
