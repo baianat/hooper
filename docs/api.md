@@ -77,3 +77,9 @@ Hooper accept two different slots, default slots for slider items, named slots (
 ::: tip info
 Coming soon
 :::
+
+## Methods
+
+::: tip info
+Coming soon
+:::

@@ -606,7 +606,7 @@
 
 ## Vertical Sliding
 
-<hooper vertical="true" style="height: 400px" :itemsToShow="1.5" :centerMode="true">
+<hooper :vertical="true" style="height: 400px" :itemsToShow="1.5" :centerMode="true">
   <div class="hooper-slide">
     slide 1
   </div>
@@ -637,7 +637,7 @@
 </hooper>
 
 ```vue
-<hooper vertical="true" style="height: 400px" :itemsToShow="1.5" :centerMode="true">
+<hooper :vertical="true" style="height: 400px" :itemsToShow="1.5" :centerMode="true">
   <div class="hooper-slide">
     slide 1
   </div>
@@ -665,6 +665,114 @@
   </svg>
 </hooper>
 ```
+
+## Custom Controllers
+
+<template>
+<a href="" @click.prevent="slidePrev">prev</a>
+<input v-model="myCarousalData" type="number" min="0" max="5">
+<a href="" @click.prevent="slideNext">next</a>
+</template>
+
+<hooper ref="myCarousal" :itemsToShow="1.5" :centerMode="true" v-on:slide="updateCarousel">
+  <div class="hooper-slide">
+    slide 1
+  </div>
+  <div class="hooper-slide">
+    slide 2
+  </div>
+  <div class="hooper-slide">
+    slide 3
+  </div>
+  <div class="hooper-slide">
+    slide 4
+  </div>
+  <div class="hooper-slide">
+    slide 5
+  </div>
+  <div class="hooper-slide">
+    slide 6
+  </div>
+</hooper>
+
+```vue
+<button @click.prevent="slidePrev">prev</button>
+<input v-model="carousalData" type="number" min="0" max="5">
+<button @click.prevent="slideNext">next</button>
+
+<hooper ref="carousal" @slide="updateCarousel">
+  <div class="hooper-slide">
+    slide 1
+  </div>
+  <div class="hooper-slide">
+    slide 2
+  </div>
+  <div class="hooper-slide">
+    slide 3
+  </div>
+  <div class="hooper-slide">
+    slide 4
+  </div>
+  <div class="hooper-slide">
+    slide 5
+  </div>
+  <div class="hooper-slide">
+    slide 6
+  </div>
+</hooper>
+
+<script>
+export default {
+  data () {
+    return {
+      carousalData: 0
+    }
+  },
+  watch: {
+    carousalData () {
+      this.$refs.carousal.slideTo(this.carousalData);
+    }
+  },
+  methods: {
+    slidePrev() {
+      this.$refs.carousal.slidePrev();
+    },
+    slideNext() {
+      this.$refs.carousal.slideNext();
+    },
+    updateCarousel(payload) {
+      this.myCarousalData = payload.currentSlide;
+    }
+  }
+}
+</script>
+```
+
+<script>
+export default {
+  data () {
+    return {
+      myCarousalData: 0
+    }
+  },
+  watch: {
+    myCarousalData () {
+      this.$refs.myCarousal.slideTo(this.myCarousalData);
+    }
+  },
+  methods: {
+    slidePrev() {
+      this.$refs.myCarousal.slidePrev();
+    },
+    slideNext() {
+      this.$refs.myCarousal.slideNext();
+    },
+    updateCarousel(payload) {
+      this.myCarousalData = payload.currentSlide;
+    }
+  }
+}
+</script>
 
 <style>
   .hooper-slide {
