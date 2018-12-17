@@ -17,19 +17,19 @@
       <slot></slot>
     </div>
     <div class="hooper-progress" v-if="$settings.progress">
-      <div class="hooper-progress-inner" :style="`width: ${getInRange(currentSlide) * 100 / (slidesCount - 1)}%`"></div>
+      <div class="hooper-progress-inner" :style="`width: ${currentSlide * 100 / (slidesCount - 1)}%`"></div>
     </div>
     <ol class="hooper-pagination" v-if="$settings.pagination === 'indicator'">
       <li v-for="(slide, index) in slides" :key="index">
         <button
           @click="slideTo(index)"
           class="hooper-indicator"
-          :class="{ 'is-active': getInRange(currentSlide) === index }"
+          :class="{ 'is-active': currentSlide === index }"
         ></button>
       </li>
     </ol>
     <div class="hooper-pagination" v-if="$settings.pagination === 'fraction'">
-      <span>{{ getInRange(currentSlide) + 1 }}</span>
+      <span>{{ currentSlide + 1 }}</span>
       <span>/</span>
       <span>{{ slidesCount }}</span>
     </div>
@@ -144,6 +144,7 @@ export default {
       allSlides: [],
       slidesCount: 0,
       currentSlide: 0,
+      trackOffset: 0,
       defaults: {},
       breakpoints:{},
       delta: { x: 0, y: 0 },
@@ -168,11 +169,11 @@ export default {
         : this.slideWidth * this.slidesCount * direction;
       }
       if (vertical) {
-        translate = this.delta.y + direction * (centeringSpace - this.currentSlide * this.slideHeight);
+        translate = this.delta.y + direction * (centeringSpace - this.trackOffset * this.slideHeight);
         return `transform: translate(0, ${translate - clonesSpace}px);`
       }
       if (!vertical) {
-        translate = this.delta.x + direction * (centeringSpace - this.currentSlide * this.slideWidth);
+        translate = this.delta.x + direction * (centeringSpace - this.trackOffset * this.slideWidth);
         return `transform: translate(${translate - clonesSpace}px, 0);`
       }
     }
@@ -195,18 +196,29 @@ export default {
       if (this.isSliding || this.currentSlide === index) { 
         return;
       }
+      const previousSlide = this.currentSlide;
+      this.$emit('beforeSlide', {
+        currentSlide: this.currentSlide,
+        slideTo: slideIndex
+      });
       this.$refs.track.style.transition = `${this.$settings.transition}ms`;
-      this.currentSlide = index;
+      this.trackOffset = index;
+      this.currentSlide = this.normalizeCurrentSlideIndex(index);
       this.isSliding = true;
 
       // show the onrignal slide instead of the cloned one
       if (this.$settings.infiniteScroll) {
         const temp = () => {
-          this.currentSlide = this.normalizeCurrentSlideIndex(this.currentSlide);
-          this.$refs.track.addEventListener('transitionend', temp);
+          this.trackOffset = this.normalizeCurrentSlideIndex(this.currentSlide);
+          this.$refs.track.removeEventListener('transitionend', temp);
         }
         this.$refs.track.addEventListener('transitionend', temp);
       }
+
+      this.$emit('slide', {
+        currentSlide: this.currentSlide,
+        slideFrom: previousSlide
+      });
     },
     slideNext () {
       this.slideTo(this.currentSlide + this.$settings.itemsToSlide);
@@ -349,6 +361,9 @@ export default {
     transitionEndHandler () {
       this.$refs.track.style.transition = '';
       this.isSliding = false;
+      this.$emit('afterSlide', {
+        currentSlide: this.currentSlide
+      });
     },
 
     // utitlite functions
