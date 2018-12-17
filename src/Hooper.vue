@@ -113,7 +113,7 @@ export default {
     },
     // enable any move to commit a slide
     shortDrag: {
-      default: false,
+      default: true,
       type: Boolean
     },
     // sliding transition time in ms

@@ -12,7 +12,7 @@
 |`rtl`            |false|control rtl mode|
 |`progress`       |false|control progress slider visibility|
 |`mouseDrag`      |true |control mouse dragging to slide|
-|`shortDrag`      |false|enable any move to commit a slide|
+|`shortDrag`      |true |enable any move to commit a slide|
 |`autoPlay`       |false|enable auto sliding to carousal|
 |`playSpeed`      |3000 |speed of auto play to trigger slide in ms|
 |`transition`     |300  |sliding transition time in ms|
