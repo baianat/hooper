@@ -394,6 +394,9 @@ export default {
       this.update();
       this.slides[this.currentSlide].classList.add('is-active');
     });
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.update);
   }
 }
 </script>
