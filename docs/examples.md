@@ -46,6 +46,55 @@
 </hooper>
 ```
 
+## Indicator
+
+<hooper>
+  <div class="hooper-slide">
+    slide 1
+  </div>
+  <div class="hooper-slide">
+    slide 2
+  </div>
+  <div class="hooper-slide">
+    slide 3
+  </div>
+  <div class="hooper-slide">
+    slide 4
+  </div>
+  <div class="hooper-slide">
+    slide 5
+  </div>
+  <div class="hooper-slide">
+    slide 6
+  </div>
+  <hooper-indicator slot="pagination" slot-scope="{ currentIdx, totalCount, hooper }" :hooper="hooper" :currentIdx="currentIdx" :totalCount="totalCount"></hooper-indicator>
+</hooper>
+
+```vue
+<hooper>
+  <div class="hooper-slide">
+    slide 1
+  </div>
+  <div class="hooper-slide">
+    slide 2
+  </div>
+  <div class="hooper-slide">
+    slide 3
+  </div>
+  <div class="hooper-slide">
+    slide 4
+  </div>
+  <div class="hooper-slide">
+    slide 5
+  </div>
+  <div class="hooper-slide">
+    slide 6
+  </div>
+  <hooper-indicator slot="pagination" slot-scope="{ currentIdx, totalCount }" :currentIdx="currentIdx" :totalCount="totalCount"></hooper-indicator>
+</hooper>
+```
+
+
 ## Use Navigation Arrows
 
 <hooper>
@@ -358,7 +407,7 @@
 
 ## Fraction Pagination
 
-<hooper pagination="fraction">
+<hooper>
   <div class="hooper-slide">
     slide 1
   </div>
@@ -386,10 +435,11 @@
     <title>keyboard arrow left</title>
     <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
   </svg>
+  <hooper-fraction slot="pagination" slot-scope="{ currentIdx, totalCount }" :currentIdx="currentIdx" :totalCount="totalCount"></hooper-fraction>
 </hooper>
 
 ```vue
-<hooper pagination="fraction">
+<hooper>
   <div class="hooper-slide">
     slide 1
   </div>
@@ -415,6 +465,8 @@
   <svg viewBox="0 0 24 24" slot="hooper-prev">
     <path d="..." />
   </svg>
+
+  <hooper-fraction slot="pagination" slot-scope="{ currentIdx, totalCount }" :currentIdx="currentIdx" :totalCount="totalCount"></hooper-fraction>
 </hooper>
 ```
 
@@ -482,7 +534,7 @@
 
 ## Progress
 
-<hooper :progress="true">
+<hooper>
   <div class="hooper-slide">
     slide 1
   </div>
@@ -510,10 +562,12 @@
     <title>keyboard arrow left</title>
     <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
   </svg>
+
+  <hooper-progress slot="pagination" slot-scope="{ currentIdx, totalCount }" :currentIdx="currentIdx" :totalCount="totalCount"></hooper-progress>
 </hooper>
 
 ```vue
-<hooper :progress="true">
+<hooper>
   <div class="hooper-slide">
     slide 1
   </div>
@@ -539,6 +593,8 @@
   <svg viewBox="0 0 24 24" slot="hooper-prev">
     <path d="..." />
   </svg>
+
+  <hooper-progress slot="pagination" slot-scope="{ currentIdx, totalCount }" :currentIdx="currentIdx" :totalCount="totalCount"></hooper-progress>
 </hooper>
 ```
 

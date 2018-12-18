@@ -15,23 +15,7 @@
     >
       <slot></slot>
     </div>
-    <div class="hooper-progress" v-if="$settings.progress">
-      <div class="hooper-progress-inner" :style="`width: ${currentSlide * 100 / (slidesCount - 1)}%`"></div>
-    </div>
-    <ol class="hooper-pagination" v-if="$settings.pagination === 'indicator'">
-      <li v-for="(slide, index) in slides" :key="index">
-        <button
-          @click="slideTo(index)"
-          class="hooper-indicator"
-          :class="{ 'is-active': currentSlide === index }"
-        ></button>
-      </li>
-    </ol>
-    <div class="hooper-pagination" v-if="$settings.pagination === 'fraction'">
-      <span>{{ currentSlide + 1 }}</span>
-      <span>/</span>
-      <span>{{ slidesCount }}</span>
-    </div>
+    <slot name="pagination" :currentIdx="currentSlide" :totalCount="slidesCount" :hooper="this"></slot>
     <div 
       class="hopper-navigation"
       ref="nav"
@@ -61,6 +45,11 @@ import { getInRange, now } from './utils';
 
 export default {
   name: 'Hooper',
+  provide () {
+    return {
+      hooper: this
+    };
+  },
   props: {
     // count of items to showed per view
     itemsToShow: {
@@ -518,20 +507,7 @@ export default {
   display: flex;
   list-style: none;
 }
-.hooper-indicator {
-  margin: 0 2px;
-  width: 12px;
-  height: 4px;
-  border-radius: 2px;
-  border: none;
-  padding: 0;
-  background-color: #fff;
-  cursor: pointer;
-}
-.hooper-indicator:hover,
-.hooper-indicator.is-active {
-  background-color: #4285f4;
-}
+
 .hooper-next,
 .hooper-prev {
   background-color: transparent;
@@ -552,19 +528,6 @@ export default {
 }
 .hooper-prev {
   left: 0;
-}
-.hooper-progress {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 4px;
-  background-color: #efefef;
-}
-.hooper-progress-inner {
-  height: 100%;
-  background-color: #4285f4;
-  transition: 300ms;
 }
 
 .hooper.is-vertical .hooper-track {
