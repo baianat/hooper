@@ -10,8 +10,7 @@
       class="hooper-track"
       :class="{ 'is-dragging': isDraging }"
       ref="track"
-      v-on="{ mousedown: this.$settings.mouseDrag ? downHandler : () => {} }"
-      @transitionend="transitionEndHandler"
+      @transitionend="onTransitionend"
       :style="trackTransform"
     >
       <slot></slot>
@@ -106,14 +105,24 @@ export default {
       default: 3000,
       type: Number
     },
-    // control mouse draging to slide
+    // toggle mouse draging
     mouseDrag: {
+      default: true,
+      type: Boolean
+    },
+    // toggle touch draging
+    touchDrag: {
       default: true,
       type: Boolean
     },
     // enable any move to commit a slide
     shortDrag: {
       default: true,
+      type: Boolean
+    },
+    // toggle keyboard control
+    keysControl: {
+      default: false,
       type: Boolean
     },
     // sliding transition time in ms
@@ -138,13 +147,14 @@ export default {
     return {
       isDraging: false,
       isSliding: false,
+      isTouch: false,
       slideWidth: 0,
       slideHeight: 0,
-      slides: [],
-      allSlides: [],
       slidesCount: 0,
       currentSlide: 0,
       trackOffset: 0,
+      slides: [],
+      allSlides: [],
       defaults: {},
       breakpoints:{},
       delta: { x: 0, y: 0 },
@@ -236,11 +246,19 @@ export default {
       this.slides = Array.from(this.$refs.track.children);
       this.allSlides = Array.from(this.slides);
       this.slidesCount = this.slides.length;
-      if(this.$settings.infiniteScroll) {
+      if (this.$settings.infiniteScroll) {
         this.initClones();
       }
-      if(this.$settings.autoPlay) {
+      if (this.$settings.autoPlay) {
         this.initAutoPlay();
+      }
+      if (this.$settings.mouseDrag || this.$settings.touchDrag) {
+        this.$refs.track.addEventListener('mousedown', this.onDragStart);
+        this.$refs.track.addEventListener('touchstart', this.onDragStart);
+      }
+      if (this.$settings.keysControl) {
+        // todo: bind event ot carousel element
+        document.addEventListener('keydown', this.onKeypress);
       }
     },
     initClones () {
@@ -320,30 +338,35 @@ export default {
     },
 
     // events handlers
-    downHandler (event) {
-      if (event.button !== 0) return;
+    onDragStart (event) {
+      this.isTouch = event.type === 'touchstart';
+      if (!this.isTouch && event.button !== 0) {
+        return;
+      }
       event.preventDefault();
 
       this.startPosition = { x: 0, y: 0 };
       this.endPosition = { x: 0, y: 0 };
       this.isDraging = true;
-      this.startPosition.x = event.clientX;
-      this.startPosition.y = event.clientY;
+      this.startPosition.x = this.isTouch ? event.touches[0].clientX : event.clientX;
+      this.startPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
 
-      document.addEventListener('mousemove', this.moveHandler);
-      document.addEventListener('mouseup', this.upHandler);
+      document.addEventListener(
+        this.isTouch ? 'touchmove' : 'mousemove',
+        this.onDrag
+      );
+      document.addEventListener(
+        this.isTouch ? 'touchend' : 'mouseup',
+        this.onDragEnd
+      );
     },
-    moveHandler (event) {
-      this.endPosition.x = event.type === 'mousemove' ? event.clientX : event.touches[0].clientX;
-      this.endPosition.y = event.type === 'mousemove' ? event.clientY : event.touches[0].clientY;
+    onDrag (event) {
+      this.endPosition.x = this.isTouch ? event.touches[0].clientX : event.clientX;
+      this.endPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
       this.delta.x = this.endPosition.x - this.startPosition.x;
       this.delta.y = this.endPosition.y - this.startPosition.y;
     },
-    upHandler () {
-      document.removeEventListener('mousemove', this.moveHandler);
-      document.removeEventListener('mouseup', this.upHandler);
-      document.removeEventListener('touchmove', this.moveHandler);
-      document.removeEventListener('touchend', this.upHandler);
+    onDragEnd () {
       const tolerance = this.$settings.shortDrag ? 0.5 : 0.15;
       if (this.$settings.vertical) {
         const draggedSlides = Math.round(Math.abs(this.delta.y / this.slideHeight) + tolerance);
@@ -357,15 +380,53 @@ export default {
       this.isDraging = false;
       this.delta.x = 0;
       this.delta.y = 0;
+      document.removeEventListener(
+        this.isTouch ? 'touchmove' : 'mousemove',
+        this.onDrag
+      );
+      document.removeEventListener(
+        this.isTouch ? 'touchend' : 'mouseup',
+        this.onDragEnd
+      );
     },
-    transitionEndHandler () {
+    onTransitionend () {
       this.$refs.track.style.transition = '';
       this.isSliding = false;
       this.$emit('afterSlide', {
         currentSlide: this.currentSlide
       });
     },
-
+    onKeypress (event) {
+      const key = event.key;
+      if (key.startsWith('Arrow')) {
+        event.preventDefault();
+      }
+      if (this.$settings.vertical) {
+        if (key === 'ArrowUp') {
+          this.slidePrev();
+        }
+        if (key === 'ArrowDown') {
+          this.slideNext();
+        }
+        return;
+      }
+      if (this.$settings.rtl) {
+        if (key === 'ArrowRight') {
+          this.slidePrev();
+        }
+        if (key === 'ArrowLeft') {
+          this.slideNext();
+        }
+        return;
+      }
+      if (key === 'ArrowRight') {
+        this.slideNext();
+      }
+      if (key === 'ArrowLeft') {
+        this.slidePrev();
+      }
+    },
+  
     // utitlite functions
     getInRange (index) {
       return Math.max(Math.min(index, this.slides.length - 1), 0)
