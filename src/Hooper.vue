@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import { getInRange, now } from './utils';
+
 export default {
   name: 'Hooper',
   props: {
@@ -115,14 +117,19 @@ export default {
       default: true,
       type: Boolean
     },
-    // enable any move to commit a slide
-    shortDrag: {
-      default: true,
+    // toggle mouse wheel sliding
+    wheelControl: {
+      default: false,
       type: Boolean
     },
     // toggle keyboard control
     keysControl: {
       default: false,
+      type: Boolean
+    },
+    // enable any move to commit a slide
+    shortDrag: {
+      default: true,
       type: Boolean
     },
     // sliding transition time in ms
@@ -202,7 +209,9 @@ export default {
   methods: {
     // controling methods
     slideTo (slideIndex) {
-      const index = this.$settings.infiniteScroll ? slideIndex :this.getInRange(slideIndex);
+      const index = this.$settings.infiniteScroll
+        ? slideIndex 
+        : getInRange(slideIndex, 0, this.slidesCount - 1);
       if (this.isSliding || this.currentSlide === index) { 
         return;
       }
@@ -252,13 +261,19 @@ export default {
       if (this.$settings.autoPlay) {
         this.initAutoPlay();
       }
-      if (this.$settings.mouseDrag || this.$settings.touchDrag) {
+      if (this.$settings.mouseDrag) {
         this.$refs.track.addEventListener('mousedown', this.onDragStart);
-        this.$refs.track.addEventListener('touchstart', this.onDragStart);
+      }
+      if (this.$settings.touchDrag) {
+        this.$refs.track.addEventListener('touchstart', this.onDragStart, { passive: true });
       }
       if (this.$settings.keysControl) {
         // todo: bind event ot carousel element
         document.addEventListener('keydown', this.onKeypress);
+      }
+      if (this.$settings.wheelControl) {
+        this.lastScrollTime = now();
+        this.$el.addEventListener('wheel', this.onWheel, { passive: false });
       }
     },
     initClones () {
@@ -426,11 +441,24 @@ export default {
         this.slidePrev();
       }
     },
-  
-    // utitlite functions
-    getInRange (index) {
-      return Math.max(Math.min(index, this.slides.length - 1), 0)
+    onWheel (event) {
+      event.preventDefault();
+      if (now() - this.lastScrollTime < 60) {
+        return;
+      }
+      // get wheel direction
+      const value = event.wheelDelta || -event.deltaY;
+      const delta = Math.sign(value);
+      if (delta === -1) {
+        this.slideNext();
+      }
+      if (delta === 1) {
+        this.slidePrev();
+      }
     },
+
+    // utitlite functions
+
     normalizeCurrentSlideIndex(index) {
       if (index >= this.slidesCount) {
         index = index - this.slidesCount;
