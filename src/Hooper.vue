@@ -15,44 +15,8 @@
     >
       <slot></slot>
     </div>
-    <div class="hooper-progress" v-if="$settings.progress">
-      <div class="hooper-progress-inner" :style="`width: ${currentSlide * 100 / (slidesCount - 1)}%`"></div>
-    </div>
-    <ol class="hooper-pagination" v-if="$settings.pagination === 'indicator'">
-      <li v-for="(slide, index) in slides" :key="index">
-        <button
-          @click="slideTo(index)"
-          class="hooper-indicator"
-          :class="{ 'is-active': currentSlide === index }"
-        ></button>
-      </li>
-    </ol>
-    <div class="hooper-pagination" v-if="$settings.pagination === 'fraction'">
-      <span>{{ currentSlide + 1 }}</span>
-      <span>/</span>
-      <span>{{ slidesCount }}</span>
-    </div>
-    <div 
-      class="hopper-navigation"
-      ref="nav"
-    >
-      <button
-        class="hooper-next"
-        :class="{ 'is-disabled': !$settings.infiniteScroll && currentSlide === slidesCount - 1 }"
-        @click="slideNext"
-        v-if="$slots['hooper-next']"
-      >
-        <slot name="hooper-next"></slot>
-      </button>
-      <button
-        class="hooper-prev"
-        :class="{ 'is-disabled': !$settings.infiniteScroll && currentSlide === 0 }"
-        @click="slidePrev"
-        v-if="$slots['hooper-prev']"
-      >
-        <slot name="hooper-prev"></slot>
-      </button>
-    </div>
+
+    <slot name="hooper-addons"></slot>
   </div>
 </template>
 
@@ -61,6 +25,11 @@ import { getInRange, now } from './utils';
 
 export default {
   name: 'Hooper',
+  provide () {
+    return {
+      $hooper: this
+    }
+  },
   props: {
     // count of items to showed per view
     itemsToShow: {
@@ -90,11 +59,6 @@ export default {
     // enable rtl mode
     rtl: {
       default: null,
-      type: Boolean
-    },
-    // control progress slider visibility
-    progress: {
-      default: false,
       type: Boolean
     },
     // enable auto sliding to carousal
@@ -137,11 +101,6 @@ export default {
       default: 300,
       type: Number
     },
-    // the type of pagination indicator or fraction
-    pagination: {
-      default: 'indicator',
-      type: String
-    },
     // an object to pass all settings
     settings: {
       default() {
@@ -177,7 +136,7 @@ export default {
       let translate = 0;
       if (centerMode) {
         centeringSpace = vertical 
-        ? (this.containerHeight - this.slideHeight) / 2 
+        ? (this.containerHeight - this.slideHeight) / 2
         : (this.containerWidth - this.slideWidth) / 2;
       }
       if (infiniteScroll) {
@@ -209,21 +168,25 @@ export default {
   methods: {
     // controling methods
     slideTo (slideIndex) {
-      const index = this.$settings.infiniteScroll
-        ? slideIndex 
-        : getInRange(slideIndex, 0, this.slidesCount - 1);
-      if (this.isSliding || this.currentSlide === index) { 
+      if (this.isSliding) { 
         return;
       }
       const previousSlide = this.currentSlide;
+      const index = this.$settings.infiniteScroll
+        ? slideIndex 
+        : getInRange(slideIndex, 0, this.slidesCount - 1);
+
       this.$emit('beforeSlide', {
         currentSlide: this.currentSlide,
-        slideTo: slideIndex
+        slideTo: index
       });
       this.$refs.track.style.transition = `${this.$settings.transition}ms`;
-      this.trackOffset = index;
+      this.trackOffset = getInRange(index, 0, this.slidesCount - this.$settings.itemsToShow);
       this.currentSlide = this.normalizeCurrentSlideIndex(index);
       this.isSliding = true;
+      window.setTimeout(() => {
+        this.isSliding = false;
+      }, this.$settings.transition);
 
       // show the onrignal slide instead of the cloned one
       if (this.$settings.infiniteScroll) {
@@ -406,7 +369,6 @@ export default {
     },
     onTransitionend () {
       this.$refs.track.style.transition = '';
-      this.isSliding = false;
       this.$emit('afterSlide', {
         currentSlide: this.currentSlide
       });
@@ -508,100 +470,13 @@ export default {
 .hooper-slide {
   flex-shrink: 0;
 }
-.hooper-pagination {
-  position: absolute;
-  margin: 0;
-  padding: 5px 10px;
-  bottom: 0;
-  right: 50%;
-  transform: translateX(50%);
-  display: flex;
-  list-style: none;
-}
-.hooper-indicator {
-  margin: 0 2px;
-  width: 12px;
-  height: 4px;
-  border-radius: 2px;
-  border: none;
-  padding: 0;
-  background-color: #fff;
-  cursor: pointer;
-}
-.hooper-indicator:hover,
-.hooper-indicator.is-active {
-  background-color: #4285f4;
-}
-.hooper-next,
-.hooper-prev {
-  background-color: transparent;
-  border: none;
-  padding: 1em;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
-.hooper-next.is-disabled,
-.hooper-prev.is-disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-.hooper-next {
-  right: 0;
-}
-.hooper-prev {
-  left: 0;
-}
-.hooper-progress {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 4px;
-  background-color: #efefef;
-}
-.hooper-progress-inner {
-  height: 100%;
-  background-color: #4285f4;
-  transition: 300ms;
-}
-
 .hooper.is-vertical .hooper-track {
   flex-direction: column;
   height: 200px;
 }
-.hooper.is-vertical .hooper-next {
-  top: auto;
-  bottom: 0;
-  transform: initial;
-}
-.hooper.is-vertical .hooper-prev {
-  top: 0;
-  bottom: auto;
-  right: 0;
-  left: auto;
-  transform: initial;
-}
-.hooper.is-vertical .hooper-pagination {
-  bottom: auto;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  flex-direction: column;
-}
-.hooper.is-vertical .hooper-indicator {
-  width: 4px;
-}
+
 .hooper.is-rtl {
   direction: rtl;
 }
-.hooper.is-rtl .hooper-prev {
-  left: auto;
-  right: 0;
-}
-.hooper.is-rtl .hooper-next {
-  right: auto;
-  left: 0;
-}
+
 </style>
