@@ -35,7 +35,7 @@
   </hooper>
 
   <div style="direction: rtl">
-    <hooper>
+    <hooper ref="hooper2">
       <slide>
         slide 1
       </slide>
@@ -54,6 +54,7 @@
       <slide>
         slide 6
       </slide>
+      
       <!-- optionaly elements -->
       <svg height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-right" slot="hooper-prev">
         <title>keyboard arrow right</title>
@@ -121,6 +122,7 @@ export default {
       hooper: {
         itemsToShow: 3,
         shortDrag: true,
+        sync: 'hooper2',
         breakpoints: {
           800: {
             centerMode: false,
