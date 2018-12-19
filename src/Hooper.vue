@@ -101,6 +101,11 @@ export default {
       default: 300,
       type: Number
     },
+    // sliding transition time in ms
+    sync: {
+      default: null,
+      type: Object
+    },
     // an object to pass all settings
     settings: {
       default() {
@@ -167,7 +172,7 @@ export default {
   },
   methods: {
     // controling methods
-    slideTo (slideIndex) {
+    slideTo (slideIndex, mute = false) {
       const previousSlide = this.currentSlide;
       const index = this.$settings.infiniteScroll
         ? slideIndex 
@@ -177,6 +182,9 @@ export default {
         currentSlide: this.currentSlide,
         slideTo: index
       });
+      if (this.syncEl && !mute) {
+        this.syncEl.slideTo(slideIndex, true);
+      }
       this.$refs.track.style.transition = `${this.$settings.transition}ms`;
       this.trackOffset = index;
       this.currentSlide = this.normalizeCurrentSlideIndex(index);
@@ -234,6 +242,18 @@ export default {
       if (this.$settings.wheelControl) {
         this.lastScrollTime = now();
         this.$el.addEventListener('wheel', this.onWheel, { passive: false });
+      }
+      if (this.$settings.sync) {
+        const el = this.$parent.$refs[this.$settings.sync]
+
+        if (!el) {
+          if (process.env.NODE_ENV !== 'production') {
+            console.warn(`Hooper: expects an element with attribute ref="${this.$settings.sync}", but found none.`);
+          }
+          return;
+        }
+        this.syncEl = this.$parent.$refs[this.$settings.sync];
+        this.syncEl.syncEl = this;
       }
     },
     initClones () {
