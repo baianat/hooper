@@ -1,7 +1,7 @@
 import Hooper from './Hooper.vue';
-import Fraction from './pagination/Fraction.vue';
-import Indicator from './pagination/Indicator.vue';
-import Progress from './pagination/Progress.vue';
+import Fraction from './addons/Fraction.vue';
+import Indicator from './addons/Indicator.vue';
+import Progress from './addons/Progress.vue';
 
 export { Hooper, Fraction, Indicator, Progress };
 

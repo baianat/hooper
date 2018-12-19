@@ -15,7 +15,7 @@
     >
       <slot></slot>
     </div>
-    <slot name="pagination" :currentIdx="currentSlide" :totalCount="slidesCount" :hooper="this"></slot>
+    <slot name="addons"></slot>
     <div 
       class="hopper-navigation"
       ref="nav"
@@ -81,11 +81,6 @@ export default {
       default: null,
       type: Boolean
     },
-    // control progress slider visibility
-    progress: {
-      default: false,
-      type: Boolean
-    },
     // enable auto sliding to carousal
     autoPlay: {
       default: false,
@@ -125,11 +120,6 @@ export default {
     transition: {
       default: 300,
       type: Number
-    },
-    // the type of pagination indicator or fraction
-    pagination: {
-      default: 'indicator',
-      type: String
     },
     // an object to pass all settings
     settings: {
@@ -497,16 +487,6 @@ export default {
 .hooper-slide {
   flex-shrink: 0;
 }
-.hooper-pagination {
-  position: absolute;
-  margin: 0;
-  padding: 5px 10px;
-  bottom: 0;
-  right: 50%;
-  transform: translateX(50%);
-  display: flex;
-  list-style: none;
-}
 
 .hooper-next,
 .hooper-prev {
@@ -546,16 +526,7 @@ export default {
   left: auto;
   transform: initial;
 }
-.hooper.is-vertical .hooper-pagination {
-  bottom: auto;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  flex-direction: column;
-}
-.hooper.is-vertical .hooper-indicator {
-  width: 4px;
-}
+
 .hooper.is-rtl {
   direction: rtl;
 }
