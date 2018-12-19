@@ -10,31 +10,38 @@
       class="hooper-next"
       :class="{ 'is-disabled': isNextDisabled  }"
       @click="$hooper.slideNext"
-      v-if="$slots['hooper-next']"
     >
-      <slot name="hooper-next"></slot>
+      <slot name="hooper-next">
+        <icons name="arrowRight"/>
+      </slot>
     </button>
     <button
       class="hooper-prev"
       :class="{ 'is-disabled': isPrevDisabled }"
       @click="$hooper.slidePrev"
-      v-if="$slots['hooper-prev']"
     >
-      <slot name="hooper-prev"></slot>
+      <slot name="hooper-prev">
+        <icons name="arrowLeft"/>
+      </slot>
     </button>
   </div>
 </template>
 
 <script>
+import Icons from './Icons';
+
 export default {
   inject: ['$hooper'],
   name: 'HooperNavigation',
+  components: {
+    Icons
+  },
   computed: {
     isPrevDisabled () {
       if (this.$hooper.$settings.infiniteScroll) {
         return false;
       }
-      return this.$hooper.tcurrentSlide === 0;
+      return this.$hooper.currentSlide === 0;
     },
     isNextDisabled () {
       if (this.$hooper.$settings.infiniteScroll) {
