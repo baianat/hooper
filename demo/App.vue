@@ -1,25 +1,25 @@
 <template>
 
 <div class="wrapper">
-  <hooper :settings="hooper">
-    <div class="hooper-slide">
+  <hooper :settings="hooper" :infiniteScroll="true">
+    <slide>
       slide 1
-    </div>
-    <div class="hooper-slide">
+    </slide>
+    <slide>
       slide 2
-    </div>
-    <div class="hooper-slide">
+    </slide>
+    <slide>
       slide 3
-    </div>
-    <div class="hooper-slide">
+    </slide>
+    <slide>
       slide 4
-    </div>
-    <div class="hooper-slide">
+    </slide>
+    <slide>
       slide 5
-    </div>
-    <div class="hooper-slide">
+    </slide>
+    <slide>
       slide 6
-    </div>
+    </slide>
     <!-- optional elements -->
     <hooper-progress slot="hooper-addons"></hooper-progress>
     <hooper-pagination slot="hooper-addons"></hooper-pagination>
@@ -36,24 +36,24 @@
 
   <div style="direction: rtl">
     <hooper>
-      <div class="hooper-slide">
+      <slide>
         slide 1
-      </div>
-      <div class="hooper-slide">
+      </slide>
+      <slide>
         slide 2
-      </div>
-      <div class="hooper-slide">
+      </slide>
+      <slide>
         slide 3
-      </div>
-      <div class="hooper-slide">
+      </slide>
+      <slide>
         slide 4
-      </div>
-      <div class="hooper-slide">
+      </slide>
+      <slide>
         slide 5
-      </div>
-      <div class="hooper-slide">
+      </slide>
+      <slide>
         slide 6
-      </div>
+      </slide>
       <!-- optionaly elements -->
       <svg height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-right" slot="hooper-prev">
         <title>keyboard arrow right</title>
@@ -65,24 +65,24 @@
     </hooper>
   </div>
   <hooper :settings="hooperVertical" style="height: 400px">
-    <div class="hooper-slide">
+    <slide>
       slide 1
-    </div>
-    <div class="hooper-slide">
+    </slide>
+    <slide>
       slide 2
-    </div>
-    <div class="hooper-slide">
+    </slide>
+    <slide>
       slide 3
-    </div>
-    <div class="hooper-slide">
+    </slide>
+    <slide>
       slide 4
-    </div>
-    <div class="hooper-slide">
+    </slide>
+    <slide>
       slide 5
-    </div>
-    <div class="hooper-slide">
+    </slide>
+    <slide>
       slide 6
-    </div>
+    </slide>
     <!-- optionaly elements -->
     <svg height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-down" slot="hooper-next">
       <title>keyboard arrow right</title>
@@ -101,6 +101,7 @@
 <script>
 import {
   Hooper,
+  Slide,
   Progress as HooperProgress,
   Pagination as HooperPagination,
   Navigation as HooperNavigation 
@@ -110,6 +111,7 @@ export default {
   name: 'App',
   components: {
     Hooper,
+    Slide,
     HooperProgress,
     HooperPagination,
     HooperNavigation
