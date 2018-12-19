@@ -1,7 +1,7 @@
 <template>
 
 <div class="wrapper">
-  <hooper :settings="hooper" :infiniteScroll="true">
+  <hooper :settings="hooper">
     <slide>
       slide 1
     </slide>

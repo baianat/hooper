@@ -155,7 +155,7 @@ export default {
     }
   },
   watch: {
-    currentSlide (newVal, oldVal) {
+    trackOffset (newVal, oldVal) {
       if (!this.$settings.infiniteScroll) {
         this.slides[newVal].classList.add('is-active');
         this.slides[oldVal].classList.remove('is-active');
@@ -168,9 +168,6 @@ export default {
   methods: {
     // controling methods
     slideTo (slideIndex) {
-      if (this.isSliding) { 
-        return;
-      }
       const previousSlide = this.currentSlide;
       const index = this.$settings.infiniteScroll
         ? slideIndex 
@@ -181,7 +178,7 @@ export default {
         slideTo: index
       });
       this.$refs.track.style.transition = `${this.$settings.transition}ms`;
-      this.trackOffset = getInRange(index, 0, this.slidesCount - this.$settings.itemsToShow);
+      this.trackOffset = index;
       this.currentSlide = this.normalizeCurrentSlideIndex(index);
       this.isSliding = true;
       window.setTimeout(() => {
@@ -339,6 +336,9 @@ export default {
       );
     },
     onDrag (event) {
+      if (this.isSliding) {
+        return;
+      }
       this.endPosition.x = this.isTouch ? event.touches[0].clientX : event.clientX;
       this.endPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
       this.delta.x = this.endPosition.x - this.startPosition.x;
@@ -369,6 +369,7 @@ export default {
     },
     onTransitionend () {
       this.$refs.track.style.transition = '';
+      this.isSliding = false;
       this.$emit('afterSlide', {
         currentSlide: this.currentSlide
       });
