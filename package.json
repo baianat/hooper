@@ -1,6 +1,6 @@
 {
   "name": "hooper",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Declarative Vue.js animations library",
   "module": "dist/hooper.esm.js",
   "unpkg": "dist/hooper.js",
@@ -9,10 +9,11 @@
     "lint": "eslint ./src --fix",
     "build": "NODE_ENV=production node scripts/build",
     "demo": "npm run build && webpack-dev-server --hot --inline --config ./demo/webpack.config.js",
+    "deploy": "bash scripts/deploy.sh",
+    "dev": "node scripts/watcher",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "docs:deploy": "bash scripts/deploy.sh",
-    "dev": "node scripts/watcher"
+    "docs:deploy": "bash scripts/docs-deploy.sh"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

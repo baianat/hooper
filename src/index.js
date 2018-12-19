@@ -1,9 +1,11 @@
 import Hooper from './Hooper.vue';
-import Fraction from './addons/Fraction.vue';
-import Indicator from './addons/Indicator.vue';
-import Progress from './addons/Progress.vue';
+import Slide from './Slide.vue';
 import addonMixin from './addons/mixin';
+import Icons from './addons/Icons';
+import Progress from './addons/Progress.vue';
+import Pagination from './addons/Pagination.vue';
+import Navigation from './addons/Navigation.vue';
 
-export { Hooper, Fraction, Indicator, Progress, addonMixin };
+export { Hooper, Slide, Progress, Pagination, Navigation, Icons, addonMixin };
 
 export default Hooper;

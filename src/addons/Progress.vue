@@ -1,21 +1,17 @@
-<script>
-import addonMixin from './mixin';
+<template>
+  <div class="hooper-progress">
+    <div
+      class="hooper-progress-inner"
+      :style="`width: ${$hooper.currentSlide * 100 / ($hooper.slidesCount - 1)}%`"
+    >
+    </div>
+  </div>
+</template>
 
+<script>
 export default {
   name: 'HooperProgress',
-  mixins: [addonMixin],
-  render (h) {
-    const progressNode = h('div', {
-      staticClass: 'hooper-progress-inner',
-      style: {
-        width: `${this.hooper.currentSlide * 100 / (this.hooper.slidesCount - 1)}%`
-      }
-    });    
-
-    return h('div', {
-      staticClass: 'hooper-progress'
-    }, [progressNode]);
-  }
+  mixins: [addonMixin]
 }
 </script>
 

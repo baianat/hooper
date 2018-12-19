@@ -16,27 +16,6 @@
       <slot></slot>
     </div>
     <slot name="addons"></slot>
-    <div 
-      class="hopper-navigation"
-      ref="nav"
-    >
-      <button
-        class="hooper-next"
-        :class="{ 'is-disabled': !$settings.infiniteScroll && currentSlide === slidesCount - 1 }"
-        @click="slideNext"
-        v-if="$slots['hooper-next']"
-      >
-        <slot name="hooper-next"></slot>
-      </button>
-      <button
-        class="hooper-prev"
-        :class="{ 'is-disabled': !$settings.infiniteScroll && currentSlide === 0 }"
-        @click="slidePrev"
-        v-if="$slots['hooper-prev']"
-      >
-        <slot name="hooper-prev"></slot>
-      </button>
-    </div>
   </div>
 </template>
 
@@ -47,8 +26,8 @@ export default {
   name: 'Hooper',
   provide () {
     return {
-      hooper: this
-    };
+      $hooper: this
+    }
   },
   props: {
     // count of items to showed per view
@@ -91,12 +70,12 @@ export default {
       default: 3000,
       type: Number
     },
-    // toggle mouse draging
+    // toggle mouse dragging
     mouseDrag: {
       default: true,
       type: Boolean
     },
-    // toggle touch draging
+    // toggle touch dragging
     touchDrag: {
       default: true,
       type: Boolean
@@ -120,6 +99,11 @@ export default {
     transition: {
       default: 300,
       type: Number
+    },
+    // sync two carousels to slide together
+    sync: {
+      default: '',
+      type: String
     },
     // an object to pass all settings
     settings: {
@@ -156,7 +140,7 @@ export default {
       let translate = 0;
       if (centerMode) {
         centeringSpace = vertical 
-        ? (this.containerHeight - this.slideHeight) / 2 
+        ? (this.containerHeight - this.slideHeight) / 2
         : (this.containerWidth - this.slideWidth) / 2;
       }
       if (infiniteScroll) {
@@ -175,7 +159,7 @@ export default {
     }
   },
   watch: {
-    currentSlide (newVal, oldVal) {
+    trackOffset (newVal, oldVal) {
       if (!this.$settings.infiniteScroll) {
         this.slides[newVal].classList.add('is-active');
         this.slides[oldVal].classList.remove('is-active');
@@ -187,22 +171,26 @@ export default {
   },
   methods: {
     // controling methods
-    slideTo (slideIndex) {
+    slideTo (slideIndex, mute = false) {
+      const previousSlide = this.currentSlide;
       const index = this.$settings.infiniteScroll
         ? slideIndex 
         : getInRange(slideIndex, 0, this.slidesCount - 1);
-      if (this.isSliding || this.currentSlide === index) { 
-        return;
-      }
-      const previousSlide = this.currentSlide;
+
       this.$emit('beforeSlide', {
         currentSlide: this.currentSlide,
-        slideTo: slideIndex
+        slideTo: index
       });
+      if (this.syncEl && !mute) {
+        this.syncEl.slideTo(slideIndex, true);
+      }
       this.$refs.track.style.transition = `${this.$settings.transition}ms`;
       this.trackOffset = index;
       this.currentSlide = this.normalizeCurrentSlideIndex(index);
       this.isSliding = true;
+      window.setTimeout(() => {
+        this.isSliding = false;
+      }, this.$settings.transition);
 
       // show the onrignal slide instead of the cloned one
       if (this.$settings.infiniteScroll) {
@@ -253,6 +241,18 @@ export default {
       if (this.$settings.wheelControl) {
         this.lastScrollTime = now();
         this.$el.addEventListener('wheel', this.onWheel, { passive: false });
+      }
+      if (this.$settings.sync) {
+        const el = this.$parent.$refs[this.$settings.sync]
+
+        if (!el) {
+          if (process.env.NODE_ENV !== 'production') {
+            console.warn(`Hooper: expects an element with attribute ref="${this.$settings.sync}", but found none.`);
+          }
+          return;
+        }
+        this.syncEl = this.$parent.$refs[this.$settings.sync];
+        this.syncEl.syncEl = this;
       }
     },
     initClones () {
@@ -355,6 +355,9 @@ export default {
       );
     },
     onDrag (event) {
+      if (this.isSliding) {
+        return;
+      }
       this.endPosition.x = this.isTouch ? event.touches[0].clientX : event.clientX;
       this.endPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
       this.delta.x = this.endPosition.x - this.startPosition.x;
@@ -488,54 +491,12 @@ export default {
   flex-shrink: 0;
 }
 
-.hooper-next,
-.hooper-prev {
-  background-color: transparent;
-  border: none;
-  padding: 1em;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
-.hooper-next.is-disabled,
-.hooper-prev.is-disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-.hooper-next {
-  right: 0;
-}
-.hooper-prev {
-  left: 0;
-}
-
 .hooper.is-vertical .hooper-track {
   flex-direction: column;
   height: 200px;
 }
-.hooper.is-vertical .hooper-next {
-  top: auto;
-  bottom: 0;
-  transform: initial;
-}
-.hooper.is-vertical .hooper-prev {
-  top: 0;
-  bottom: auto;
-  right: 0;
-  left: auto;
-  transform: initial;
-}
 
 .hooper.is-rtl {
   direction: rtl;
-}
-.hooper.is-rtl .hooper-prev {
-  left: auto;
-  right: 0;
-}
-.hooper.is-rtl .hooper-next {
-  right: auto;
-  left: 0;
 }
 </style>
