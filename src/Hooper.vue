@@ -71,12 +71,12 @@ export default {
       default: 3000,
       type: Number
     },
-    // toggle mouse draging
+    // toggle mouse dragging
     mouseDrag: {
       default: true,
       type: Boolean
     },
-    // toggle touch draging
+    // toggle touch dragging
     touchDrag: {
       default: true,
       type: Boolean
@@ -101,10 +101,10 @@ export default {
       default: 300,
       type: Number
     },
-    // sliding transition time in ms
+    // sync two carousels to slide together
     sync: {
-      default: null,
-      type: Object
+      default: '',
+      type: String
     },
     // an object to pass all settings
     settings: {
