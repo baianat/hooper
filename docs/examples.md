@@ -3,666 +3,702 @@
 ## Default Example
 
 <hooper>
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
+  </slide>
 </hooper>
 
 ```vue
 <hooper>
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
+  </slide>
+
 </hooper>
 ```
 
-## Use Navigation Arrows
+## Navigation Component
 
 <hooper>
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
+  </slide>
 
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-down" slot="hooper-next">
-    <title>keyboard arrow right</title>
-    <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
-  </svg>
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
-    <title>keyboard arrow left</title>
-    <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
-  </svg>
+  <hooper-navigation slot="hooper-addons"></hooper-navigation>
 </hooper>
 
 ```vue
-<hooper>
-  <div class="hooper-slide">
-    slide 1
-  </div>
-  <div class="hooper-slide">
-    slide 2
-  </div>
-  <div class="hooper-slide">
-    slide 3
-  </div>
-  <div class="hooper-slide">
-    slide 4
-  </div>
-  <div class="hooper-slide">
-    slide 5
-  </div>
-  <div class="hooper-slide">
-    slide 6
-  </div>
+<template>
+  <hooper>
+    <slide>
+      slide 1
+    </slide>
+    <slide>
+      slide 2
+    </slide>
+    <slide>
+      slide 3
+    </slide>
+    <slide>
+      slide 4
+    </slide>
+    <slide>
+      slide 5
+    </slide>
+    <slide>
+      slide 6
+    </slide>
 
-  <svg viewBox="0 0 24 24" slot="hooper-next">
-    <path d="..." />
-  </svg>
-  <svg viewBox="0 0 24 24" slot="hooper-prev">
-    <path d="..." />
-  </svg>
-</hooper>
+    <hooper-navigation slot="hooper-addons"></hooper-navigation>
+  </hooper>
+</template>
+
+<script>
+import {
+  Hooper,
+  Slide,
+  Navigation as HooperNavigation 
+  } from 'hooper';
+
+export default {
+  components: {
+    Hooper,
+    Slide,
+    HooperNavigation
+  }
+}
+</scirpt>
 ```
+
+## Progress Component
+
+<hooper>
+  <slide>
+    slide 1
+  </slide>
+  <slide>
+    slide 2
+  </slide>
+  <slide>
+    slide 3
+  </slide>
+  <slide>
+    slide 4
+  </slide>
+  <slide>
+    slide 5
+  </slide>
+  <slide>
+    slide 6
+  </slide>
+  
+  <hooper-progress slot="hooper-addons"></hooper-progress>
+</hooper>
+
+```vue
+<template>
+  <hooper>
+    <slide>
+      slide 1
+    </slide>
+    <slide>
+      slide 2
+    </slide>
+    <slide>
+      slide 3
+    </slide>
+    <slide>
+      slide 4
+    </slide>
+    <slide>
+      slide 5
+    </slide>
+    <slide>
+      slide 6
+    </slide>
+
+    <hooper-navigation slot="hooper-addons"></hooper-navigation>
+  </hooper>
+</template>
+
+<script>
+import {
+  Hooper,
+  Slide,
+  Progress as HooperProgress 
+  } from 'hooper';
+
+export default {
+  components: {
+    Hooper,
+    Slide,
+    HooperProgress
+  }
+}
+</scirpt>
+```
+
+## Indicator Pagination
+
+<hooper>
+  <slide>
+    slide 1
+  </slide>
+  <slide>
+    slide 2
+  </slide>
+  <slide>
+    slide 3
+  </slide>
+  <slide>
+    slide 4
+  </slide>
+  <slide>
+    slide 5
+  </slide>
+  <slide>
+    slide 6
+  </slide>
+  
+  <hooper-pagination slot="hooper-addons"></hooper-pagination>
+</hooper>
+
+```vue
+<template>
+  <hooper>
+    <slide>
+      slide 1
+    </slide>
+    <slide>
+      slide 2
+    </slide>
+    <slide>
+      slide 3
+    </slide>
+    <slide>
+      slide 4
+    </slide>
+    <slide>
+      slide 5
+    </slide>
+    <slide>
+      slide 6
+    </slide>
+
+    <hooper-pagination slot="hooper-addons"></hooper-pagination>
+  </hooper>
+</template>
+
+<script>
+import {
+  Hooper,
+  Slide,
+  Pagination as HooperPagination 
+  } from 'hooper';
+
+export default {
+  components: {
+    Hooper,
+    Slide,
+    HooperPagination
+  }
+}
+</scirpt>
+```
+
+## Fraction Pagination
+
+<hooper>
+  <slide>
+    slide 1
+  </slide>
+  <slide>
+    slide 2
+  </slide>
+  <slide>
+    slide 3
+  </slide>
+  <slide>
+    slide 4
+  </slide>
+  <slide>
+    slide 5
+  </slide>
+  <slide>
+    slide 6
+  </slide>
+
+  <hooper-pagination slot="hooper-addons" mode="fraction"></hooper-pagination>
+</hooper>
+
+```vue
+<template>
+  <hooper>
+    <slide>
+      slide 1
+    </slide>
+    <slide>
+      slide 2
+    </slide>
+    <slide>
+      slide 3
+    </slide>
+    <slide>
+      slide 4
+    </slide>
+    <slide>
+      slide 5
+    </slide>
+    <slide>
+      slide 6
+    </slide>
+
+    <hooper-pagination slot="hooper-addons" mode="fraction"></hooper-pagination>
+  </hooper>
+</template>
+
+<script>
+import {
+  Hooper,
+  Slide,
+  Pagination as HooperPagination 
+  } from 'hooper';
+
+export default {
+  components: {
+    Hooper,
+    Slide,
+    HooperPagination
+  }
+}
+</scirpt>
+```
+
 
 ## Show Multiple Items
 
 <hooper :itemsToShow="3">
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
+  </slide>
 
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-down" slot="hooper-next">
-    <title>keyboard arrow right</title>
-    <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
-  </svg>
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
-    <title>keyboard arrow left</title>
-    <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
-  </svg>
+  <hooper-navigation slot="hooper-addons"></hooper-navigation>
 </hooper>
 
 ```vue
 <hooper :itemsToShow="3">
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
-
-  <svg viewBox="0 0 24 24" slot="hooper-next">
-    <path d="..." />
-  </svg>
-  <svg viewBox="0 0 24 24" slot="hooper-prev">
-    <path d="..." />
-  </svg>
+  </slide>
 </hooper>
 ```
 
 ## Slide Multiple Items
 
 <hooper :itemsToSlide="3" :itemsToShow="3">
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
-
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-down" slot="hooper-next">
-    <title>keyboard arrow right</title>
-    <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
-  </svg>
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
-    <title>keyboard arrow left</title>
-    <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
-  </svg>
+  </slide>
+  <hooper-navigation slot="hooper-addons"></hooper-navigation>
 </hooper>
 
 ```vue
 <hooper :itemsToSlide="3">
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
-
-  <svg viewBox="0 0 24 24" slot="hooper-next">
-    <path d="..." />
-  </svg>
-  <svg viewBox="0 0 24 24" slot="hooper-prev">
-    <path d="..." />
-  </svg>
+  </slide>
 </hooper>
 ```
 
 ## Infinite Scrolling
 
 <hooper :infiniteScroll="true" :itemsToShow="3">
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
+  </slide>
 
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-down" slot="hooper-next">
-    <title>keyboard arrow right</title>
-    <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
-  </svg>
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
-    <title>keyboard arrow left</title>
-    <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
-  </svg>
+  <hooper-navigation slot="hooper-addons"></hooper-navigation>
 </hooper>
 
 ```vue
 <hooper :infiniteScroll="true">
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
-
-  <svg viewBox="0 0 24 24" slot="hooper-next">
-    <path d="..." />
-  </svg>
-  <svg viewBox="0 0 24 24" slot="hooper-prev">
-    <path d="..." />
-  </svg>
+  </slide>
 </hooper>
 ```
 
 ## Center Mode
 
 <hooper :itemsToShow="1.25" :centerMode="true">
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
+  </slide>
 
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-down" slot="hooper-next">
-    <title>keyboard arrow right</title>
-    <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
-  </svg>
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
-    <title>keyboard arrow left</title>
-    <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
-  </svg>
+  <hooper-navigation slot="hooper-addons"></hooper-navigation>
 </hooper>
 
 ```vue
 <hooper :itemsToShow="1.25" :centerMode="true">
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
-
-  <svg viewBox="0 0 24 24" slot="hooper-next">
-    <path d="..." />
-  </svg>
-  <svg viewBox="0 0 24 24" slot="hooper-prev">
-    <path d="..." />
-  </svg>
-</hooper>
-```
-
-## Fraction Pagination
-
-<hooper pagination="fraction">
-  <div class="hooper-slide">
-    slide 1
-  </div>
-  <div class="hooper-slide">
-    slide 2
-  </div>
-  <div class="hooper-slide">
-    slide 3
-  </div>
-  <div class="hooper-slide">
-    slide 4
-  </div>
-  <div class="hooper-slide">
-    slide 5
-  </div>
-  <div class="hooper-slide">
-    slide 6
-  </div>
-
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-down" slot="hooper-next">
-    <title>keyboard arrow right</title>
-    <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
-  </svg>
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
-    <title>keyboard arrow left</title>
-    <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
-  </svg>
-</hooper>
-
-```vue
-<hooper pagination="fraction">
-  <div class="hooper-slide">
-    slide 1
-  </div>
-  <div class="hooper-slide">
-    slide 2
-  </div>
-  <div class="hooper-slide">
-    slide 3
-  </div>
-  <div class="hooper-slide">
-    slide 4
-  </div>
-  <div class="hooper-slide">
-    slide 5
-  </div>
-  <div class="hooper-slide">
-    slide 6
-  </div>
-
-  <svg viewBox="0 0 24 24" slot="hooper-next">
-    <path d="..." />
-  </svg>
-  <svg viewBox="0 0 24 24" slot="hooper-prev">
-    <path d="..." />
-  </svg>
-</hooper>
-```
-
-## No Pagination
-
-<hooper pagination="no">
-  <div class="hooper-slide">
-    slide 1
-  </div>
-  <div class="hooper-slide">
-    slide 2
-  </div>
-  <div class="hooper-slide">
-    slide 3
-  </div>
-  <div class="hooper-slide">
-    slide 4
-  </div>
-  <div class="hooper-slide">
-    slide 5
-  </div>
-  <div class="hooper-slide">
-    slide 6
-  </div>
-
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-down" slot="hooper-next">
-    <title>keyboard arrow right</title>
-    <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
-  </svg>
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
-    <title>keyboard arrow left</title>
-    <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
-  </svg>
-</hooper>
-
-```vue
-<hooper pagination="no">
-  <div class="hooper-slide">
-    slide 1
-  </div>
-  <div class="hooper-slide">
-    slide 2
-  </div>
-  <div class="hooper-slide">
-    slide 3
-  </div>
-  <div class="hooper-slide">
-    slide 4
-  </div>
-  <div class="hooper-slide">
-    slide 5
-  </div>
-  <div class="hooper-slide">
-    slide 6
-  </div>
-
-  <svg viewBox="0 0 24 24" slot="hooper-next">
-    <path d="..." />
-  </svg>
-  <svg viewBox="0 0 24 24" slot="hooper-prev">
-    <path d="..." />
-  </svg>
-</hooper>
-```
-
-## Progress
-
-<hooper :progress="true">
-  <div class="hooper-slide">
-    slide 1
-  </div>
-  <div class="hooper-slide">
-    slide 2
-  </div>
-  <div class="hooper-slide">
-    slide 3
-  </div>
-  <div class="hooper-slide">
-    slide 4
-  </div>
-  <div class="hooper-slide">
-    slide 5
-  </div>
-  <div class="hooper-slide">
-    slide 6
-  </div>
-
-  <svg width="24" height="24" viewBox="0 0 24 24" slot="hooper-next">
-    <title>keyboard arrow right</title>
-    <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
-  </svg>
-  <svg width="24" height="24" viewBox="0 0 24 24" slot="hooper-prev">
-    <title>keyboard arrow left</title>
-    <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
-  </svg>
-</hooper>
-
-```vue
-<hooper :progress="true">
-  <div class="hooper-slide">
-    slide 1
-  </div>
-  <div class="hooper-slide">
-    slide 2
-  </div>
-  <div class="hooper-slide">
-    slide 3
-  </div>
-  <div class="hooper-slide">
-    slide 4
-  </div>
-  <div class="hooper-slide">
-    slide 5
-  </div>
-  <div class="hooper-slide">
-    slide 6
-  </div>
-
-  <svg viewBox="0 0 24 24" slot="hooper-next">
-    <path d="..." />
-  </svg>
-  <svg viewBox="0 0 24 24" slot="hooper-prev">
-    <path d="..." />
-  </svg>
+  </slide>
 </hooper>
 ```
 
 ## Auto Playing
 
 <hooper :progress="true" :autoPlay="true" :playSpeed="2000">
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
+  </slide>
 
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-down" slot="hooper-next">
-    <title>keyboard arrow right</title>
-    <path d="M8.29,17.29,13.59,12,8.29,6.71A1,1,0,0,1,9.71,5.29l6,6a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0A1,1,0,0,1,8.29,17.29Z" />
-  </svg>
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
-    <title>keyboard arrow left</title>
-    <path d="M15.71,6.71,10.41,12l5.3,5.29a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0l-6-6a1,1,0,0,1,0-1.42l6-6a1,1,0,1,1,1.42,1.42Z" />
-  </svg>
+  <hooper-navigation slot="hooper-addons"></hooper-navigation>
+  <hooper-progress slot="hooper-addons"></hooper-progress>
 </hooper>
 
 ```vue
 <hooper :progress="true" :autoPlay="true" :playSpeed="2000">
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
-
-  <svg viewBox="0 0 24 24" slot="hooper-next">
-    <path d="..." />
-  </svg>
-  <svg viewBox="0 0 24 24" slot="hooper-prev">
-    <path d="..." />
-  </svg>
+  </slide>
 </hooper>
 ```
 
 ## Vertical Sliding
 
 <hooper :vertical="true" style="height: 400px" :itemsToShow="1.5" :centerMode="true">
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
+  </slide>
 
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-down" slot="hooper-next">
-    <title>keyboard arrow down</title>
-    <path d="M11.29,15.71l-6-6A1,1,0,0,1,6.71,8.29L12,13.59l5.29-5.3a1,1,0,0,1,1.42,1.42l-6,6a1,1,0,0,1-1.42,0Z" />
-  </svg>
-  <svg width="24" height="24" viewBox="0 0 24 24" class="icon-keyboard-arrow-up" slot="hooper-prev">
-    <title>keyboard arrow up</title>
-    <path d="M5.29,15.71a1,1,0,0,1,0-1.42l6-6a1,1,0,0,1,1.42,0l6,6a1,1,0,0,1,0,1.42,1,1,0,0,1-1.42,0L12,10.41l-5.29,5.3A1,1,0,0,1,5.29,15.71Z" />
-  </svg>
+  <hooper-navigation slot="hooper-addons"></hooper-navigation>
 </hooper>
 
 ```vue
 <hooper :vertical="true" style="height: 400px" :itemsToShow="1.5" :centerMode="true">
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
+  </slide>
+</hooper>
+```
 
-  <svg viewBox="0 0 24 24" slot="hooper-next">
-    <path d="..." />
-  </svg>
-  <svg viewBox="0 0 24 24" slot="hooper-prev">
-    <path d="..." />
-  </svg>
+## Sync
+
+<hooper sync="myCarousel2" :transition="600">
+  <slide>
+    slide 1
+  </slide>
+  <slide>
+    slide 2
+  </slide>
+  <slide>
+    slide 3
+  </slide>
+  <slide>
+    slide 4
+  </slide>
+  <slide>
+    slide 5
+  </slide>
+  <slide>
+    slide 6
+  </slide>
+</hooper>
+
+<hooper ref="myCarousel2" :itemsToShow="3" :centerMode="true">
+  <slide>
+    slide 1
+  </slide>
+  <slide>
+    slide 2
+  </slide>
+  <slide>
+    slide 3
+  </slide>
+  <slide>
+    slide 4
+  </slide>
+  <slide>
+    slide 5
+  </slide>
+  <slide>
+    slide 6
+  </slide>
+
+  <hooper-navigation slot="hooper-addons"></hooper-navigation>
+  <hooper-pagination slot="hooper-addons"></hooper-pagination>
+</hooper>
+
+```vue
+<hooper sync="myCarousel2">
+  <slide>
+    slide 1
+  </slide>
+  <slide>
+    slide 2
+  </slide>
+  <slide>
+    slide 3
+  </slide>
+  <slide>
+    slide 4
+  </slide>
+  <slide>
+    slide 5
+  </slide>
+  <slide>
+    slide 6
+  </slide>
+</hooper>
+
+<hooper ref="myCarousel2" :itemsToShow="3" :centerMode="true">
+  <slide>
+    slide 1
+  </slide>
+  <slide>
+    slide 2
+  </slide>
+  <slide>
+    slide 3
+  </slide>
+  <slide>
+    slide 4
+  </slide>
+  <slide>
+    slide 5
+  </slide>
+  <slide>
+    slide 6
+  </slide>
+
+  <hooper-navigation slot="hooper-addons"></hooper-navigation>
+  <hooper-pagination slot="hooper-addons"></hooper-pagination>
 </hooper>
 ```
 
@@ -675,51 +711,53 @@
 </template>
 
 <hooper ref="myCarousal" :itemsToShow="1.5" :centerMode="true" v-on:slide="updateCarousel">
-  <div class="hooper-slide">
+  <slide>
     slide 1
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 2
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 3
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 4
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 5
-  </div>
-  <div class="hooper-slide">
+  </slide>
+  <slide>
     slide 6
-  </div>
+  </slide>
 </hooper>
 
 ```vue
-<button @click.prevent="slidePrev">prev</button>
-<input v-model="carousalData" type="number" min="0" max="5">
-<button @click.prevent="slideNext">next</button>
-
-<hooper ref="carousal" @slide="updateCarousel">
-  <div class="hooper-slide">
-    slide 1
-  </div>
-  <div class="hooper-slide">
-    slide 2
-  </div>
-  <div class="hooper-slide">
-    slide 3
-  </div>
-  <div class="hooper-slide">
-    slide 4
-  </div>
-  <div class="hooper-slide">
-    slide 5
-  </div>
-  <div class="hooper-slide">
-    slide 6
-  </div>
-</hooper>
+<template>
+  <button @click.prevent="slidePrev">prev</button>
+  <input v-model="carousalData" type="number" min="0" max="5">
+  <button @click.prevent="slideNext">next</button>
+  
+  <hooper ref="carousal" @slide="updateCarousel">
+    <slide>
+      slide 1
+    </slide>
+    <slide>
+      slide 2
+    </slide>
+    <slide>
+      slide 3
+    </slide>
+    <slide>
+      slide 4
+    </slide>
+    <slide>
+      slide 5
+    </slide>
+    <slide>
+      slide 6
+    </slide>
+  </hooper>
+</template>
 
 <script>
 export default {
