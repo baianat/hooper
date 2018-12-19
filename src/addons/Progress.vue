@@ -1,7 +1,9 @@
 <script>
+import addonMixin from './mixin';
+
 export default {
   name: 'HooperProgress',
-  inject: ['hooper'],
+  mixins: [addonMixin],
   render (h) {
     const progressNode = h('div', {
       staticClass: 'hooper-progress-inner',

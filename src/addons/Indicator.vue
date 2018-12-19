@@ -11,9 +11,11 @@
 </template>
 
 <script>
+import addonMixin from './mixin';
+
 export default {
   name: 'HooperIndicator',
-  inject: ['hooper']
+  mixins: [addonMixin]
 }
 </script>
 

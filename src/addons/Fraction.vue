@@ -7,9 +7,11 @@
 </template>
 
 <script>
+import addonMixin from './mixin';
+
 export default {
   name: 'HooperFraction',
-  inject: ['hooper']
+  mixins: [addonMixin]
 };
 </script>
 
