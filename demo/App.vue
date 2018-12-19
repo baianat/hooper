@@ -106,7 +106,7 @@ import {
   Progress as HooperProgress,
   Pagination as HooperPagination,
   Navigation as HooperNavigation 
-  } from '../dist/hooper.js'
+  } from '../src/index.js'
 
 export default {
   name: 'App',
