@@ -13,12 +13,16 @@
     "dev": "node scripts/watcher",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "docs:deploy": "bash scripts/docs-deploy.sh"
+    "docs:deploy": "bash scripts/docs-deploy.sh",
+    "test": "jest --config jest.config.json"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
-    "animate.css": "^3.7.0",
+    "@vue/test-utils": "^1.0.0-beta.27",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^8.0.4",
     "browser-sync": "^2.26.3",
     "chalk": "^2.4.1",
     "css-loader": "^2.0.1",
@@ -27,6 +31,7 @@
     "fs": "^0.0.1-security",
     "gzip-size": "^5.0.0",
     "html-webpack-plugin": "^3.2.0",
+    "jest": "^23.6.0",
     "mkdirp": "^0.5.1",
     "path": "^0.12.7",
     "progress-bar-webpack-plugin": "^1.11.0",
@@ -38,6 +43,7 @@
     "style-loader": "^0.23.1",
     "util": "^0.11.1",
     "vue": "^2.5.21",
+    "vue-jest": "^3.0.2",
     "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.5.21",
     "vuepress": "^0.14.8",
@@ -53,8 +59,5 @@
       "email": "abdelrahman3d@gmail.com"
     }
   ],
-  "optionalDependencies": {},
-  "dependencies": {
-    "babel-loader": "^8.0.4"
-  }
+  "optionalDependencies": {}
 }

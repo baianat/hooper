@@ -1,0 +1,18 @@
+{
+  "testMatch": [
+    "**/tests/**/*.js"
+  ],
+  "moduleFileExtensions": [
+    "js",
+    "vue"
+  ],
+  "collectCoverage": true,
+  "collectCoverageFrom": [
+    "**/src/**/*.{js,vue}",
+    "!**/node_modules/**"
+  ],
+  "transform": {
+    ".*\\.(vue)$": "vue-jest",
+    ".*\\.(js)$": "babel-jest"
+  }
+}
