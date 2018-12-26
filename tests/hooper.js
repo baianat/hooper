@@ -1,18 +1,30 @@
 import { mount, createLocalVue } from '@vue/test-utils';
-import { Hooper, Slide } from '../src/index';
+import { Hooper, Slide, Navigation } from '../src/index';
 
-const Vue = createLocalVue();
-Vue.component('Hooper', Hooper);
-Vue.component('Slide', Slide);
+const localVue = createLocalVue();
+localVue.component('Hooper', Hooper);
+localVue.component('Slide', Slide);
+localVue.component('Navigation', Navigation);
 describe('Testing hooper component', () => {
-  test('default slots', () => {
-    const wrapper = mount({
-      template: `
-        <hooper>
-          <slide>slide 1</slide>
-        </hooper>
-      `
-    }, { localVue: Vue });
-    expect(wrapper.html()).toMatch(/<div class="hooper-slide">slide 1<\/div>/);;
-  })
-})
+  const wrapper = mount({
+    template: `
+      <hooper>
+        <slide>slide 1</slide>
+        <slide>slide 2</slide>
+        <slide>slide 3</slide>
+        <navigation slot="hooper-addons"></navigation>
+      </hooper>
+    `
+  }, { localVue });
+
+  test('default slot', () => {
+    const slides = wrapper.findAll('div.hooper-slide');
+    expect(slides.length).toEqual(3);
+  });
+  test('addons slot', () => {
+    expect(wrapper.find('.hooper-navigation').exists()).toBe(true);
+    expect(wrapper.find('.hooper-next').exists()).toBe(true);
+    expect(wrapper.find('.hooper-prev').exists()).toBe(true);
+  });
+  console.log(wrapper);
+});
