@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: hooper.png
+heroImage: hooper.svg
 actionText: Getting Started →
 actionLink: /getting-started
 ---
