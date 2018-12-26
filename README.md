@@ -1,4 +1,10 @@
-# [Hooper](https://baianat.github.io/hooper/)
+<p align="center">
+  <a href="https://baianat.github.io/hooper/" target="_blank">
+    <img width="400" alt="leaps logo" src="https://github.com/baianat/hooper/blob/master/hooper.svg">
+  </a>
+</p>
+
+# Hooper
 
 Vue.js carousal component, optimized to work with Vue.
 
