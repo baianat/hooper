@@ -9,7 +9,7 @@
     <button
       class="hooper-next"
       :class="{ 'is-disabled': isNextDisabled  }"
-      @click="$hooper.slideNext"
+      @click="slideNext"
     >
       <slot name="hooper-next">
         <icons name="arrowRight"/>
@@ -18,7 +18,7 @@
     <button
       class="hooper-prev"
       :class="{ 'is-disabled': isPrevDisabled }"
-      @click="$hooper.slidePrev"
+      @click="slidePrev"
     >
       <slot name="hooper-prev">
         <icons name="arrowLeft"/>
@@ -48,6 +48,16 @@ export default {
         return false;
       }
       return this.$hooper.currentSlide === this.$hooper.slidesCount - 1;
+    }
+  },
+  methods: {
+    slideNext () {
+      this.$hooper.slideNext();
+      this.$hooper.restartTiemr();
+    },
+    slidePrev () {
+      this.$hooper.slidePrev();
+      this.$hooper.restartTiemr();
     }
   }
 }

@@ -10,6 +10,8 @@
       class="hooper-track"
       :class="{ 'is-dragging': isDraging }"
       ref="track"
+      @mouseover="isHover = true"
+      @mouseleave="isHover = false"
       @transitionend="onTransitionend"
       :style="trackTransform"
     >
@@ -21,7 +23,7 @@
 </template>
 
 <script>
-import { getInRange, now } from './utils';
+import { getInRange, now, Timer } from './utils';
 
 export default {
   name: 'Hooper',
@@ -68,7 +70,7 @@ export default {
     },
     // speed of auto play to trigger slide
     playSpeed: {
-      default: 3000,
+      default: 2000,
       type: Number
     },
     // toggle mouse dragging
@@ -119,11 +121,13 @@ export default {
       isDraging: false,
       isSliding: false,
       isTouch: false,
+      isHover: false,
       slideWidth: 0,
       slideHeight: 0,
       slidesCount: 0,
       currentSlide: 0,
       trackOffset: 0,
+      timer: null,
       slides: [],
       allSlides: [],
       defaults: {},
@@ -278,7 +282,14 @@ export default {
       this.$refs.track.insertBefore(slidesBefore, this.$refs.track.firstChild);
     },
     initAutoPlay () {
-      setInterval(() => {
+      this.timer = new Timer(() => {
+        if (
+          this.isSliding ||
+          this.isDraging ||
+          this.isHover
+        ) {
+          return;
+        }
         if (
           this.currentSlide === this.slidesCount - 1 &&
           !this.$settings.infiniteScroll
@@ -329,6 +340,11 @@ export default {
       });
       if (!matched) {
         this.$settings = this.defaults;
+      }
+    },
+    restartTiemr () {
+      if (this.timer) {
+        this.timer.restart();
       }
     },
 
@@ -386,6 +402,7 @@ export default {
         this.isTouch ? 'touchend' : 'mouseup',
         this.onDragEnd
       );
+      this.restartTiemr();
     },
     onTransitionend () {
       this.$refs.track.style.transition = '';
