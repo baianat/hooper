@@ -259,6 +259,7 @@ export default {
         this.syncEl = this.$parent.$refs[this.$settings.sync];
         this.syncEl.syncEl = this;
       }
+      window.addEventListener('resize', this.update);
     },
     initClones () {
       const slidesBefore = document.createDocumentFragment();
@@ -473,9 +474,6 @@ export default {
   },
   created () {
     this.initDefaults();
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', this.update);
-    }
   },
   mounted () {
     this.init();
