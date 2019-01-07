@@ -171,12 +171,14 @@ export default {
         return;
       }
 
-      if (this.allSlides[newVal + this.slidesCount]) {
-        this.allSlides[newVal + this.slidesCount].classList.add('is-active');
+      const nextSlideIdx = newVal + this.slidesCount;
+      if (this.allSlides[nextSlideIdx]) {
+        this.allSlides[nextSlideIdx].classList.add('is-active');
       }
 
-      if (this.allSlides[oldVal + this.slidesCount]) {
-        this.allSlides[oldVal + this.slidesCount].classList.remove('is-active');
+      const prevSlideIdx = oldVal + this.slidesCount;
+      if (this.allSlides[prevSlideIdx]) {
+        this.allSlides[prevSlideIdx].classList.remove('is-active');
       }
     }
   },
