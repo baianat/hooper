@@ -73,7 +73,7 @@ you can combine all settings in one object and pass it using `setting` prop
 <template>
 
 <script>
-  import { Hooper, Slide } form 'hooper';
+  import { Hooper, Slide } from 'hooper';
 
   export default {
     name: 'App',
@@ -112,7 +112,7 @@ you can pass an array of breaking points to the carousal settings, to specify a 
 <template>
 
 <script>
-  import { Hooper, Slide } form 'hooper';
+  import { Hooper, Slide } from 'hooper';
 
   export default {
     name: 'App',
