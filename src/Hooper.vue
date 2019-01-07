@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     class="hooper"
     :class="{
       'is-vertical': $settings.vertical,
@@ -144,12 +144,12 @@ export default {
       let centeringSpace = 0;
       let translate = 0;
       if (centerMode) {
-        centeringSpace = vertical 
+        centeringSpace = vertical
         ? (this.containerHeight - this.slideHeight) / 2
         : (this.containerWidth - this.slideWidth) / 2;
       }
       if (infiniteScroll) {
-        clonesSpace = vertical 
+        clonesSpace = vertical
         ? this.slideHeight * this.slidesCount
         : this.slideWidth * this.slidesCount * direction;
       }
@@ -170,8 +170,14 @@ export default {
         this.slides[oldVal].classList.remove('is-active');
         return;
       }
-      this.allSlides[newVal + this.slidesCount].classList.add('is-active');
-      this.allSlides[oldVal + this.slidesCount].classList.remove('is-active');
+
+      if (this.allSlides[newVal + this.slidesCount]) {
+        this.allSlides[newVal + this.slidesCount].classList.add('is-active');
+      }
+
+      if (this.allSlides[oldVal + this.slidesCount]) {
+        this.allSlides[oldVal + this.slidesCount].classList.remove('is-active');
+      }
     }
   },
   methods: {
@@ -179,7 +185,7 @@ export default {
     slideTo (slideIndex, mute = false) {
       const previousSlide = this.currentSlide;
       const index = this.$settings.infiniteScroll
-        ? slideIndex 
+        ? slideIndex
         : getInRange(slideIndex, 0, this.slidesCount - 1);
 
       this.$emit('beforeSlide', {
@@ -223,7 +229,7 @@ export default {
       // get the element direction if not explicitly set
       if (this.defaults !== null) {
         this.defaults.rtl = getComputedStyle(this.$el).direction === 'rtl';
-      } 
+      }
       this.slides = Array.from(this.$refs.track.children);
       this.allSlides = Array.from(this.slides);
       this.slidesCount = this.slides.length;
