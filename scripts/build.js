@@ -18,10 +18,12 @@ async function build (format) {
   console.log(chalk.cyan(`Generating ${format} build...`));
 
   const bundle = await rollup(builds.input);
-  const { code } = await bundle.generate({
+  const { output } = await bundle.generate({
     format,
     ...builds.output
   });
+
+  const code = output[0].code;
   let extensions = format === 'es' ? '.esm' : '';
   const outputPath = path.join(paths.dist, `hooper${extensions}.js`);
   fs.writeFile(outputPath, code, (err) => {
