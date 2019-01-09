@@ -19,6 +19,9 @@
     </ul>
 
     <slot name="hooper-addons"></slot>
+    <div class="hooper-liveregion hooper-hidden" aria-live="polite" aria-atomic="true">
+      {{ `Item ${currentSlide + 1} of ${slidesCount}` }}
+    </div>
   </section>
 </template>
 
@@ -523,6 +526,10 @@ export default {
 
 .hooper.is-rtl {
   direction: rtl;
+}
+
+.hooper-hidden {
+  display: none;
 }
 
 </style>
