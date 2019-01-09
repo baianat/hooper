@@ -1,12 +1,12 @@
 <template>
-  <div
+  <section
     class="hooper"
     :class="{
       'is-vertical': $settings.vertical,
       'is-rtl': $settings.rtl,
     }"
   >
-    <div
+    <ul
       class="hooper-track"
       :class="{ 'is-dragging': isDraging }"
       ref="track"
@@ -16,11 +16,11 @@
       :style="trackTransform"
     >
       <slot></slot>
-    </div>
+    </ul>
 
     <slot name="hooper-addons"></slot>
   </div>
-</template>
+</section>
 
 <script>
 import { getInRange, now, Timer } from './utils';
