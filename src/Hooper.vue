@@ -19,8 +19,8 @@
     </ul>
 
     <slot name="hooper-addons"></slot>
-  </div>
-</section>
+  </section>
+</template>
 
 <script>
 import { getInRange, now, Timer } from './utils';
@@ -510,6 +510,8 @@ export default {
   display: flex;
   box-sizing: border-box;
   width: 100%;
+  padding: 0;
+  margin: 0;
 }
 .hooper-slide {
   flex-shrink: 0;
