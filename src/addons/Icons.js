@@ -1,3 +1,5 @@
+import { camelCaseToString } from '../utils';
+
 const icons  = {
   arrowUp: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z',
   arrowDown: 'M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z',
@@ -20,6 +22,11 @@ export default {
     const icon = icons[props.name];
     const children = [];
   
+
+    children.push(
+      createElement('title', camelCaseToString(props.name))
+    );
+
     children.push(
       createElement('path', {
         attrs: {
