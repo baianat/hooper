@@ -463,6 +463,7 @@ export default {
         return;
       }
       // get wheel direction
+      this.lastScrollTime = now();
       const value = event.wheelDelta || -event.deltaY;
       const delta = Math.sign(value);
       if (delta === -1) {
