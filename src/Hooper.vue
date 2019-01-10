@@ -171,22 +171,8 @@ export default {
     }
   },
   watch: {
-    trackOffset (newVal, oldVal) {
-      if (!this.$settings.infiniteScroll) {
-        this.slides[newVal].classList.add('is-active');
-        this.slides[oldVal].classList.remove('is-active');
-        return;
-      }
-
-      const nextSlideIdx = newVal + this.slidesCount;
-      if (this.allSlides[nextSlideIdx]) {
-        this.allSlides[nextSlideIdx].classList.add('is-active');
-      }
-
-      const prevSlideIdx = oldVal + this.slidesCount;
-      if (this.allSlides[prevSlideIdx]) {
-        this.allSlides[prevSlideIdx].classList.remove('is-active');
-      }
+    trackOffset (val) {
+      this.updateSlidesStatus(val);
     }
   },
   methods: {
@@ -284,8 +270,8 @@ export default {
       this.slides.forEach((slide) => {
         const elBefore = slide.cloneNode(true);
         const elAfter = slide.cloneNode(true);
-        elBefore.classList.add('veer-clone');
-        elAfter.classList.add('veer-clone');
+        elBefore.classList.add('hooper-clone');
+        elAfter.classList.add('hooper-clone');
         slidesBefore.appendChild(elBefore);
         slidesAfter.appendChild(elAfter);
         before.push(elBefore);
@@ -326,6 +312,7 @@ export default {
     update () {
       this.updateBreakpoints();
       this.updateWidth();
+      this.updateSlidesStatus(this.currentSlide);
     },
     updateWidth () {
       const rect = this.$el.getBoundingClientRect();
@@ -357,6 +344,22 @@ export default {
       if (!matched) {
         this.$settings = this.defaults;
       }
+    },
+    updateSlidesStatus (index) {
+      const indexShift = this.$settings.infiniteScroll ? this.slidesCount : 0;
+      const currentSlideIndex = index + indexShift;
+      this.allSlides.forEach((slide, index) => {
+        if (
+          index >= currentSlideIndex &&
+          index < currentSlideIndex + this.$settings.itemsToShow
+        ) {
+          slide.classList.add('is-active');
+          slide.removeAttribute('aria-hidden');
+          return;
+        }
+        slide.classList.remove('is-active');
+        slide.setAttribute('aria-hidden', true);
+      });
     },
     restartTiemr () {
       if (this.timer) {
