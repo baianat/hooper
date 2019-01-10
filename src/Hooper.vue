@@ -476,15 +476,10 @@ export default {
     // utitlite functions
 
     normalizeCurrentSlideIndex(index) {
-      if (index >= this.slidesCount) {
-        index = index - this.slidesCount;
-        return this.normalizeCurrentSlideIndex(index);
-      }
       if (index < 0) {
-        index = index + this.slidesCount;
-        return this.normalizeCurrentSlideIndex(index);
+        return (index + this.slidesCount) % this.slidesCount;
       }
-      return index;
+      return index % this.slidesCount;
     }
   },
   created () {
