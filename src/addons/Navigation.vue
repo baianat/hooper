@@ -7,21 +7,21 @@
     }"
   >
     <button
-      class="hooper-next"
-      :class="{ 'is-disabled': isNextDisabled  }"
-      @click="slideNext"
-    >
-      <slot name="hooper-next">
-        <icons name="arrowRight"/>
-      </slot>
-    </button>
-    <button
       class="hooper-prev"
       :class="{ 'is-disabled': isPrevDisabled }"
       @click="slidePrev"
     >
       <slot name="hooper-prev">
         <icons name="arrowLeft"/>
+      </slot>
+    </button>
+    <button
+      class="hooper-next"
+      :class="{ 'is-disabled': isNextDisabled  }"
+      @click="slideNext"
+    >
+      <slot name="hooper-next">
+        <icons name="arrowRight"/>
       </slot>
     </button>
   </div>

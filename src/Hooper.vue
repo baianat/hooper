@@ -1,6 +1,11 @@
 <template>
   <section
     class="hooper"
+    tabindex="0"
+    @mouseover="isHover = true"
+    @mouseleave="isHover = false"
+    @focusin="isFocus = true"
+    @focusout="isFocus = false"
     :class="{
       'is-vertical': $settings.vertical,
       'is-rtl': $settings.rtl,
@@ -10,8 +15,6 @@
       class="hooper-track"
       :class="{ 'is-dragging': isDraging }"
       ref="track"
-      @mouseover="isHover = true"
-      @mouseleave="isHover = false"
       @transitionend="onTransitionend"
       :style="trackTransform"
     >
@@ -88,12 +91,12 @@ export default {
     },
     // toggle mouse wheel sliding
     wheelControl: {
-      default: false,
+      default: true,
       type: Boolean
     },
     // toggle keyboard control
     keysControl: {
-      default: false,
+      default: true,
       type: Boolean
     },
     // enable any move to commit a slide
@@ -125,6 +128,7 @@ export default {
       isSliding: false,
       isTouch: false,
       isHover: false,
+      isFocus: false,
       slideWidth: 0,
       slideHeight: 0,
       slidesCount: 0,
@@ -251,8 +255,7 @@ export default {
         this.$refs.track.addEventListener('touchstart', this.onDragStart, { passive: true });
       }
       if (this.$settings.keysControl) {
-        // todo: bind event ot carousel element
-        document.addEventListener('keydown', this.onKeypress);
+        this.$el.addEventListener('keydown', this.onKeypress);
       }
       if (this.$settings.wheelControl) {
         this.lastScrollTime = now();
@@ -298,7 +301,8 @@ export default {
         if (
           this.isSliding ||
           this.isDraging ||
-          this.isHover
+          this.isHover ||
+          this.isFocus
         ) {
           return;
         }
