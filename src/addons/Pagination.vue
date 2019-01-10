@@ -56,7 +56,7 @@ export default {
   margin: 0 2px;
   width: 12px;
   height: 4px;
-  border-radius: 2px;
+  border-radius: 4px;
   border: none;
   padding: 0;
   background-color: #fff;
@@ -72,6 +72,6 @@ export default {
   flex-direction: column;
 }
 .hooper-pagination.is-vertical .hooper-indicator{
-  width: 4px;
+  width: 6px;
 }
 </style>

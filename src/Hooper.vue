@@ -1,25 +1,31 @@
 <template>
-  <div
+  <section
     class="hooper"
+    tabindex="0"
+    @mouseover="isHover = true"
+    @mouseleave="isHover = false"
+    @focusin="isFocus = true"
+    @focusout="isFocus = false"
     :class="{
       'is-vertical': $settings.vertical,
       'is-rtl': $settings.rtl,
     }"
   >
-    <div
+    <ul
       class="hooper-track"
       :class="{ 'is-dragging': isDraging }"
       ref="track"
-      @mouseover="isHover = true"
-      @mouseleave="isHover = false"
       @transitionend="onTransitionend"
       :style="trackTransform"
     >
       <slot></slot>
-    </div>
+    </ul>
 
     <slot name="hooper-addons"></slot>
-  </div>
+    <div class="hooper-liveregion hooper-hidden" aria-live="polite" aria-atomic="true">
+      {{ `Item ${currentSlide + 1} of ${slidesCount}` }}
+    </div>
+  </section>
 </template>
 
 <script>
@@ -85,12 +91,12 @@ export default {
     },
     // toggle mouse wheel sliding
     wheelControl: {
-      default: false,
+      default: true,
       type: Boolean
     },
     // toggle keyboard control
     keysControl: {
-      default: false,
+      default: true,
       type: Boolean
     },
     // enable any move to commit a slide
@@ -122,6 +128,7 @@ export default {
       isSliding: false,
       isTouch: false,
       isHover: false,
+      isFocus: false,
       slideWidth: 0,
       slideHeight: 0,
       slidesCount: 0,
@@ -164,22 +171,8 @@ export default {
     }
   },
   watch: {
-    trackOffset (newVal, oldVal) {
-      if (!this.$settings.infiniteScroll) {
-        this.slides[newVal].classList.add('is-active');
-        this.slides[oldVal].classList.remove('is-active');
-        return;
-      }
-
-      const nextSlideIdx = newVal + this.slidesCount;
-      if (this.allSlides[nextSlideIdx]) {
-        this.allSlides[nextSlideIdx].classList.add('is-active');
-      }
-
-      const prevSlideIdx = oldVal + this.slidesCount;
-      if (this.allSlides[prevSlideIdx]) {
-        this.allSlides[prevSlideIdx].classList.remove('is-active');
-      }
+    trackOffset (val) {
+      this.updateSlidesStatus(val);
     }
   },
   methods: {
@@ -248,8 +241,7 @@ export default {
         this.$refs.track.addEventListener('touchstart', this.onDragStart, { passive: true });
       }
       if (this.$settings.keysControl) {
-        // todo: bind event ot carousel element
-        document.addEventListener('keydown', this.onKeypress);
+        this.$el.addEventListener('keydown', this.onKeypress);
       }
       if (this.$settings.wheelControl) {
         this.lastScrollTime = now();
@@ -278,8 +270,8 @@ export default {
       this.slides.forEach((slide) => {
         const elBefore = slide.cloneNode(true);
         const elAfter = slide.cloneNode(true);
-        elBefore.classList.add('veer-clone');
-        elAfter.classList.add('veer-clone');
+        elBefore.classList.add('hooper-clone');
+        elAfter.classList.add('hooper-clone');
         slidesBefore.appendChild(elBefore);
         slidesAfter.appendChild(elAfter);
         before.push(elBefore);
@@ -295,7 +287,8 @@ export default {
         if (
           this.isSliding ||
           this.isDraging ||
-          this.isHover
+          this.isHover ||
+          this.isFocus
         ) {
           return;
         }
@@ -319,6 +312,7 @@ export default {
     update () {
       this.updateBreakpoints();
       this.updateWidth();
+      this.updateSlidesStatus(this.currentSlide);
     },
     updateWidth () {
       const rect = this.$el.getBoundingClientRect();
@@ -350,6 +344,22 @@ export default {
       if (!matched) {
         this.$settings = this.defaults;
       }
+    },
+    updateSlidesStatus (index) {
+      const indexShift = this.$settings.infiniteScroll ? this.slidesCount : 0;
+      const currentSlideIndex = index + indexShift;
+      this.allSlides.forEach((slide, index) => {
+        if (
+          index >= currentSlideIndex &&
+          index < currentSlideIndex + this.$settings.itemsToShow
+        ) {
+          slide.classList.add('is-active');
+          slide.removeAttribute('aria-hidden');
+          return;
+        }
+        slide.classList.remove('is-active');
+        slide.setAttribute('aria-hidden', true);
+      });
     },
     restartTiemr () {
       if (this.timer) {
@@ -456,6 +466,7 @@ export default {
         return;
       }
       // get wheel direction
+      this.lastScrollTime = now();
       const value = event.wheelDelta || -event.deltaY;
       const delta = Math.sign(value);
       if (delta === -1) {
@@ -469,15 +480,10 @@ export default {
     // utitlite functions
 
     normalizeCurrentSlideIndex(index) {
-      if (index >= this.slidesCount) {
-        index = index - this.slidesCount;
-        return this.normalizeCurrentSlideIndex(index);
-      }
       if (index < 0) {
-        index = index + this.slidesCount;
-        return this.normalizeCurrentSlideIndex(index);
+        return (index + this.slidesCount) % this.slidesCount;
       }
-      return index;
+      return index % this.slidesCount;
     }
   },
   created () {
@@ -510,6 +516,8 @@ export default {
   display: flex;
   box-sizing: border-box;
   width: 100%;
+  padding: 0;
+  margin: 0;
 }
 .hooper-slide {
   flex-shrink: 0;
@@ -521,6 +529,10 @@ export default {
 
 .hooper.is-rtl {
   direction: rtl;
+}
+
+.hooper-hidden {
+  display: none;
 }
 
 </style>

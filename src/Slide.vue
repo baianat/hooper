@@ -1,7 +1,7 @@
 <template functional>
-  <div class="hooper-slide">
+  <li class="hooper-slide" tabindex="-1">
     <slot></slot>
-  </div>
+  </li>
 </template>
 
 <script>

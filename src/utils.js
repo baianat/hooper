@@ -32,3 +32,8 @@ export function Timer (callback, time) {
   this.timer = this.create();
 
 }
+
+export function camelCaseToString (camelCase) {
+  camelCase = camelCase.replace(/([A-Z]+)/g, ' $1');
+  return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
+}
