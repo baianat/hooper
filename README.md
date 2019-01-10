@@ -4,11 +4,12 @@
   </a>
 </p>
 
-
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/baianat/hooper.svg)](http://isitmaintained.com/project/baianat/hooper "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/baianat/hooper.svg)](http://isitmaintained.com/project/baianat/hooper "Percentage of issues still open")
-[![npm](https://img.shields.io/npm/dm/hooper.svg)](https://npm-stat.com/charts.html?package=hooper)
-[![npm](https://img.shields.io/npm/v/hooper.svg)](https://www.npmjs.com/package/hooper)
+<p align="center">
+  <a href="http://isitmaintained.com/project/baianat/hooper"><img src="http://isitmaintained.com/badge/resolution/baianat/hooper.svg" alt="Average time to resolve an issue"/></a>
+  <a href="http://isitmaintained.com/project/baianat/hooper"><img src="http://isitmaintained.com/badge/open/baianat/hooper.svg" alt="Percentage of issues still open"/></a>
+  <a href="https://npm-stat.com/charts.html?package=hooper"><img src="https://img.shields.io/npm/dm/hooper.svg" alt="npm"/></a>
+  <a href="https://www.npmjs.com/package/hooper"><img src="https://img.shields.io/npm/v/hooper.svg" alt="npm"/></a>
+</p>
 
 
 # Hooper
