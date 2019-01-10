@@ -4,6 +4,13 @@
   </a>
 </p>
 
+
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/baianat/hooper.svg)](http://isitmaintained.com/project/baianat/hooper "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/baianat/hooper.svg)](http://isitmaintained.com/project/baianat/hooper "Percentage of issues still open")
+[![npm](https://img.shields.io/npm/dm/hooper.svg)](https://npm-stat.com/charts.html?package=hooper)
+[![npm](https://img.shields.io/npm/v/hooper.svg)](https://www.npmjs.com/package/hooper)
+
+
 # Hooper
 
 Vue.js carousal component, optimized to work with Vue.
