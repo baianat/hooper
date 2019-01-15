@@ -318,6 +318,13 @@ export default {
       this.updateBreakpoints();
       this.updateWidth();
       this.updateSlidesStatus(this.currentSlide);
+      this.$emit('updated', {
+        containerWidth: this.containerWidth,
+        containerHeight: this.containerHeight,
+        slideWidth: this.slideWidth,
+        slideHeight: this.slideHeight,
+        settings: this.$settings
+      });
     },
     updateWidth () {
       const rect = this.$el.getBoundingClientRect();
