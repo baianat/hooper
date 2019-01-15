@@ -13,7 +13,7 @@
       @click="slidePrev"
     >
       <slot name="hooper-prev">
-        <icons name="arrowLeft"/>
+        <icons :name="isVertical ? 'arrowUp' : isRTL ? 'arrowRight' : 'arrowLeft'"/>
       </slot>
     </button>
     <button
@@ -23,7 +23,7 @@
       @click="slideNext"
     >
       <slot name="hooper-next">
-        <icons name="arrowRight"/>
+        <icons :name="isVertical ? 'arrowDown' : isRTL ? 'arrowLeft' : 'arrowRight'"/>
       </slot>
     </button>
   </div>
@@ -50,6 +50,12 @@ export default {
         return false;
       }
       return this.$hooper.currentSlide === this.$hooper.slidesCount - 1;
+    },
+    isRTL () {
+      return this.$hooper.$settings.rtl;
+    },
+    isVertical () {
+      return this.$hooper.$settings.vertical;
     }
   },
   methods: {
