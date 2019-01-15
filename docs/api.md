@@ -60,14 +60,84 @@ Hooper accept two different slots, default slots for slides items, `addons` slot
 </hooper>
 ```
 
-## Events
-
-::: tip info
-Coming soon
-:::
-
 ## Methods
 
-::: tip info
-Coming soon
-:::
+### hooper.slideTo(index)
+
+* `index`: index number of slide
+
+Go to slide with index number equal to 'index' parameter passed to the function.
+
+### hooper.slideNext()
+
+Go to next slide.
+
+### hooper.slidePrev()
+
+Go to previous slide.
+
+### hooper.update()
+
+This method responsible update all the slide and configurations computations, it calls typically after each view-port size change.
+
+You should call it after you add/remove slides manually, or after you hide/show it, or do any custom DOM modifications with Hooper element.
+
+This method calls the following methods which you can use separately:
+
+* [`updateWidth`](#hooper-updatewidth)
+* [`updateSlidesStatus`](#hooper-updateslidesstatus)
+* [`updateBreakpoints`](#hooper-updatebreakpoints)
+
+### hooper.updateWidth()
+
+Recalculate size of Hooper container, and its slides elements.
+
+### hooper.updateSlidesStatus()
+
+Update active classes on slides, and aria-hidden attribute.
+
+### hooper.updateBreakpoints()
+
+Recalculate breakpoints configurations.
+
+### hooper.restartTiemr()
+
+Restart auto-play timer.
+
+## Events
+
+### @beforeSlide
+
+Emits before sliding start occurring.
+
+payload:
+`currentSlide`: the current slide index
+`slideTo`: the slide index, that will go to
+
+### @slide
+
+Emits after sliding occur.
+
+payload:
+`currentSlide`: the current slide index
+`slideFrom`: the slide index, that carousel slide from
+
+
+### @afterSlide
+
+Emits after sliding and transition finished, and `isSliding` flag set to false.
+
+payload:
+`currentSlide`: the current slide index
+
+
+### @updated
+
+Emits after update functions finished.
+payload:
+
+`containerWidth`: current carousel width
+`containerHeight`: current carousel height
+`slideWidth`: current slide width
+`slideHeight`: current slide height
+`settings`: current settings object
