@@ -498,6 +498,9 @@ export default {
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.update);
+    if (this.timer) {
+      this.timer.stop();
+    }
   }
 }
 </script>
