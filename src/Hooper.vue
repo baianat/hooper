@@ -227,7 +227,7 @@ export default {
     // init methods
     init () {
       // get the element direction if not explicitly set
-      if (this.defaults !== null) {
+      if (this.defaults.rtl !== null) {
         this.defaults.rtl = getComputedStyle(this.$el).direction === 'rtl';
       }
       this.slides = Array.from(this.$refs.track.children);
