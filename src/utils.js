@@ -37,3 +37,11 @@ export function camelCaseToString (camelCase) {
   camelCase = camelCase.replace(/([A-Z]+)/g, ' $1');
   return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
 }
+
+
+export function normalizeSlideIndex (index, slidesCount) {
+  if (index < 0) {
+    return (index + slidesCount) % slidesCount;
+  }
+  return index % slidesCount;
+}

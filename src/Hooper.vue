@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { getInRange, now, Timer } from './utils';
+import { getInRange, now, Timer, normalizeSlideIndex } from './utils';
 
 export default {
   name: 'Hooper',
@@ -197,7 +197,7 @@ export default {
       }
       this.$refs.track.style.transition = `${this.$settings.transition}ms`;
       this.trackOffset = index;
-      this.currentSlide = this.normalizeCurrentSlideIndex(index);
+      this.currentSlide = normalizeCurrentSlideIndex(index, this.slidesCount);
       this.isSliding = true;
       window.setTimeout(() => {
         this.isSliding = false;
@@ -206,7 +206,7 @@ export default {
       // show the onrignal slide instead of the cloned one
       if (this.$settings.infiniteScroll) {
         const temp = () => {
-          this.trackOffset = this.normalizeCurrentSlideIndex(this.currentSlide);
+          this.trackOffset = normalizeCurrentSlideIndex(this.currentSlide, this.slidesCount);
           this.$refs.track.removeEventListener('transitionend', temp);
         }
         this.$refs.track.addEventListener('transitionend', temp);
@@ -480,15 +480,6 @@ export default {
       if (delta === 1) {
         this.slidePrev();
       }
-    },
-
-    // utitlite functions
-
-    normalizeCurrentSlideIndex(index) {
-      if (index < 0) {
-        return (index + this.slidesCount) % this.slidesCount;
-      }
-      return index % this.slidesCount;
     }
   },
   created () {
