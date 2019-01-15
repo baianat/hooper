@@ -10,7 +10,7 @@
           class="hooper-indicator"
           :class="{ 'is-active': $hooper.currentSlide === index }"
         >
-          <span class="hopper-hidden">item {{ index }}</span>
+          <span class="hooper-sr-only">item {{ index }}</span>
         </button>
       </li>
     </ol>
