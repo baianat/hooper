@@ -16,12 +16,15 @@
 
 Vue.js carousal component, optimized to work with Vue.
 
-# Features
+## Features
 
-* Easily customizable thorough rich API.
-* Supports vertical sliding.
-* Full RTL layout support.
+* Easily customizable thorough rich API and addons.
 * Touch, Keyboard, Mouse Wheel, and Navigation support.
+* Two way control carousels (sync).
+* Full RTL layout support.
+* Supports vertical sliding.
+* Responsive breakpoints.
+* Seamless infinite scroll.
 * Accessible by providing a robust structure and user control.
 * Optimized to work with Vue framework.
 
@@ -43,20 +46,7 @@ npm install hooper
 yarn add hooper
 ```
 
-## Features
-
-* Touch support
-* Keyboard support
-* Mouse wheel support
-* Responsive breakpoints
-* Auto play
-* Vertical scroll
-* Infinite scroll
-* Two way control carousels (sync)
-* Fully customizable using addons
-* And even more...
-
-## Use Hooper
+### Use Hooper
 
 ```vue
 <template>
@@ -86,7 +76,7 @@ yarn add hooper
 
 more info at [Documentation](https://baianat.github.io/hooper/)
 
-## Available Props
+### Available Props
 
 |Prop             |Default |Description|
 |-----------------|-----|-----------|
