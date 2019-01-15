@@ -49,6 +49,11 @@ export default {
       default: 1,
       type: Number
     },
+    // index number of initial slide
+    initialSlide: {
+      default: 0,
+      type: Number
+    },
     // control infinite scrolling mode
     infiniteScroll: {
       default: false,
@@ -493,6 +498,7 @@ export default {
     this.init();
     this.$nextTick(() => {
       this.update();
+      this.slideTo(this.initialSlide);
       this.slides[this.currentSlide].classList.add('is-active');
     });
   },
@@ -524,6 +530,7 @@ export default {
 }
 .hooper-slide {
   flex-shrink: 0;
+  height: 200px;
 }
 .hooper.is-vertical .hooper-track {
   flex-direction: column;
