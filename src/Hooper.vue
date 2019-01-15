@@ -356,7 +356,7 @@ export default {
       this.allSlides.forEach((slide, index) => {
         if (
           index >= currentSlideIndex &&
-          index < currentSlideIndex + this.$settings.itemsToShow
+          index < Math.floor(currentSlideIndex + this.$settings.itemsToShow)
         ) {
           slide.classList.add('is-active');
           slide.removeAttribute('aria-hidden');
