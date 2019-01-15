@@ -51,8 +51,7 @@ export default {
           class: `icon icon-${props.name}`,
           viewBox: '0 0 24 24',
           width: '24px',
-          height: '24px',
-          id: `icon-${props.name}`
+          height: '24px'
         }
       },
       children

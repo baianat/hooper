@@ -7,6 +7,7 @@
     }"
   >
     <button
+      type="button"
       class="hooper-prev"
       :class="{ 'is-disabled': isPrevDisabled }"
       @click="slidePrev"
@@ -16,6 +17,7 @@
       </slot>
     </button>
     <button
+      type="button"
       class="hooper-next"
       :class="{ 'is-disabled': isNextDisabled  }"
       @click="slideNext"

@@ -9,7 +9,9 @@
           @click="$hooper.slideTo(index)"
           class="hooper-indicator"
           :class="{ 'is-active': $hooper.currentSlide === index }"
-        ></button>
+        >
+          <span class="hopper-hidden">item {{ index }}</span>
+        </button>
       </li>
     </ol>
     <template  v-if="mode === 'fraction'">
