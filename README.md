@@ -63,7 +63,7 @@ yarn add hooper
 <template>
 
 <script>
-  import { Hooper, Slide } form 'hooper';
+  import { Hooper, Slide } from 'hooper';
 
   export default {
     name: 'App',
