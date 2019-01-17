@@ -197,7 +197,7 @@ export default {
       }
       this.$refs.track.style.transition = `${this.$settings.transition}ms`;
       this.trackOffset = index;
-      this.currentSlide = normalizeCurrentSlideIndex(index, this.slidesCount);
+      this.currentSlide = normalizeSlideIndex(index, this.slidesCount);
       this.isSliding = true;
       window.setTimeout(() => {
         this.isSliding = false;
@@ -206,7 +206,7 @@ export default {
       // show the onrignal slide instead of the cloned one
       if (this.$settings.infiniteScroll) {
         const temp = () => {
-          this.trackOffset = normalizeCurrentSlideIndex(this.currentSlide, this.slidesCount);
+          this.trackOffset = normalizeSlideIndex(this.currentSlide, this.slidesCount);
           this.$refs.track.removeEventListener('transitionend', temp);
         }
         this.$refs.track.addEventListener('transitionend', temp);
