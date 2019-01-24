@@ -359,12 +359,13 @@ export default {
     },
     updateSlidesStatus (index) {
       const indexShift = this.$settings.infiniteScroll ? this.slidesCount : 0;
-      const currentSlideIndex = index + indexShift;
+      const current = index + indexShift;
+      const siblings = this.$settings.itemsToShow;
+
       this.allSlides.forEach((slide, index) => {
-        if (
-          index >= currentSlideIndex &&
-          index < Math.floor(currentSlideIndex + this.$settings.itemsToShow)
-        ) {
+        const lower = this.$settings.centerMode ? Math.floor(current - siblings / 2) : current
+        const upper = this.$settings.centerMode ? Math.ceil(current + siblings / 2) : Math.floor(current + siblings)
+        if (index >= lower  && index <= upper) {
           slide.classList.add('is-active');
           slide.removeAttribute('aria-hidden');
           return;
