@@ -363,15 +363,23 @@ export default {
       const siblings = this.$settings.itemsToShow;
 
       this.allSlides.forEach((slide, index) => {
-        const lower = this.$settings.centerMode ? Math.floor(current - siblings / 2) : current
-        const upper = this.$settings.centerMode ? Math.ceil(current + siblings / 2) : Math.floor(current + siblings)
+        const lower = this.$settings.centerMode ? Math.ceil(current - siblings / 2) : current
+        const upper = this.$settings.centerMode ? Math.floor(current + siblings / 2) : Math.floor(current + siblings - 1)
+        console.log(lower, upper);
         if (index >= lower  && index <= upper) {
+          slide.classList.remove('is-prev', 'is-next');
           slide.classList.add('is-active');
           slide.removeAttribute('aria-hidden');
           return;
         }
-        slide.classList.remove('is-active');
+        slide.classList.remove('is-active', 'is-prev', 'is-next');
         slide.setAttribute('aria-hidden', true);
+        if (index <= lower - 1) {
+          slide.classList.add('is-prev');
+        }
+        if (index >= upper + 1) {
+          slide.classList.add('is-next');
+        }
       });
     },
     restartTiemr () {
