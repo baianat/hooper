@@ -474,7 +474,7 @@ export default {
     },
     onWheel (event) {
       event.preventDefault();
-      if (now() - this.lastScrollTime < 60) {
+      if (now() - this.lastScrollTime < 200) {
         return;
       }
       // get wheel direction
