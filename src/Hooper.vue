@@ -11,16 +11,17 @@
       'is-rtl': $settings.rtl,
     }"
   >
-    <ul
-      class="hooper-track"
-      :class="{ 'is-dragging': isDraging }"
-      ref="track"
-      @transitionend="onTransitionend"
-      :style="trackTransform"
-    >
-      <slot></slot>
-    </ul>
-
+    <div class="hooper-list">
+      <ul
+        class="hooper-track"
+        :class="{ 'is-dragging': isDraging }"
+        ref="track"
+        @transitionend="onTransitionend"
+        :style="trackTransform"
+      >
+        <slot></slot>
+      </ul>
+    </div>
     <slot name="hooper-addons"></slot>
     <div class="hooper-liveregion hooper-sr-only" aria-live="polite" aria-atomic="true">
       {{ `Item ${currentSlide + 1} of ${slidesCount}` }}
@@ -227,7 +228,7 @@ export default {
     // init methods
     init () {
       // get the element direction if not explicitly set
-      if (this.defaults.rtl !== null) {
+      if (this.defaults.rtl === null) {
         this.defaults.rtl = getComputedStyle(this.$el).direction === 'rtl';
       }
       this.slides = Array.from(this.$refs.track.children);
@@ -521,12 +522,16 @@ export default {
 <style>
 .hooper {
   position: relative;
-  overflow: hidden;
   box-sizing: border-box;
   width: 100%;
 }
 .hooper * {
   box-sizing: border-box;
+}
+.hooper-list {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 .hooper-track {
   display: flex;
