@@ -366,7 +366,6 @@ export default {
       this.allSlides.forEach((slide, index) => {
         const lower = this.$settings.centerMode ? Math.ceil(current - siblings / 2) : current
         const upper = this.$settings.centerMode ? Math.floor(current + siblings / 2) : Math.floor(current + siblings - 1)
-        console.log(lower, upper);
         if (index >= lower  && index <= upper) {
           slide.classList.remove('is-prev', 'is-next');
           slide.classList.add('is-active');
@@ -395,7 +394,6 @@ export default {
       if (!this.isTouch && event.button !== 0) {
         return;
       }
-      event.preventDefault();
 
       this.startPosition = { x: 0, y: 0 };
       this.endPosition = { x: 0, y: 0 };
