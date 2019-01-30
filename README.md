@@ -64,6 +64,7 @@ yarn add hooper
 
 <script>
   import { Hooper, Slide } from 'hooper';
+  import '../../node_modules/hooper/dist/hooper.css';
 
   export default {
     name: 'App',
