@@ -112,7 +112,7 @@ export default {
     HooperNavigation
   }
 }
-</scirpt>
+</script>
 ```
 
 ## Progress Component
@@ -180,7 +180,7 @@ export default {
     HooperProgress
   }
 }
-</scirpt>
+</script>
 ```
 
 ## Indicator Pagination
@@ -248,7 +248,7 @@ export default {
     HooperPagination
   }
 }
-</scirpt>
+</script>
 ```
 
 ## Fraction Pagination
@@ -316,7 +316,7 @@ export default {
     HooperPagination
   }
 }
-</scirpt>
+</script>
 ```
 
 
@@ -706,11 +706,11 @@ export default {
 
 <template>
 <a href="" @click.prevent="slidePrev">prev</a>
-<input v-model="myCarousalData" type="number" min="0" max="5">
+<input v-model="myCarouselData" type="number" min="0" max="5">
 <a href="" @click.prevent="slideNext">next</a>
 </template>
 
-<hooper ref="myCarousal" :itemsToShow="1.5" :centerMode="true" v-on:slide="updateCarousel">
+<hooper ref="myCarousel" :itemsToShow="1.5" :centerMode="true" v-on:slide="updateCarousel">
   <slide>
     slide 1
   </slide>
@@ -734,10 +734,10 @@ export default {
 ```vue
 <template>
   <button @click.prevent="slidePrev">prev</button>
-  <input v-model="carousalData" type="number" min="0" max="5">
+  <input v-model="carouselData" type="number" min="0" max="5">
   <button @click.prevent="slideNext">next</button>
   
-  <hooper ref="carousal" @slide="updateCarousel">
+  <hooper ref="carousel" @slide="updateCarousel">
     <slide>
       slide 1
     </slide>
@@ -763,23 +763,23 @@ export default {
 export default {
   data () {
     return {
-      carousalData: 0
+      carouselData: 0
     }
   },
   watch: {
-    carousalData () {
-      this.$refs.carousal.slideTo(this.carousalData);
+    carouselData () {
+      this.$refs.carousel.slideTo(this.carouselData);
     }
   },
   methods: {
     slidePrev() {
-      this.$refs.carousal.slidePrev();
+      this.$refs.carousel.slidePrev();
     },
     slideNext() {
-      this.$refs.carousal.slideNext();
+      this.$refs.carousel.slideNext();
     },
     updateCarousel(payload) {
-      this.myCarousalData = payload.currentSlide;
+      this.myCarouselData = payload.currentSlide;
     }
   }
 }
@@ -790,23 +790,23 @@ export default {
 export default {
   data () {
     return {
-      myCarousalData: 0
+      myCarouselData: 0
     }
   },
   watch: {
-    myCarousalData () {
-      this.$refs.myCarousal.slideTo(this.myCarousalData);
+    myCarouselData () {
+      this.$refs.myCarousel.slideTo(this.myCarouselData);
     }
   },
   methods: {
     slidePrev() {
-      this.$refs.myCarousal.slidePrev();
+      this.$refs.myCarousel.slidePrev();
     },
     slideNext() {
-      this.$refs.myCarousal.slideNext();
+      this.$refs.myCarousel.slideNext();
     },
     updateCarousel(payload) {
-      this.myCarousalData = payload.currentSlide;
+      this.myCarouselData = payload.currentSlide;
     }
   }
 }
