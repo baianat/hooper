@@ -39,9 +39,9 @@ yarn add hooper
 </script>
 ```
 
-## Configuring carousal
+## Configuring carousel
 
-you can configure the carousal using the available [props](/api.html#props)
+you can configure the carousel using the available [props](/api.html#props)
 
 ```vue {1}
 <hooper :itemsToShow="3" :centerMode="true" pagination="no">
@@ -95,7 +95,7 @@ you can combine all settings in one object and pass it using `setting` prop
 
 ## Breakpoints
 
-you can pass an array of breaking points to the carousal settings, to specify a custom settings for different viewport sizes, else it will fall to default settings
+you can pass an array of breaking points to the carousel settings, to specify a custom settings for different viewport sizes, else it will fall to default settings
 
 ```vue
 <template>
@@ -144,7 +144,7 @@ you can pass an array of breaking points to the carousal settings, to specify a 
 
 ## RTL
 
-by default the carousal will automatically display according to the current document direction, unless you have explicitly set the direction throw the `rtl` prop
+by default the carousel will automatically display according to the current document direction, unless you have explicitly set the direction throw the `rtl` prop
 
 ```vue {1}
 <hooper :rtl="true">
@@ -161,7 +161,7 @@ by default the carousal will automatically display according to the current docu
 
 ## Sync
 
-you can sync tow carousals to control each other, tow way control.
+you can sync tow carousels to control each other, tow way control.
 to achieve this you have to pass to one of them the `ref` name of the other carousel.
 
 ::: tip note
@@ -190,7 +190,7 @@ The two carousel should be at the same scope
 
 ## Addons
 
-Hooper shipped with addons component, that add extra features to carousal
+Hooper shipped with addons component, that add extra features to carousel
 
 Available Addons:
 * Navigation

@@ -1,6 +1,6 @@
 module.exports = {
   title: 'Hooper',
-  description: 'Vue.js carousal component',
+  description: 'Vue.js carousel component',
   base: '/hooper/',
   serviceWorker: true,
   head: [

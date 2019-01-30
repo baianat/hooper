@@ -75,7 +75,7 @@ export default {
       default: null,
       type: Boolean
     },
-    // enable auto sliding to carousal
+    // enable auto sliding to carousel
     autoPlay: {
       default: false,
       type: Boolean
