@@ -201,6 +201,7 @@ export default {
       this.currentSlide = normalizeSlideIndex(index, this.slidesCount);
       this.isSliding = true;
       window.setTimeout(() => {
+        this.$refs.track.style.transition = '';
         this.isSliding = false;
       }, this.$settings.transition);
 
@@ -522,6 +523,7 @@ export default {
   position: relative;
   box-sizing: border-box;
   width: 100%;
+  height: 200px;
 }
 .hooper * {
   box-sizing: border-box;
