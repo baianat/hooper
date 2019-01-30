@@ -540,8 +540,8 @@ export default {
 }
 .hooper-slide {
   flex-shrink: 0;
-  height: 200px;
 }
+
 .hooper.is-vertical .hooper-track {
   flex-direction: column;
   height: 200px;
