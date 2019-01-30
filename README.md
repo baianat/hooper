@@ -64,6 +64,7 @@ yarn add hooper
 
 <script>
   import { Hooper, Slide } from 'hooper';
+  import '../../node_modules/hooper/dist/hooper.css';
 
   export default {
     name: 'App',
@@ -90,7 +91,7 @@ more info at [Documentation](https://baianat.github.io/hooper/)
 |`rtl`            |false|enable rtl mode.|
 |`mouseDrag`      |true |toggle mouse dragging.|
 |`touchDrag`      |true |toggle touch dragging.|
-|`wheelControl`   |false|toggle mouse wheel sliding.|
+|`wheelControl`   |true |toggle mouse wheel sliding.|
 |`keysControl`    |false|toggle keyboard control.|
 |`shortDrag`      |true |enable any move to commit a slide.|
 |`autoPlay`       |false|enable auto sliding to carousal.|
