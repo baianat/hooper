@@ -14,7 +14,7 @@
 
 # Hooper
 
-Vue.js carousal component, optimized to work with Vue.
+Vue.js carousel component, optimized to work with Vue.
 
 ## Features
 
@@ -94,7 +94,7 @@ more info at [Documentation](https://baianat.github.io/hooper/)
 |`wheelControl`   |true |toggle mouse wheel sliding.|
 |`keysControl`    |false|toggle keyboard control.|
 |`shortDrag`      |true |enable any move to commit a slide.|
-|`autoPlay`       |false|enable auto sliding to carousal.|
+|`autoPlay`       |false|enable auto sliding to carousel.|
 |`playSpeed`      |3000 |speed of auto play to trigger slide in ms.|
 |`transition`     |300  |sliding transition time in ms.|
 |`sync`           |''   |sync two carousels to slide together.|
