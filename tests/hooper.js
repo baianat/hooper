@@ -18,7 +18,7 @@ describe('Testing hooper component', () => {
   }, { localVue });
 
   test('default slot', () => {
-    const slides = wrapper.findAll('div.hooper-slide');
+    const slides = wrapper.findAll('.hooper-slide');
     expect(slides.length).toEqual(3);
   });
   test('addons slot', () => {
@@ -26,5 +26,4 @@ describe('Testing hooper component', () => {
     expect(wrapper.find('.hooper-next').exists()).toBe(true);
     expect(wrapper.find('.hooper-prev').exists()).toBe(true);
   });
-  console.log(wrapper);
 });
