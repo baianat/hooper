@@ -31,30 +31,24 @@ const common = {
     replace({ __VERSION__: version }),
     css({ output: 'dist/hooper.css' }),
     commonjs(),
-    vue({ css: false }),
-    babel(),
-    resolve()
+    vue({ css: false })
   ]
 }
 const builds = {
   umd: {
     format: 'umd',
     name: 'Hooper',
+    minify: true,
+    plugins: [
+      ...common.plugins,
+      babel({ extensions: ['.js', '.vue'] })
+    ],
     ext: ''
   },
   esm: {
     format: 'es',
     ext: '.esm'
-  },
-  old: {
-    format: 'umd',
-    name: 'Hooper',
-    ext: '.old'
-  },
-  oldEsm: {
-    format: 'es',
-    ext: '.old.esm'
-  },
+  }
 }
 
 function getConfig (key) {

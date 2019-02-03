@@ -233,7 +233,6 @@ export default {
         this.defaults.rtl = getComputedStyle(this.$el).direction === 'rtl';
       }
       this.slides = Array.from(this.$refs.track.children);
-      console.log(this.slides);
       this.allSlides = Array.from(this.slides);
       this.slidesCount = this.slides.length;
       if (this.$settings.infiniteScroll) {

@@ -3,6 +3,7 @@ const filesize = require('filesize');
 const gzipSize = require('gzip-size');
 const path = require('path');
 const chalk = require('chalk');
+const uglify = require('uglify-js');
 const mkdirpNode = require('mkdirp');
 const { rollup } = require('rollup');
 const { promisify } = require('util');
@@ -15,19 +16,28 @@ build('esm');
 
 async function build (build) {
   await mkdirp(paths.dist);
+  const config = configs[build]; 
   console.log(chalk.cyan(`Generating ${build} build...`));
-  const bundle = await rollup(configs[build].input);
-  const { output } = await bundle.generate(configs[build].output);
+  const bundle = await rollup(config.input);
+  const { output } = await bundle.generate(config.output);
   const code = output[0].code;
   
-  const outputPath = path.join(paths.dist, `${common.name}${configs[build].ext}.js`);
-  fs.writeFile(outputPath, code, (err) => {
-    if (err) {
-      throw err;
-    }
-    let stats = getStats({ code, path: outputPath });
-    console.log(`${chalk.green(`Output File: hooper ${build}`).padEnd(35, ' ')} ${stats}`);
-  });
+  let fileName = `${common.name}${config.ext}.js`;
+  let outputPath = path.join(paths.dist, fileName);
+
+  fs.writeFileSync(outputPath, code);
+  let stats = getStats({ code, path: outputPath });
+  console.log(`${chalk.green(`Output File: ${fileName}`).padEnd(40, ' ')} ${stats}`);
+
+  if (!config.minify) {
+    return;
+  }
+  fileName = fileName.replace('.js', '') + '.min.js';
+  outputPath = path.join(paths.dist, fileName);
+
+  fs.writeFileSync(outputPath, uglify.minify(code, common.uglifyOptions).code);
+  stats = getStats({ code, path: outputPath });
+  console.log(`${chalk.green(`Output File: ${fileName}`).padEnd(40, ' ')} ${stats}`);
 }
 
 function getStats ({ path, code }) {
