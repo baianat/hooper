@@ -61,11 +61,11 @@ export default {
   methods: {
     slideNext () {
       this.$hooper.slideNext();
-      this.$hooper.restartTiemr();
+      this.$hooper.restartTimer();
     },
     slidePrev () {
       this.$hooper.slidePrev();
-      this.$hooper.restartTiemr();
+      this.$hooper.restartTimer();
     }
   }
 }
