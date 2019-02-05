@@ -97,12 +97,12 @@ export default {
     },
     // toggle mouse wheel sliding
     wheelControl: {
-      default: true,
+      default: false,
       type: Boolean
     },
     // toggle keyboard control
     keysControl: {
-      default: true,
+      default: false,
       type: Boolean
     },
     // enable any move to commit a slide
