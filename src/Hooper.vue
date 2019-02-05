@@ -182,7 +182,7 @@ export default {
     }
   },
   methods: {
-    // controling methods
+    // controlling methods
     slideTo (slideIndex, mute = false) {
       const previousSlide = this.currentSlide;
       const index = this.$settings.infiniteScroll
