@@ -14,7 +14,7 @@
     <div class="hooper-list">
       <ul
         class="hooper-track"
-        :class="{ 'is-dragging': isDraging }"
+        :class="{ 'is-dragging': isDragging }"
         ref="track"
         @transitionend="onTransitionend"
         :style="trackTransform"
@@ -130,7 +130,7 @@ export default {
   },
   data () {
     return {
-      isDraging: false,
+      isDragging: false,
       isSliding: false,
       isTouch: false,
       isHover: false,
@@ -293,7 +293,7 @@ export default {
       this.timer = new Timer(() => {
         if (
           this.isSliding ||
-          this.isDraging ||
+          this.isDragging ||
           this.isHover ||
           this.isFocus
         ) {
@@ -398,7 +398,7 @@ export default {
 
       this.startPosition = { x: 0, y: 0 };
       this.endPosition = { x: 0, y: 0 };
-      this.isDraging = true;
+      this.isDragging = true;
       this.startPosition.x = this.isTouch ? event.touches[0].clientX : event.clientX;
       this.startPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
 
@@ -431,7 +431,7 @@ export default {
         const draggedSlides = Math.round(Math.abs(this.delta.x / this.slideWidth) + tolerance);
         this.slideTo(this.currentSlide - direction * draggedSlides);
       }
-      this.isDraging = false;
+      this.isDragging = false;
       this.delta.x = 0;
       this.delta.y = 0;
       document.removeEventListener(
