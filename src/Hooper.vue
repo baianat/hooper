@@ -205,7 +205,7 @@ export default {
         this.isSliding = false;
       }, this.$settings.transition);
 
-      // show the onrignal slide instead of the cloned one
+      // show the original slide instead of the cloned one
       if (this.$settings.infiniteScroll) {
         const temp = () => {
           this.trackOffset = normalizeSlideIndex(this.currentSlide, this.slidesCount);
