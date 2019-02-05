@@ -383,7 +383,7 @@ export default {
         }
       });
     },
-    restartTiemr () {
+    restartTimer () {
       if (this.timer) {
         this.timer.restart();
       }
@@ -442,7 +442,7 @@ export default {
         this.isTouch ? 'touchend' : 'mouseup',
         this.onDragEnd
       );
-      this.restartTiemr();
+      this.restartTimer();
     },
     onTransitionend () {
       this.$refs.track.style.transition = '';
