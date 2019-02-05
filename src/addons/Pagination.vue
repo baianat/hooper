@@ -25,7 +25,7 @@
 <script>
 export default {
   inject: ['$hooper'],
-  name: 'HooperPaginaiton',
+  name: 'HooperPagination',
   props: {
     mode: {
       default: 'indicator',
