@@ -82,7 +82,7 @@ export default {
     },
     // speed of auto play to trigger slide
     playSpeed: {
-      default: 2000,
+      default: 3000,
       type: Number
     },
     // toggle mouse dragging
