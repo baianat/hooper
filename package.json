@@ -61,5 +61,8 @@
       "email": "abdelrahman3d@gmail.com"
     }
   ],
-  "optionalDependencies": {}
+  "optionalDependencies": {},
+  "dependencies": {
+    "vue-server-renderer": "^2.6.4"
+  }
 }
