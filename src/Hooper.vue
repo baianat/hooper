@@ -14,7 +14,7 @@
     <div class="hooper-list">
       <ul
         class="hooper-track"
-        :class="{ 'is-dragging': isDraging }"
+        :class="{ 'is-dragging': isDragging }"
         ref="track"
         @transitionend="onTransitionend"
         :style="trackTransform"
@@ -97,12 +97,12 @@ export default {
     },
     // toggle mouse wheel sliding
     wheelControl: {
-      default: true,
+      default: false,
       type: Boolean
     },
     // toggle keyboard control
     keysControl: {
-      default: true,
+      default: false,
       type: Boolean
     },
     // enable any move to commit a slide
@@ -130,7 +130,7 @@ export default {
   },
   data () {
     return {
-      isDraging: false,
+      isDragging: false,
       isSliding: false,
       isTouch: false,
       isHover: false,
@@ -182,7 +182,7 @@ export default {
     }
   },
   methods: {
-    // controling methods
+    // controlling methods
     slideTo (slideIndex, mute = false) {
       const previousSlide = this.currentSlide;
       const index = this.$settings.infiniteScroll
@@ -205,7 +205,7 @@ export default {
         this.isSliding = false;
       }, this.$settings.transition);
 
-      // show the onrignal slide instead of the cloned one
+      // show the original slide instead of the cloned one
       if (this.$settings.infiniteScroll) {
         const temp = () => {
           this.trackOffset = normalizeSlideIndex(this.currentSlide, this.slidesCount);
@@ -293,7 +293,7 @@ export default {
       this.timer = new Timer(() => {
         if (
           this.isSliding ||
-          this.isDraging ||
+          this.isDragging ||
           this.isHover ||
           this.isFocus
         ) {
@@ -383,7 +383,7 @@ export default {
         }
       });
     },
-    restartTiemr () {
+    restartTimer () {
       if (this.timer) {
         this.timer.restart();
       }
@@ -398,7 +398,7 @@ export default {
 
       this.startPosition = { x: 0, y: 0 };
       this.endPosition = { x: 0, y: 0 };
-      this.isDraging = true;
+      this.isDragging = true;
       this.startPosition.x = this.isTouch ? event.touches[0].clientX : event.clientX;
       this.startPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
 
@@ -431,7 +431,7 @@ export default {
         const draggedSlides = Math.round(Math.abs(this.delta.x / this.slideWidth) + tolerance);
         this.slideTo(this.currentSlide - direction * draggedSlides);
       }
-      this.isDraging = false;
+      this.isDragging = false;
       this.delta.x = 0;
       this.delta.y = 0;
       document.removeEventListener(
@@ -442,7 +442,7 @@ export default {
         this.isTouch ? 'touchend' : 'mouseup',
         this.onDragEnd
       );
-      this.restartTiemr();
+      this.restartTimer();
     },
     onTransitionend () {
       this.$refs.track.style.transition = '';

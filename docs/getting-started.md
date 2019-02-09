@@ -24,7 +24,7 @@ yarn add hooper
     </slide>
     ...
   </hooper>
-<template>
+</template>
 
 <script>
   import { Hooper, Slide } from 'hooper';
@@ -71,7 +71,7 @@ you can combine all settings in one object and pass it using `setting` prop
     ...
 
   </hooper>
-<template>
+</template>
 
 <script>
   import { Hooper, Slide } from 'hooper';
@@ -110,7 +110,7 @@ you can pass an array of breaking points to the carousel settings, to specify a 
     ...
 
   </hooper>
-<template>
+</template>
 
 <script>
   import { Hooper, Slide } from 'hooper';
@@ -215,7 +215,7 @@ Available Addons:
     <hooper-pagination slot="hooper-addons"></hooper-pagination>
     <hooper-progress slot="hooper-addons"></hooper-progress>
   </hooper>
-<template>
+</template>
 
 <script>
   import { 
