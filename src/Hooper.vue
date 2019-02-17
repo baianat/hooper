@@ -507,6 +507,7 @@ export default {
       this.update();
       this.slideTo(this.initialSlide);
       this.slides[this.currentSlide].classList.add('is-active');
+      this.$emit('loaded');
     });
   },
   beforeDestroy () {
