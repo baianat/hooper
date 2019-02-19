@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getInRange, now, Timer, normalizeSlideIndex } from './utils';
+import { getInRange, now, Timer, normalizeSlideIndex, mergeObjects } from './utils';
 
 export default {
   name: 'Hooper',
@@ -311,7 +311,7 @@ export default {
     },
     initDefaults () {
       this.breakpoints = this.settings.breakpoints;
-      this.defaults = {...this.$props, ...this.settings};
+      this.defaults = mergeObjects({}, this.$props, this.settings);
       this.$settings = this.defaults;
     },
 
