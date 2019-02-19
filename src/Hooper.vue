@@ -196,12 +196,14 @@ export default {
       if (this.syncEl && !mute) {
         this.syncEl.slideTo(slideIndex, true);
       }
-      this.$refs.track.style.transition = `${this.$settings.transition}ms`;
+      if(typeof this.$refs.track !== 'undefined')
+        this.$refs.track.style.transition = `${this.$settings.transition}ms`;
       this.trackOffset = index;
       this.currentSlide = normalizeSlideIndex(index, this.slidesCount);
       this.isSliding = true;
       window.setTimeout(() => {
-        this.$refs.track.style.transition = '';
+        if(typeof this.$refs.track !== 'undefined')
+          this.$refs.track.style.transition = '';
         this.isSliding = false;
       }, this.$settings.transition);
 
@@ -445,7 +447,8 @@ export default {
       this.restartTimer();
     },
     onTransitionend () {
-      this.$refs.track.style.transition = '';
+      if(typeof this.$refs.track !== 'undefined')
+        this.$refs.track.style.transition = '';
       this.isSliding = false;
       this.$emit('afterSlide', {
         currentSlide: this.currentSlide
