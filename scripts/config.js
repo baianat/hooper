@@ -1,7 +1,5 @@
 const path = require('path');
-const resolve = require('rollup-plugin-node-resolve');
 const babel = require('rollup-plugin-babel');
-const replace = require('rollup-plugin-replace');
 const css = require('rollup-plugin-css-only');
 const vue = require('rollup-plugin-vue');
 const commonjs = require('rollup-plugin-commonjs');
@@ -28,10 +26,10 @@ const common = {
     * @license MIT
     */`,
   plugins: [
-    replace({ __VERSION__: version }),
     css({ output: 'dist/hooper.css' }),
     commonjs(),
-    vue({ css: false })
+    vue({ css: false }),
+    babel({ extensions: ['.js', '.vue'] })
   ]
 }
 const builds = {
@@ -39,10 +37,6 @@ const builds = {
     format: 'umd',
     name: 'Hooper',
     minify: true,
-    plugins: [
-      ...common.plugins,
-      babel({ extensions: ['.js', '.vue'] })
-    ],
     ext: ''
   },
   esm: {
