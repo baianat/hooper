@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getInRange, now, Timer, normalizeSlideIndex } from './utils';
+import { getInRange, now, Timer, normalizeSlideIndex, cloneSlide } from './utils';
 
 export default {
   name: 'Hooper',
@@ -97,12 +97,12 @@ export default {
     },
     // toggle mouse wheel sliding
     wheelControl: {
-      default: false,
+      default: true,
       type: Boolean
     },
     // toggle keyboard control
     keysControl: {
-      default: false,
+      default: true,
       type: Boolean
     },
     // enable any move to commit a slide
@@ -235,12 +235,7 @@ export default {
       if (this.defaults.rtl === null) {
         this.defaults.rtl = getComputedStyle(this.$el).direction === 'rtl';
       }
-      this.slides = Array.from(this.$refs.track.children);
-      this.allSlides = Array.from(this.slides);
-      this.slidesCount = this.slides.length;
-      if (this.$settings.infiniteScroll) {
-        this.initClones();
-      }
+
       if (this.$settings.autoPlay) {
         this.initAutoPlay();
       }
@@ -287,8 +282,6 @@ export default {
         before.push(elBefore);
         after.push(elAfter);
       });
-      this.allSlides.push(...after);
-      this.allSlides.unshift(...before);
       this.$refs.track.appendChild(slidesAfter);
       this.$refs.track.insertBefore(slidesBefore, this.$refs.track.firstChild);
     },
@@ -335,15 +328,11 @@ export default {
       const rect = this.$el.getBoundingClientRect();
       this.containerWidth = rect.width;
       this.containerHeight = rect.height;
+      if (this.$settings.vertical) {
+        this.slideHeight = (this.containerHeight / this.$settings.itemsToShow);
+        return;
+      }
       this.slideWidth = (this.containerWidth / this.$settings.itemsToShow);
-      this.slideHeight = (this.containerHeight / this.$settings.itemsToShow);
-      this.allSlides.forEach(slide => {
-        if (this.$settings.vertical) {
-          slide.style.height = `${this.slideHeight}px`;
-          return;
-        }
-        slide.style.width = `${this.slideWidth}px`;
-      });
     },
     updateBreakpoints () {
       if (!this.breakpoints) {
@@ -363,6 +352,7 @@ export default {
       }
     },
     updateSlidesStatus (index) {
+      return;
       const indexShift = this.$settings.infiniteScroll ? this.slidesCount : 0;
       const current = index + indexShift;
       const siblings = this.$settings.itemsToShow;
@@ -504,13 +494,18 @@ export default {
   },
   created () {
     this.initDefaults();
+    this.slides = this.$slots.default.filter(e => e.componentOptions);
+    this.slidesCount = this.slides.length;
+    if (this.$settings.infiniteScroll) {
+      let clones = this.slides.map(s => cloneSlide(s));
+      this.$slots.default = [...clones, ...this.slides, ...clones]
+    }
   },
   mounted () {
     this.init();
     this.$nextTick(() => {
       this.update();
       this.slideTo(this.initialSlide);
-      this.slides[this.currentSlide].classList.add('is-active');
       this.loaded = true;
       if(process.env.NODE_ENV !== 'production') console.log('Hooper was loaded.')
       this.$emit('loaded');
