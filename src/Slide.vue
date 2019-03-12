@@ -1,12 +1,32 @@
-<template functional>
-  <li class="hooper-slide" tabindex="-1">
+<template>
+  <li
+    class="hooper-slide"
+    :class="{'hooper-clone': isClone}"
+    tabindex="-1"
+    :style="style"
+  >
     <slot></slot>
   </li>
 </template>
 
 <script>
   export default {
-    name: 'HooperSlide'
+    name: 'HooperSlide',
+    inject: ['$hooper'],
+    props: {
+      isClone: {
+        type: Boolean,
+        default: false
+      }
+    },
+    computed: {
+      style() {
+        if (this.$hooper.$settings.vertical) {
+          return `height: ${this.$hooper.slideHeight}px`
+        }
+        return `width: ${this.$hooper.slideWidth}px`
+      }
+    }
   }
 </script>
 
