@@ -46,7 +46,7 @@ export function normalizeSlideIndex (index, slidesCount) {
   return index % slidesCount;
 }
 
-function extractData(vnode) {
+function extractData(vnode, indx) {
   const cOpts = vnode.componentOptions;
 	const data = {
     class: vnode.data.class,
@@ -55,7 +55,8 @@ function extractData(vnode) {
     attrs: vnode.data.attrs,
     props: {
       ...cOpts.propsData,
-      isClone: true
+      isClone: true,
+      index: indx
     },
     on: cOpts.listeners,
     nativeOn: vnode.data.nativeOn,
@@ -69,12 +70,12 @@ function extractData(vnode) {
   return data;
 }
 
-export function cloneSlide(vnode) {
+export function cloneSlide(vnode, indx) {
 	// use the context that the original vnode was created in.
   const h = vnode.context && vnode.context.$createElement;
   const children =  vnode.componentOptions.children;
   
-  const data = extractData(vnode);
+  const data = extractData(vnode, indx);
   
   const tag = vnode.componentOptions.Ctor;
   

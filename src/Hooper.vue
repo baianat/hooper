@@ -183,11 +183,6 @@ export default {
       return '';
     }
   },
-  watch: {
-    trackOffset (val) {
-      this.updateSlidesStatus(val);
-    }
-  },
   methods: {
     // controlling methods
     slideTo (slideIndex, mute = false) {
@@ -318,8 +313,7 @@ export default {
     // updating methods
     update () {
       this.updateBreakpoints();
-      this.updateWidth();
-      this.updateSlidesStatus(this.currentSlide);
+
       this.$emit('updated', {
         containerWidth: this.containerWidth,
         containerHeight: this.containerHeight,
@@ -354,31 +348,6 @@ export default {
       if (!matched) {
         this.$settings = this.defaults;
       }
-    },
-    updateSlidesStatus (index) {
-      return;
-      const indexShift = this.$settings.infiniteScroll ? this.slidesCount : 0;
-      const current = index + indexShift;
-      const siblings = this.$settings.itemsToShow;
-
-      this.allSlides.forEach((slide, index) => {
-        const lower = this.$settings.centerMode ? Math.ceil(current - siblings / 2) : current
-        const upper = this.$settings.centerMode ? Math.floor(current + siblings / 2) : Math.floor(current + siblings - 1)
-        if (index >= lower  && index <= upper) {
-          slide.classList.remove('is-prev', 'is-next');
-          slide.classList.add('is-active');
-          slide.removeAttribute('aria-hidden');
-          return;
-        }
-        slide.classList.remove('is-active', 'is-prev', 'is-next');
-        slide.setAttribute('aria-hidden', true);
-        if (index <= lower - 1) {
-          slide.classList.add('is-prev');
-        }
-        if (index >= upper + 1) {
-          slide.classList.add('is-next');
-        }
-      });
     },
     restartTimer () {
       if (this.timer) {
@@ -499,9 +468,17 @@ export default {
     this.initDefaults();
     this.slides = this.$slots.default.filter(e => e.componentOptions);
     this.slidesCount = this.slides.length;
+    this.slides.forEach((slide, indx) => {
+      slide.componentOptions.propsData.index = indx;
+    });
     if (this.$settings.infiniteScroll) {
-      let clones = this.slides.map(s => cloneSlide(s));
-      this.$slots.default = [...clones, ...this.slides, ...clones]
+      let before = this.slides.map((slide, indx) => {
+        return cloneSlide(slide, indx - this.slidesCount);
+      });
+      let after = this.slides.map((s, indx) => {
+        return cloneSlide(s, indx + this.slidesCount);
+      });
+      this.$slots.default = [...before, ...this.slides, ...after];
     }
   },
   mounted () {
