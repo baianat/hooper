@@ -17,7 +17,7 @@
         :class="{ 'is-dragging': isDragging }"
         ref="track"
         @transitionend="onTransitionend"
-        :style="trackTransform"
+        :style="trackTransform + trackTransition"
       >
         <slot></slot>
       </ul>
@@ -135,6 +135,7 @@ export default {
       isTouch: false,
       isHover: false,
       isFocus: false,
+      isLoaded: false,
       slideWidth: 0,
       slideHeight: 0,
       slidesCount: 0,
@@ -146,7 +147,7 @@ export default {
       defaults: {},
       breakpoints:{},
       delta: { x: 0, y: 0 },
-      $settings: {},      isLoaded: false
+      $settings: {}
     }
   },
   computed: {
@@ -174,6 +175,12 @@ export default {
         translate = this.delta.x + direction * (centeringSpace - this.trackOffset * this.slideWidth);
         return `transform: translate(${translate - clonesSpace}px, 0);`
       }
+    },
+    trackTransition() {
+      if (this.isSliding) {
+        return `transition: ${this.$settings.transition}ms`;
+      }
+      return '';
     }
   },
   watch: {
@@ -184,6 +191,8 @@ export default {
   methods: {
     // controlling methods
     slideTo (slideIndex, mute = false) {
+      if (this.isSliding) return;
+
       const previousSlide = this.currentSlide;
       const index = this.$settings.infiniteScroll
         ? slideIndex
@@ -196,15 +205,10 @@ export default {
       if (this.syncEl && !mute) {
         this.syncEl.slideTo(slideIndex, true);
       }
-      if(typeof this.$refs.track !== 'undefined' && this.isLoaded) {
-        this.$refs.track.style.transition = `${this.$settings.transition}ms`;
-      }
       this.trackOffset = index;
       this.currentSlide = normalizeSlideIndex(index, this.slidesCount);
       this.isSliding = true;
       window.setTimeout(() => {
-        if(typeof this.$refs.track !== 'undefined')
-          this.$refs.track.style.transition = '';
         this.isSliding = false;
       }, this.$settings.transition);
 
@@ -415,6 +419,8 @@ export default {
     },
     onDragEnd () {
       const tolerance = this.$settings.shortDrag ? 0.5 : 0.15;
+      this.isDragging = false;
+
       if (this.$settings.vertical) {
         const draggedSlides = Math.round(Math.abs(this.delta.y / this.slideHeight) + tolerance);
         this.slideTo(this.currentSlide - Math.sign(this.delta.y) * draggedSlides);
@@ -424,7 +430,6 @@ export default {
         const draggedSlides = Math.round(Math.abs(this.delta.x / this.slideWidth) + tolerance);
         this.slideTo(this.currentSlide - direction * draggedSlides);
       }
-      this.isDragging = false;
       this.delta.x = 0;
       this.delta.y = 0;
       document.removeEventListener(
@@ -438,8 +443,6 @@ export default {
       this.restartTimer();
     },
     onTransitionend () {
-      if(typeof this.$refs.track !== 'undefined')
-        this.$refs.track.style.transition = '';
       this.isSliding = false;
       this.$emit('afterSlide', {
         currentSlide: this.currentSlide
@@ -507,8 +510,8 @@ export default {
       this.update();
       this.slideTo(this.initialSlide);
       this.isLoaded = true;
-      if(process.env.NODE_ENV !== 'production') console.log('Hooper was loaded.')
       this.$emit('loaded');
+      if(process.env.NODE_ENV !== 'production') console.log('Hooper was loaded.')
     });
   },
   beforeDestroy () {
