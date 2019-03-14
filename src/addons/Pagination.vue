@@ -1,7 +1,7 @@
 <template>
   <div 
     class="hooper-pagination"
-    :class="{ 'is-vertical': $hooper.$settings.vertical }"
+    :class="{ 'is-vertical': $hooper.config.vertical }"
   >
     <ol class="hooper-indicators" v-if="mode === 'indicator'">
       <li v-for="(slide, index) in $hooper.slides" :key="index">
