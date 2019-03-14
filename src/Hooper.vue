@@ -184,11 +184,11 @@ export default {
     // controlling methods
     slideTo (slideIndex, mute = false) {
       if (this.isSliding) return;
+
       this.$emit('beforeSlide', {
         currentSlide: this.currentSlide,
         slideTo: index
       });
-
 
       const previousSlide = this.currentSlide;
       const index = this.config.infiniteScroll
