@@ -135,15 +135,12 @@ export default {
       isTouch: false,
       isHover: false,
       isFocus: false,
-      isLoaded: false,
       slideWidth: 0,
       slideHeight: 0,
       slidesCount: 0,
       currentSlide: 0,
-      trackOffset: 0,
       timer: null,
       slides: [],
-      allSlides: [],
       defaults: {},
       breakpoints:{},
       delta: { x: 0, y: 0 },
@@ -168,11 +165,11 @@ export default {
         : this.slideWidth * this.slidesCount * direction;
       }
       if (vertical) {
-        translate = this.delta.y + direction * (centeringSpace - this.trackOffset * this.slideHeight);
+        translate = this.delta.y + direction * (centeringSpace - this.currentSlide * this.slideHeight);
         return `transform: translate(0, ${translate - clonesSpace}px);`
       }
       if (!vertical) {
-        translate = this.delta.x + direction * (centeringSpace - this.trackOffset * this.slideWidth);
+        translate = this.delta.x + direction * (centeringSpace - this.currentSlide * this.slideWidth);
         return `transform: translate(${translate - clonesSpace}px, 0);`
       }
     },
@@ -187,34 +184,26 @@ export default {
     // controlling methods
     slideTo (slideIndex, mute = false) {
       if (this.isSliding) return;
-
-      const previousSlide = this.currentSlide;
-      const index = this.$settings.infiniteScroll
-        ? slideIndex
-        : getInRange(slideIndex, 0, this.slidesCount - 1);
-
       this.$emit('beforeSlide', {
         currentSlide: this.currentSlide,
         slideTo: index
       });
+
+
+      const previousSlide = this.currentSlide;
+      const index = this.config.infiniteScroll
+        ? slideIndex
+        : getInRange(slideIndex, 0, this.slidesCount - 1);
       if (this.syncEl && !mute) {
         this.syncEl.slideTo(slideIndex, true);
       }
-      this.trackOffset = index;
-      this.currentSlide = normalizeSlideIndex(index, this.slidesCount);
+      this.currentSlide = index;
       this.isSliding = true;
+
       window.setTimeout(() => {
         this.isSliding = false;
+        this.currentSlide = normalizeSlideIndex(index, this.slidesCount);
       }, this.config.transition);
-
-      // show the original slide instead of the cloned one
-      if (this.$settings.infiniteScroll) {
-        const temp = () => {
-          this.trackOffset = normalizeSlideIndex(this.currentSlide, this.slidesCount);
-          this.$refs.track.removeEventListener('transitionend', temp);
-        }
-        this.$refs.track.addEventListener('transitionend', temp);
-      }
 
       this.$emit('slide', {
         currentSlide: this.currentSlide,
@@ -228,8 +217,7 @@ export default {
       this.slideTo(this.currentSlide - this.config.itemsToSlide);
     },
 
-    // init methods
-    init () {
+    initEvents () {
       // get the element direction if not explicitly set
       if (this.defaults.rtl === null) {
         this.defaults.rtl = getComputedStyle(this.$el).direction === 'rtl';
@@ -265,25 +253,6 @@ export default {
       }
       window.addEventListener('resize', this.update);
     },
-    initClones () {
-      const slidesBefore = document.createDocumentFragment();
-      const slidesAfter = document.createDocumentFragment();
-      let before = [];
-      let after = [];
-
-      this.slides.forEach((slide) => {
-        const elBefore = slide.cloneNode(true);
-        const elAfter = slide.cloneNode(true);
-        elBefore.classList.add('hooper-clone');
-        elAfter.classList.add('hooper-clone');
-        slidesBefore.appendChild(elBefore);
-        slidesAfter.appendChild(elAfter);
-        before.push(elBefore);
-        after.push(elAfter);
-      });
-      this.$refs.track.appendChild(slidesAfter);
-      this.$refs.track.insertBefore(slidesBefore, this.$refs.track.firstChild);
-    },
     initAutoPlay () {
       this.timer = new Timer(() => {
         if (
@@ -306,13 +275,32 @@ export default {
     },
     initDefaults () {
       this.breakpoints = this.settings.breakpoints;
+      this.defaults = Object.assign({}, this.$props, this.settings);
       this.config = Object.assign({}, this.defaults);
+    },
+    initSlides () {
+      this.slides = this.$slots.default.filter(e => e.componentOptions);
+      this.slidesCount = this.slides.length;
+      this.slides.forEach((slide, indx) => {
+        slide.componentOptions.propsData.index = indx;
+      });
+      if (this.config.infiniteScroll) {
+        let before = this.slides.map((slide, indx) => {
+          return cloneSlide(slide, indx - this.slidesCount);
+        });
+        let after = this.slides.map((s, indx) => {
+          return cloneSlide(s, indx + this.slidesCount);
+        });
+        this.$slots.default = [...before, ...this.slides, ...after];
+      }
     },
 
     // updating methods
     update () {
-      this.updateBreakpoints();
-
+      if (this.breakpoints) {
+        this.updateConfig();
+      }
+      this.updateWidth();
       this.$emit('updated', {
         containerWidth: this.containerWidth,
         containerHeight: this.containerHeight,
@@ -332,12 +320,18 @@ export default {
       this.slideWidth = (this.containerWidth / this.config.itemsToShow);
     },
     updateConfig () {
+      const breakpoints = Object.keys(this.breakpoints).sort();
       let matched;
-      breakpoints.forEach(breakpoint => {
-        if (window.matchMedia(`(min-width: ${breakpoint}px)`).matches) {
-          this.$settings = Object.assign({}, this.defaults, this.breakpoints[breakpoint]);
-          matched = breakpoint;
-          return;
+      breakpoints.some(breakpoint => {
+        matched = window.matchMedia(`(min-width: ${breakpoint}px)`).matches
+        if (matched) {
+          this.config = Object.assign(
+            {},
+            this.config,
+            this.defaults,
+            this.breakpoints[breakpoint]
+          );
+          return true;
         }
       });
       if (!matched) {
@@ -461,29 +455,17 @@ export default {
   },
   created () {
     this.initDefaults();
-    this.slides = this.$slots.default.filter(e => e.componentOptions);
-    this.slidesCount = this.slides.length;
-    this.slides.forEach((slide, indx) => {
-      slide.componentOptions.propsData.index = indx;
-    });
-    if (this.$settings.infiniteScroll) {
-      let before = this.slides.map((slide, indx) => {
-        return cloneSlide(slide, indx - this.slidesCount);
-      });
-      let after = this.slides.map((s, indx) => {
-        return cloneSlide(s, indx + this.slidesCount);
-      });
-      this.$slots.default = [...before, ...this.slides, ...after];
-    }
+    this.initSlides();
   },
   mounted () {
-    this.init();
+    this.initEvents();
     this.$nextTick(() => {
       this.update();
-      this.slideTo(this.initialSlide);
-      this.isLoaded = true;
+      this.slideTo(this.config.initialSlide);
       this.$emit('loaded');
-      if(process.env.NODE_ENV !== 'production') console.log('Hooper was loaded.')
+      if(process.env.NODE_ENV !== 'production') {
+        console.log('Hooper was loaded.');
+      }
     });
   },
   beforeDestroy () {
