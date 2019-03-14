@@ -28,22 +28,23 @@
         default: 0
       }
     },
-
     computed: {
       style() {
-        if (this.$hooper.$settings.vertical) {
-          return `height: ${this.$hooper.slideHeight}px`;
+        const { config, slideHeight, slideWidth } = this.$hooper || {};
+
+        if (config.vertical) {
+          return `height: ${slideHeight}px`;
         }
-        return `width: ${this.$hooper.slideWidth}px`;
+        return `width: ${slideWidth}px`;
       },
       state() {
-        const { $settings, currentSlide, slidesCount } = this.$hooper || {};
-        const siblings = $settings.itemsToShow;
+        const { config, currentSlide, slidesCount } = this.$hooper || {};
+        const siblings = config.itemsToShow;
 
-        const lower = $settings.centerMode
+        const lower = config.centerMode
           ? Math.ceil(currentSlide - siblings / 2)
           : currentSlide;
-        const upper = $settings.centerMode
+        const upper = config.centerMode
           ? Math.floor(currentSlide + siblings / 2)
           : Math.floor(currentSlide + siblings - 1);
 
