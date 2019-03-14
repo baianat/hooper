@@ -146,8 +146,7 @@ export default {
       defaults: {},
       breakpoints:{},
       delta: { x: 0, y: 0 },
-      $settings: {},
-      loaded: false
+      $settings: {},      isLoaded: false
     }
   },
   computed: {
@@ -197,8 +196,9 @@ export default {
       if (this.syncEl && !mute) {
         this.syncEl.slideTo(slideIndex, true);
       }
-      if(typeof this.$refs.track !== 'undefined'&&this.loaded)
+      if(typeof this.$refs.track !== 'undefined' && this.isLoaded) {
         this.$refs.track.style.transition = `${this.$settings.transition}ms`;
+      }
       this.trackOffset = index;
       this.currentSlide = normalizeSlideIndex(index, this.slidesCount);
       this.isSliding = true;
@@ -506,7 +506,7 @@ export default {
     this.$nextTick(() => {
       this.update();
       this.slideTo(this.initialSlide);
-      this.loaded = true;
+      this.isLoaded = true;
       if(process.env.NODE_ENV !== 'production') console.log('Hooper was loaded.')
       this.$emit('loaded');
     });
