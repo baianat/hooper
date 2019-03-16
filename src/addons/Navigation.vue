@@ -2,8 +2,8 @@
   <div 
     class="hooper-navigation"
     :class="{
-      'is-vertical': $hooper.$settings.vertical,
-      'is-rtl': $hooper.$settings.rtl,
+      'is-vertical': $hooper.config.vertical,
+      'is-rtl': $hooper.config.rtl,
     }"
   >
     <button
@@ -40,22 +40,22 @@ export default {
   },
   computed: {
     isPrevDisabled () {
-      if (this.$hooper.$settings.infiniteScroll) {
+      if (this.$hooper.config.infiniteScroll) {
         return false;
       }
       return this.$hooper.currentSlide === 0;
     },
     isNextDisabled () {
-      if (this.$hooper.$settings.infiniteScroll) {
+      if (this.$hooper.config.infiniteScroll) {
         return false;
       }
       return this.$hooper.currentSlide === this.$hooper.slidesCount - 1;
     },
     isRTL () {
-      return this.$hooper.$settings.rtl;
+      return this.$hooper.config.rtl;
     },
     isVertical () {
-      return this.$hooper.$settings.vertical;
+      return this.$hooper.config.vertical;
     }
   },
   methods: {

@@ -7,8 +7,8 @@
     @focusin="isFocus = true"
     @focusout="isFocus = false"
     :class="{
-      'is-vertical': $settings.vertical,
-      'is-rtl': $settings.rtl,
+      'is-vertical': config.vertical,
+      'is-rtl': config.rtl,
     }"
   >
     <div class="hooper-list">
@@ -17,7 +17,7 @@
         :class="{ 'is-dragging': isDragging }"
         ref="track"
         @transitionend="onTransitionend"
-        :style="trackTransform"
+        :style="trackTransform + trackTransition"
       >
         <slot></slot>
       </ul>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getInRange, now, Timer, normalizeSlideIndex } from './utils';
+import { getInRange, now, Timer, normalizeSlideIndex, cloneSlide } from './utils';
 
 export default {
   name: 'Hooper',
@@ -97,12 +97,12 @@ export default {
     },
     // toggle mouse wheel sliding
     wheelControl: {
-      default: false,
+      default: true,
       type: Boolean
     },
     // toggle keyboard control
     keysControl: {
-      default: false,
+      default: true,
       type: Boolean
     },
     // enable any move to commit a slide
@@ -139,20 +139,17 @@ export default {
       slideHeight: 0,
       slidesCount: 0,
       currentSlide: 0,
-      trackOffset: 0,
       timer: null,
       slides: [],
-      allSlides: [],
       defaults: {},
       breakpoints:{},
       delta: { x: 0, y: 0 },
-      $settings: {},
-      loaded: false
+      config: {}
     }
   },
   computed: {
     trackTransform () {
-      const { infiniteScroll, vertical, rtl, centerMode } = this.$settings;
+      const { infiniteScroll, vertical, rtl, centerMode } = this.config;
       const direction = rtl ? -1 : 1;
       let clonesSpace = 0;
       let centeringSpace = 0;
@@ -168,54 +165,45 @@ export default {
         : this.slideWidth * this.slidesCount * direction;
       }
       if (vertical) {
-        translate = this.delta.y + direction * (centeringSpace - this.trackOffset * this.slideHeight);
+        translate = this.delta.y + direction * (centeringSpace - this.currentSlide * this.slideHeight);
         return `transform: translate(0, ${translate - clonesSpace}px);`
       }
       if (!vertical) {
-        translate = this.delta.x + direction * (centeringSpace - this.trackOffset * this.slideWidth);
+        translate = this.delta.x + direction * (centeringSpace - this.currentSlide * this.slideWidth);
         return `transform: translate(${translate - clonesSpace}px, 0);`
       }
-    }
-  },
-  watch: {
-    trackOffset (val) {
-      this.updateSlidesStatus(val);
+    },
+    trackTransition() {
+      if (this.isSliding) {
+        return `transition: ${this.config.transition}ms`;
+      }
+      return '';
     }
   },
   methods: {
     // controlling methods
     slideTo (slideIndex, mute = false) {
-      const previousSlide = this.currentSlide;
-      const index = this.$settings.infiniteScroll
-        ? slideIndex
-        : getInRange(slideIndex, 0, this.slidesCount - 1);
+      if (this.isSliding) return;
 
       this.$emit('beforeSlide', {
         currentSlide: this.currentSlide,
         slideTo: index
       });
+
+      const previousSlide = this.currentSlide;
+      const index = this.config.infiniteScroll
+        ? slideIndex
+        : getInRange(slideIndex, 0, this.slidesCount - 1);
       if (this.syncEl && !mute) {
         this.syncEl.slideTo(slideIndex, true);
       }
-      if(typeof this.$refs.track !== 'undefined'&&this.loaded)
-        this.$refs.track.style.transition = `${this.$settings.transition}ms`;
-      this.trackOffset = index;
-      this.currentSlide = normalizeSlideIndex(index, this.slidesCount);
+      this.currentSlide = index;
       this.isSliding = true;
-      window.setTimeout(() => {
-        if(typeof this.$refs.track !== 'undefined')
-          this.$refs.track.style.transition = '';
-        this.isSliding = false;
-      }, this.$settings.transition);
 
-      // show the original slide instead of the cloned one
-      if (this.$settings.infiniteScroll) {
-        const temp = () => {
-          this.trackOffset = normalizeSlideIndex(this.currentSlide, this.slidesCount);
-          this.$refs.track.removeEventListener('transitionend', temp);
-        }
-        this.$refs.track.addEventListener('transitionend', temp);
-      }
+      window.setTimeout(() => {
+        this.isSliding = false;
+        this.currentSlide = normalizeSlideIndex(index, this.slidesCount);
+      }, this.config.transition);
 
       this.$emit('slide', {
         currentSlide: this.currentSlide,
@@ -223,74 +211,47 @@ export default {
       });
     },
     slideNext () {
-      this.slideTo(this.currentSlide + this.$settings.itemsToSlide);
+      this.slideTo(this.currentSlide + this.config.itemsToSlide);
     },
     slidePrev () {
-      this.slideTo(this.currentSlide - this.$settings.itemsToSlide);
+      this.slideTo(this.currentSlide - this.config.itemsToSlide);
     },
 
-    // init methods
-    init () {
+    initEvents () {
       // get the element direction if not explicitly set
       if (this.defaults.rtl === null) {
         this.defaults.rtl = getComputedStyle(this.$el).direction === 'rtl';
       }
-      this.slides = Array.from(this.$refs.track.children);
-      this.allSlides = Array.from(this.slides);
-      this.slidesCount = this.slides.length;
-      if (this.$settings.infiniteScroll) {
-        this.initClones();
-      }
-      if (this.$settings.autoPlay) {
+
+      if (this.config.autoPlay) {
         this.initAutoPlay();
       }
-      if (this.$settings.mouseDrag) {
+      if (this.config.mouseDrag) {
         this.$refs.track.addEventListener('mousedown', this.onDragStart);
       }
-      if (this.$settings.touchDrag) {
+      if (this.config.touchDrag) {
         this.$refs.track.addEventListener('touchstart', this.onDragStart, { passive: true });
       }
-      if (this.$settings.keysControl) {
+      if (this.config.keysControl) {
         this.$el.addEventListener('keydown', this.onKeypress);
       }
-      if (this.$settings.wheelControl) {
+      if (this.config.wheelControl) {
         this.lastScrollTime = now();
         this.$el.addEventListener('wheel', this.onWheel, { passive: false });
       }
-      if (this.$settings.sync) {
-        const el = this.$parent.$refs[this.$settings.sync]
+      if (this.config.sync) {
+        const el = this.$parent.$refs[this.config.sync]
 
         if (!el) {
           if (process.env.NODE_ENV !== 'production') {
-            console.warn(`Hooper: expects an element with attribute ref="${this.$settings.sync}", but found none.`);
+            console.warn(`Hooper: expects an element with attribute ref="${this.config.sync}", but found none.`);
           }
           return;
         }
-        this.syncEl = this.$parent.$refs[this.$settings.sync];
+        this.syncEl = this.$parent.$refs[this.config.sync];
         this.syncEl.syncEl = this;
       }
       window.addEventListener('resize', this.update);
-    },
-    initClones () {
-      const slidesBefore = document.createDocumentFragment();
-      const slidesAfter = document.createDocumentFragment();
-      let before = [];
-      let after = [];
-
-      this.slides.forEach((slide) => {
-        const elBefore = slide.cloneNode(true);
-        const elAfter = slide.cloneNode(true);
-        elBefore.classList.add('hooper-clone');
-        elAfter.classList.add('hooper-clone');
-        slidesBefore.appendChild(elBefore);
-        slidesAfter.appendChild(elAfter);
-        before.push(elBefore);
-        after.push(elAfter);
-      });
-      this.allSlides.push(...after);
-      this.allSlides.unshift(...before);
-      this.$refs.track.appendChild(slidesAfter);
-      this.$refs.track.insertBefore(slidesBefore, this.$refs.track.firstChild);
     },
     initAutoPlay () {
       this.timer = new Timer(() => {
@@ -304,87 +265,78 @@ export default {
         }
         if (
           this.currentSlide === this.slidesCount - 1 &&
-          !this.$settings.infiniteScroll
+          !this.config.infiniteScroll
         ) {
           this.slideTo(0);
           return;
         }
         this.slideNext();
-      }, this.$settings.playSpeed);
+      }, this.config.playSpeed);
     },
     initDefaults () {
       this.breakpoints = this.settings.breakpoints;
-      this.defaults = {...this.$props, ...this.settings};
-      this.$settings = this.defaults;
+      this.defaults = Object.assign({}, this.$props, this.settings);
+      this.config = Object.assign({}, this.defaults);
+    },
+    initSlides () {
+      this.slides = this.$slots.default.filter(e => e.componentOptions);
+      this.slidesCount = this.slides.length;
+      this.slides.forEach((slide, indx) => {
+        slide.componentOptions.propsData.index = indx;
+      });
+      if (this.config.infiniteScroll) {
+        let before = this.slides.map((slide, indx) => {
+          return cloneSlide(slide, indx - this.slidesCount);
+        });
+        let after = this.slides.map((s, indx) => {
+          return cloneSlide(s, indx + this.slidesCount);
+        });
+        this.$slots.default = [...before, ...this.slides, ...after];
+      }
     },
 
     // updating methods
     update () {
-      this.updateBreakpoints();
+      if (this.breakpoints) {
+        this.updateConfig();
+      }
       this.updateWidth();
-      this.updateSlidesStatus(this.currentSlide);
       this.$emit('updated', {
         containerWidth: this.containerWidth,
         containerHeight: this.containerHeight,
         slideWidth: this.slideWidth,
         slideHeight: this.slideHeight,
-        settings: this.$settings
+        settings: this.config
       });
     },
     updateWidth () {
       const rect = this.$el.getBoundingClientRect();
       this.containerWidth = rect.width;
       this.containerHeight = rect.height;
-      this.slideWidth = (this.containerWidth / this.$settings.itemsToShow);
-      this.slideHeight = (this.containerHeight / this.$settings.itemsToShow);
-      this.allSlides.forEach(slide => {
-        if (this.$settings.vertical) {
-          slide.style.height = `${this.slideHeight}px`;
-          return;
-        }
-        slide.style.width = `${this.slideWidth}px`;
-      });
-    },
-    updateBreakpoints () {
-      if (!this.breakpoints) {
+      if (this.config.vertical) {
+        this.slideHeight = (this.containerHeight / this.config.itemsToShow);
         return;
       }
-      const breakpoints = Object.keys(this.breakpoints).sort((a, b) => a - b);
+      this.slideWidth = (this.containerWidth / this.config.itemsToShow);
+    },
+    updateConfig () {
+      const breakpoints = Object.keys(this.breakpoints).sort();
       let matched;
-      breakpoints.forEach(breakpoint => {
-        if (window.matchMedia(`(min-width: ${breakpoint}px)`).matches) {
-          this.$settings = Object.assign({}, this.defaults, this.breakpoints[breakpoint]);
-          matched = breakpoint;
-          return;
+      breakpoints.some(breakpoint => {
+        matched = window.matchMedia(`(min-width: ${breakpoint}px)`).matches
+        if (matched) {
+          this.config = Object.assign(
+            {},
+            this.config,
+            this.defaults,
+            this.breakpoints[breakpoint]
+          );
+          return true;
         }
       });
       if (!matched) {
-        this.$settings = this.defaults;
+        this.config = Object.assign(this.config, this.defaults);
       }
-    },
-    updateSlidesStatus (index) {
-      const indexShift = this.$settings.infiniteScroll ? this.slidesCount : 0;
-      const current = index + indexShift;
-      const siblings = this.$settings.itemsToShow;
-
-      this.allSlides.forEach((slide, index) => {
-        const lower = this.$settings.centerMode ? Math.ceil(current - siblings / 2) : current
-        const upper = this.$settings.centerMode ? Math.floor(current + siblings / 2) : Math.floor(current + siblings - 1)
-        if (index >= lower  && index <= upper) {
-          slide.classList.remove('is-prev', 'is-next');
-          slide.classList.add('is-active');
-          slide.removeAttribute('aria-hidden');
-          return;
-        }
-        slide.classList.remove('is-active', 'is-prev', 'is-next');
-        slide.setAttribute('aria-hidden', true);
-        if (index <= lower - 1) {
-          slide.classList.add('is-prev');
-        }
-        if (index >= upper + 1) {
-          slide.classList.add('is-next');
-        }
-      });
     },
     restartTimer () {
       if (this.timer) {
@@ -424,17 +376,18 @@ export default {
       this.delta.y = this.endPosition.y - this.startPosition.y;
     },
     onDragEnd () {
-      const tolerance = this.$settings.shortDrag ? 0.5 : 0.15;
-      if (this.$settings.vertical) {
+      const tolerance = this.config.shortDrag ? 0.5 : 0.15;
+      this.isDragging = false;
+
+      if (this.config.vertical) {
         const draggedSlides = Math.round(Math.abs(this.delta.y / this.slideHeight) + tolerance);
         this.slideTo(this.currentSlide - Math.sign(this.delta.y) * draggedSlides);
       }
-      if (!this.$settings.vertical) {
-        const direction = (this.$settings.rtl ? -1 : 1) * Math.sign(this.delta.x);
+      if (!this.config.vertical) {
+        const direction = (this.config.rtl ? -1 : 1) * Math.sign(this.delta.x);
         const draggedSlides = Math.round(Math.abs(this.delta.x / this.slideWidth) + tolerance);
         this.slideTo(this.currentSlide - direction * draggedSlides);
       }
-      this.isDragging = false;
       this.delta.x = 0;
       this.delta.y = 0;
       document.removeEventListener(
@@ -448,8 +401,6 @@ export default {
       this.restartTimer();
     },
     onTransitionend () {
-      if(typeof this.$refs.track !== 'undefined')
-        this.$refs.track.style.transition = '';
       this.isSliding = false;
       this.$emit('afterSlide', {
         currentSlide: this.currentSlide
@@ -460,7 +411,7 @@ export default {
       if (key.startsWith('Arrow')) {
         event.preventDefault();
       }
-      if (this.$settings.vertical) {
+      if (this.config.vertical) {
         if (key === 'ArrowUp') {
           this.slidePrev();
         }
@@ -469,7 +420,7 @@ export default {
         }
         return;
       }
-      if (this.$settings.rtl) {
+      if (this.config.rtl) {
         if (key === 'ArrowRight') {
           this.slidePrev();
         }
@@ -504,16 +455,17 @@ export default {
   },
   created () {
     this.initDefaults();
+    this.initSlides();
   },
   mounted () {
-    this.init();
+    this.initEvents();
     this.$nextTick(() => {
       this.update();
-      this.slideTo(this.initialSlide);
-      this.slides[this.currentSlide].classList.add('is-active');
-      this.loaded = true;
-      if(process.env.NODE_ENV !== 'production') console.log('Hooper was loaded.')
+      this.slideTo(this.config.initialSlide);
       this.$emit('loaded');
+      if(process.env.NODE_ENV !== 'production') {
+        console.log('Hooper was loaded.');
+      }
     });
   },
   beforeDestroy () {

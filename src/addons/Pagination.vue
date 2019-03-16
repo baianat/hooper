@@ -1,21 +1,21 @@
 <template>
   <div 
     class="hooper-pagination"
-    :class="{ 'is-vertical': $hooper.$settings.vertical }"
+    :class="{ 'is-vertical': $hooper.config.vertical }"
   >
     <ol class="hooper-indicators" v-if="mode === 'indicator'">
       <li v-for="(slide, index) in $hooper.slides" :key="index">
         <button
           @click="$hooper.slideTo(index)"
           class="hooper-indicator"
-          :class="{ 'is-active': $hooper.currentSlide === index }"
+          :class="{ 'is-active': currentSlide === index }"
         >
           <span class="hooper-sr-only">item {{ index }}</span>
         </button>
       </li>
     </ol>
     <template  v-if="mode === 'fraction'">
-      <span>{{ $hooper.currentSlide + 1 }}</span>
+      <span>{{ currentSlide + 1 }}</span>
       <span>/</span>
       <span>{{ $hooper.slidesCount }}</span>
     </template>
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import { normalizeSlideIndex } from '../utils';
+
 export default {
   inject: ['$hooper'],
   name: 'HooperPagination',
@@ -32,6 +34,14 @@ export default {
       type: String
     }
   },
+  computed: {
+    currentSlide() {
+      return normalizeSlideIndex(
+        this.$hooper.currentSlide,
+        this.$hooper.slidesCount
+      );
+    }
+  }
 }
 </script>
 

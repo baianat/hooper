@@ -2,16 +2,29 @@
   <div class="hooper-progress">
     <div
       class="hooper-progress-inner"
-      :style="`width: ${$hooper.currentSlide * 100 / ($hooper.slidesCount - 1)}%`"
+      :style="`width: ${progress}%`"
     >
     </div>
   </div>
 </template>
 
 <script>
+import { normalizeSlideIndex } from '../utils';
+
 export default {
   inject: ['$hooper'],
-  name: 'HooperProgress'
+  name: 'HooperProgress',
+  computed: {
+    currentSlide() {
+      return normalizeSlideIndex(
+        this.$hooper.currentSlide,
+        this.$hooper.slidesCount
+      );
+    },
+    progress() {
+      return this.currentSlide * 100 / (this.$hooper.slidesCount - 1);
+    }
+  }
 }
 </script>
 
