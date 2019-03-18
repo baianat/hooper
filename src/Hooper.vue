@@ -285,11 +285,11 @@ export default {
         slide.componentOptions.propsData.index = indx;
       });
       if (this.config.infiniteScroll) {
-        let before = this.slides.map((slide, indx) => {
-          return cloneSlide(slide, indx - this.slidesCount);
-        });
-        let after = this.slides.map((s, indx) => {
-          return cloneSlide(s, indx + this.slidesCount);
+        const before = [];
+        const after = [];
+        this.slides.forEach((slide, indx) => {
+          before.push(cloneSlide(slide, indx - this.slidesCount));
+          after.push(cloneSlide(slide, indx + this.slidesCount));
         });
         this.$slots.default = [...before, ...this.slides, ...after];
       }
