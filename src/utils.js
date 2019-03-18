@@ -64,7 +64,7 @@ function extractData(vnode, indx) {
     scopesSlots: vnode.data.scopesSlots,
     slot: vnode.data.slot,
     ref: vnode.data.ref,
-    key: vnode.data.key ? vnode.data.key + '-clone' : undefined,
+    key: vnode.data.key ? `${indx}-clone` : undefined,
   };
   
   return data;
