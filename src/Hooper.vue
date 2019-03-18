@@ -343,6 +343,12 @@ export default {
         this.timer.restart();
       }
     },
+    restart () {
+      this.$nextTick(() => {
+        this.initSlides();
+        this.update();
+      });
+    },
 
     // events handlers
     onDragStart (event) {
