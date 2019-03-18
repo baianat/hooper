@@ -813,8 +813,10 @@ export default {
 </script>
 
 <style>
-  .hooper-slide {
+  .hooper {
     height: 200px;
+  }
+  .hooper-slide {
     background-color: #62CAAA;
     padding: 20px;
     display: flex;
@@ -825,7 +827,7 @@ export default {
     font-size: 30px;
     border-radius: 10px;
   }
-  .is-active { 
+  .is-active {
     background-color: rgb(71, 218, 127);
   }
 </style>

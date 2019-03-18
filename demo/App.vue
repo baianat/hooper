@@ -1,24 +1,9 @@
 <template>
 
 <div class="wrapper">
-  <hooper :settings="hooper">
-    <slide>
-      slide 1
-    </slide>
-    <slide>
-      slide 2
-    </slide>
-    <slide>
-      slide 3
-    </slide>
-    <slide>
-      slide 4
-    </slide>
-    <slide>
-      slide 5
-    </slide>
-    <slide @click.native="click">
-      slide 6
+  <hooper :settings="hooper" ref="hooper1">
+    <slide v-for="(slide, indx) in slides" :key="indx">
+      {{slide}}
     </slide>
     <!-- optional elements -->
     <hooper-progress slot="hooper-addons"></hooper-progress>
@@ -33,6 +18,7 @@
       </svg>
     </hooper-navigation>
   </hooper>
+  <button @click="click">button</button>
 </div>
 
 </template>
@@ -57,16 +43,20 @@ export default {
   },
   methods: {
     click() {
-      console.log('dde');
+      this.slides.push('slide' + this.index);
+      this.index++;
+      this.$refs.hooper1.restart();
     }
   },
   data () {
     return {
+      slides: ['slide1', 'slide2', 'slide3'],
+      index: 4,
       hooper: {
-        itemsToShow: 2,
+        itemsToShow: 3,
         shortDrag: false,
-        centerMode: false,
-        infiniteScroll: true,
+        centerMode: true,
+        infiniteScroll: false,
         vertical: false
       },
       hooperRTL: {
