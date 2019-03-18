@@ -85,20 +85,23 @@ You should call it after you add/remove slides manually, or after you hide/show 
 This method calls the following methods which you can use separately:
 
 * [`updateWidth`](#hooper-updatewidth)
-* [`updateSlidesStatus`](#hooper-updateslidesstatus)
 * [`updateBreakpoints`](#hooper-updatebreakpoints)
 
 ### hooper.updateWidth()
 
 Recalculate size of Hooper container, and its slides elements.
 
-### hooper.updateSlidesStatus()
+### ~~hooper.updateSlidesStatus()~~`decprecated in v0.1.0`
 
-Update active classes on slides, and aria-hidden attribute.
+~~Update active classes on slides, and aria-hidden attribute.~~
 
 ### hooper.updateBreakpoints()
 
 Recalculate breakpoints configurations.
+
+### hooper.restart()
+
+Restart hooper's slides, this function should be triggered, when add/remove hooper slides dynamically.
 
 ### hooper.restartTiemr()
 
