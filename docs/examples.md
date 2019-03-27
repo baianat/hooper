@@ -465,7 +465,7 @@ export default {
 
 ## Center Mode
 
-<hooper :itemsToShow="1.25" :centerMode="true">
+<hooper id="centerMode" :itemsToShow="1.25" :centerMode="true">
   <slide>
     slide 1
   </slide>
@@ -509,6 +509,12 @@ export default {
     slide 6
   </slide>
 </hooper>
+```
+
+```css
+.hooper-slide.is-current {
+  transform: scale(1.2);
+}
 ```
 
 ## Auto Playing
@@ -830,4 +836,7 @@ export default {
   .is-active {
     background-color: rgb(71, 218, 127);
   }
+  #centerMode .hooper-slide.is-current {
+    transform: scale(1.2);
+   }
 </style>
