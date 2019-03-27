@@ -144,3 +144,15 @@ payload:
 `slideWidth`: current slide width
 `slideHeight`: current slide height
 `settings`: current settings object
+
+## States
+
+Hooper slide will add state classes to each slide, you can use these classes to apply a specific style to the slide, or make a complex action.
+
+|Class         |Description|
+|--------------|-----------|
+|`.is-active`  |added to the currently visible/active slides|
+|`.is-prev`    |added to all slides previous the active ones|
+|`.is-next`    |added to all slides next the active ones|
+|`.is-current` |added to the current slide|
+|`.is-clone`   |added to the cloned slides|
