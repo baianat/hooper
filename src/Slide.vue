@@ -3,11 +3,12 @@
     class="hooper-slide"
     :class="{
       'is-clone': isClone, 
-      'is-active': state === 'active',
-      'is-prev': state === 'prev',
-      'is-next': state === 'next'
+      'is-active': isActive,
+      'is-prev': isPrev,
+      'is-next': isNext,
+      'is-current': isCurrent
     }"
-    :aria-hidden="state !== 'active'"
+    :aria-hidden="isActive"
     :style="style"
   >
     <slot></slot>
@@ -37,27 +38,32 @@
         }
         return `width: ${slideWidth}px`;
       },
-      state() {
+      lower() {
+        const { config, currentSlide, slidesCount } = this.$hooper || {};
+        const siblings = config.itemsToShow;
+        return config.centerMode
+          ? Math.ceil(currentSlide - siblings / 2)
+          : currentSlide;
+      },
+      upper() {
         const { config, currentSlide, slidesCount } = this.$hooper || {};
         const siblings = config.itemsToShow;
 
-        const lower = config.centerMode
-          ? Math.ceil(currentSlide - siblings / 2)
-          : currentSlide;
-        const upper = config.centerMode
+        return config.centerMode
           ? Math.floor(currentSlide + siblings / 2)
           : Math.floor(currentSlide + siblings - 1);
-
-        if (this.index >= lower  && this.index <= upper) {
-          return 'active';
-        }
-        if (this.index <= lower - 1) {
-          return 'prev';
-        }
-        if (this.index >= upper + 1) {
-          return 'next';
-        }
-        return '';
+      },
+      isActive() {
+        return this.index >= this.lower  && this.index <= this.upper;
+      },
+      isPrev() {
+        return this.index <= this.lower - 1;
+      },
+      isNext() {
+        return this.index >= this.upper + 1;
+      },
+      isCurrent() {
+        return this.index === this.$hooper.currentSlide;
       }
     },
   }
