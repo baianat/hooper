@@ -144,7 +144,8 @@ export default {
       defaults: {},
       breakpoints:{},
       delta: { x: 0, y: 0 },
-      config: {}
+      config: {},
+      loaded: false,
     }
   },
   computed: {
@@ -194,6 +195,8 @@ export default {
       const index = this.config.infiniteScroll
         ? slideIndex
         : getInRange(slideIndex, 0, this.slidesCount - 1);
+      const transition = this.loaded ? this.config.transition : 0;
+
       if (this.syncEl && !mute) {
         this.syncEl.slideTo(slideIndex, true);
       }
@@ -203,7 +206,7 @@ export default {
       window.setTimeout(() => {
         this.isSliding = false;
         this.currentSlide = normalizeSlideIndex(index, this.slidesCount);
-      }, this.config.transition);
+      }, transition);
 
       this.$emit('slide', {
         currentSlide: this.currentSlide,
@@ -468,6 +471,7 @@ export default {
     this.$nextTick(() => {
       this.update();
       this.slideTo(this.config.initialSlide);
+      this.loaded = true;
       this.$emit('loaded');
       if(process.env.NODE_ENV !== 'production') {
         console.log('Hooper was loaded.');
