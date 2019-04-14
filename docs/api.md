@@ -103,7 +103,7 @@ Recalculate breakpoints configurations.
 
 Restart hooper's slides, this function should be triggered, when add/remove hooper slides dynamically.
 
-### hooper.restartTiemr()
+### hooper.restartTimer()
 
 Restart auto-play timer.
 
