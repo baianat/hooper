@@ -19,7 +19,10 @@
         @transitionend="onTransitionend"
         :style="trackTransform + trackTransition"
       >
+        <slot name="clone-before"></slot>
         <slot></slot>
+        <slot name="clone-after"></slot>
+
       </ul>
     </div>
     <slot name="hooper-addons"></slot>
@@ -183,7 +186,9 @@ export default {
   methods: {
     // controlling methods
     slideTo (slideIndex, mute = false) {
-      if (this.isSliding) return;
+      if (this.isSliding || slideIndex === this.currentSlide) {
+        return;
+      }
 
       this.$emit('beforeSlide', {
         currentSlide: this.currentSlide,
@@ -279,7 +284,7 @@ export default {
       this.config = Object.assign({}, this.defaults);
     },
     initSlides () {
-      this.slides = this.$slots.default.filter(e => e.componentOptions);
+      this.slides = this.filteredSlides();
       this.slidesCount = this.slides.length;
       this.slides.forEach((slide, indx) => {
         slide.componentOptions.propsData.index = indx;
@@ -291,7 +296,8 @@ export default {
           before.push(cloneSlide(slide, indx - this.slidesCount));
           after.push(cloneSlide(slide, indx + this.slidesCount));
         });
-        this.$slots.default = [...before, ...this.slides, ...after];
+        this.$slots['clone-before'] = before
+        this.$slots['clone-after'] = after;
       }
     },
 
@@ -344,8 +350,8 @@ export default {
       }
     },
     restart () {
+      this.initSlides();
       this.$nextTick(() => {
-        this.initSlides();
         this.update();
       });
     },
@@ -457,6 +463,20 @@ export default {
       if (delta === 1) {
         this.slidePrev();
       }
+    },
+
+    filteredSlides() {
+      return this.$slots.default.filter(el => {
+        if (!el.componentOptions || !el.componentOptions.Ctor) {
+          return false;
+        }
+        return el.componentOptions.Ctor.options.name === 'HooperSlide';
+      });
+    }
+  },
+  beforeUpdate () {
+    if (this.filteredSlides().length !== this.slidesCount) {
+      this.initSlides();
     }
   },
   created () {
@@ -469,9 +489,6 @@ export default {
       this.update();
       this.slideTo(this.config.initialSlide);
       this.$emit('loaded');
-      if(process.env.NODE_ENV !== 'production') {
-        console.log('Hooper was loaded.');
-      }
     });
   },
   beforeDestroy () {

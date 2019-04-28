@@ -26,7 +26,8 @@
       },
       index: {
         type: Number,
-        default: 0
+        default: 0,
+        required: true
       }
     },
     computed: {
