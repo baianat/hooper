@@ -244,19 +244,20 @@ export default {
         this.lastScrollTime = now();
         this.$el.addEventListener('wheel', this.onWheel, { passive: false });
       }
+      window.addEventListener('resize', this.update);
+    },
+    initSync () {
       if (this.config.sync) {
         const el = this.$parent.$refs[this.config.sync]
 
-        if (!el) {
-          if (process.env.NODE_ENV !== 'production') {
-            console.warn(`Hooper: expects an element with attribute ref="${this.config.sync}", but found none.`);
-          }
+        if (!el && process && process.env.NODE_ENV !== 'production') {
+          console.warn(`Hooper: expects an element with attribute ref="${this.config.sync}", but found none.`);
           return;
         }
+
         this.syncEl = this.$parent.$refs[this.config.sync];
         this.syncEl.syncEl = this;
       }
-      window.addEventListener('resize', this.update);
     },
     initAutoPlay () {
       this.timer = new Timer(() => {
@@ -486,6 +487,7 @@ export default {
   mounted () {
     this.initEvents();
     this.$nextTick(() => {
+      this.initSync();
       this.update();
       this.slideTo(this.config.initialSlide);
       this.$emit('loaded');
