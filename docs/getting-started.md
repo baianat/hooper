@@ -94,6 +94,22 @@ you can combine all settings in one object and pass it using `setting` prop
 </script>
 ```
 
+## Dynamic slides
+
+::: tip note
+When you work with dynamic slides, it's recommended to provide the slide index.
+:::
+
+```vue {1}
+<hooper :itemsToShow="3" :centerMode="true" pagination="no">
+  <slide v-for="(slide, indx) in slides" :key="indx" :index="indx">
+    {{ slide }}
+  </slide>
+  ...
+
+</hooper>
+```
+
 ## Breakpoints
 
 you can pass an array of breaking points to the carousel settings, to specify a custom settings for different viewport sizes, else it will fall to default settings

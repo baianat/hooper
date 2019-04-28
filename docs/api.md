@@ -27,6 +27,7 @@
 Hooper accept two different slots, default slots for slides items, `addons` slot for addons components.
 
 ### default slot
+
 ```vue
 <hooper vertical="true" style="height: 400px" :itemsToShow="1.5" :centerMode="true">
   <slide>
@@ -51,6 +52,7 @@ Hooper accept two different slots, default slots for slides items, `addons` slot
 ```
 
 ### addon slot
+
 ```vue
 <hooper>
   ...
@@ -101,7 +103,7 @@ Recalculate breakpoints configurations.
 
 ### hooper.restart()
 
-Restart hooper's slides, this function should be triggered, when add/remove hooper slides dynamically.
+Restart hooper's slides.
 
 ### hooper.restartTimer()
 
