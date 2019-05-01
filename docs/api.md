@@ -10,14 +10,14 @@
 |`infiniteScroll` |false|enable infinite scrolling mode.|
 |`centerMode`     |false|enable center mode.|
 |`vertical`       |false|enable vertical sliding mode.|
-|`rtl`            |false|enable rtl mode.|
+|`rtl`            |null |enable rtl mode.|
 |`mouseDrag`      |true |toggle mouse dragging.|
 |`touchDrag`      |true |toggle touch dragging.|
-|`wheelControl`   |false|toggle mouse wheel sliding.|
-|`keysControl`    |false|toggle keyboard control.|
+|`wheelControl`   |true |toggle mouse wheel sliding.|
+|`keysControl`    |true |toggle keyboard control.|
 |`shortDrag`      |true |enable any move to commit a slide.|
 |`autoPlay`       |false|enable auto sliding to carousel.|
-|`playSpeed`      |3000 |speed of auto play to trigger slide in ms.|
+|`playSpeed`      |2000 |speed of auto play to trigger slide in ms.|
 |`transition`     |300  |sliding transition time in ms.|
 |`sync`           |''   |sync two carousels to slide together.|
 |`settings`       |{ }  |an object to pass all settings.|
