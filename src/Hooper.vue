@@ -327,7 +327,7 @@ export default {
       this.slideWidth = (this.containerWidth / this.config.itemsToShow);
     },
     updateConfig () {
-      const breakpoints = Object.keys(this.breakpoints).sort();
+      const breakpoints = Object.keys(this.breakpoints).sort((a, b) => b - a);
       let matched;
       breakpoints.some(breakpoint => {
         matched = window.matchMedia(`(min-width: ${breakpoint}px)`).matches
