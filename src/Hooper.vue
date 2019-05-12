@@ -476,7 +476,16 @@ export default {
     }
   },
   beforeUpdate () {
-    if (this.filteredSlides().length !== this.slidesCount) {
+    const isForcUpdated = 
+      this.config.infiniteScroll &&
+      (
+        !this.$slots['clone-before'] ||
+        !this.$slots['clone-after']
+      );
+    const isSlidesUpdated = this.filteredSlides().length !== this.slidesCount
+
+
+    if (isForcUpdated || isSlidesUpdated) {
       this.initSlides();
     }
   },
