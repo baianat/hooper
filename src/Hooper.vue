@@ -378,6 +378,8 @@ export default {
         this.isTouch ? 'touchend' : 'mouseup',
         this.onDragEnd
       );
+      
+      e.preventDefault();
     },
     onDrag (event) {
       if (this.isSliding) {
@@ -387,6 +389,8 @@ export default {
       this.endPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
       this.delta.x = this.endPosition.x - this.startPosition.x;
       this.delta.y = this.endPosition.y - this.startPosition.y;
+      
+      e.preventDefault();
     },
     onDragEnd () {
       const tolerance = this.config.shortDrag ? 0.5 : 0.15;
