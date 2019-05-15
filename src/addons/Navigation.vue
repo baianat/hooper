@@ -49,7 +49,10 @@ export default {
       if (this.$hooper.config.infiniteScroll) {
         return false;
       }
-      return this.$hooper.currentSlide === this.$hooper.slidesCount - 1;
+
+      const groupSlidesCount = Math.ceil(this.$hooper.slidesCount / this.$hooper.itemsToSlide);
+      const currentGroupSlides = Math.ceil(this.$hooper.currentSlide / this.$hooper.itemsToSlide);
+      return currentGroupSlides === groupSlidesCount - 1;
     },
     isRTL () {
       return this.$hooper.config.rtl;
