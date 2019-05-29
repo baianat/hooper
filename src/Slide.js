@@ -12,6 +12,10 @@ export default {
     index: {
       type: Number,
       required: true
+    },
+    duration: {
+      type: Number,
+      default: null
     }
   },
   computed: {

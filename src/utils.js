@@ -6,14 +6,14 @@ export function now() {
   return Date.now();
 }
 
-export function Timer(callback, time) {
+export function Timer(callback, defaultTime) {
   this.create = function() {
-    return window.setInterval(callback, time);
+    return window.setTimeout(callback, defaultTime);
   };
 
   this.stop = function() {
     if (this.timer) {
-      window.clearInterval(this.timer);
+      window.clearTimeout(this.timer);
       this.timer = null;
     }
   };
@@ -24,9 +24,9 @@ export function Timer(callback, time) {
     }
   };
 
-  this.restart = function() {
-    this.stop();
-    this.start();
+  this.set = function(newTime) {
+    const timeout = newTime || defaultTime;
+    this.timer = window.setTimeout(callback, timeout);
   };
   this.timer = this.create();
 }

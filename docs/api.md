@@ -1,6 +1,7 @@
 # API
 
 ## Props
+### hooper component props 
 
 |Prop             |Default |Description|
 |-----------------|-----|-----------|
@@ -23,6 +24,12 @@
 |`hoverPause`     |true |pause autoPlay if the mouse enters the slide.|
 |`trimWhiteSpace` |false|limit carousel to slide only when there will be no completely empty slide-space.|
 |`settings`       |{ }  |an object to pass all settings.|
+
+### slider component props
+
+|Prop              |Default| Description|
+|------------------|-------|------------|
+|`duration`        |null   | This optionally overrides the slide visibility time (in millis) from the default set by the playSpeed prop on the main component.|
 
 ## Slots
 
