@@ -1,6 +1,7 @@
 # API
 
 ## Props
+### hooper component props 
 
 |Prop             |Default |Description|
 |-----------------|-----|-----------|
@@ -22,6 +23,12 @@
 |`sync`           |''   |sync two carousels to slide together.|
 |`hoverPause`     |true |pause autoPlay if the mouse enters the slide.|
 |`settings`       |{ }  |an object to pass all settings.|
+
+### slider component props
+
+|Prop              |Default| Description|
+|------------------|-------|------------|
+|`duration`        |null   | This optionally overrides the slide visibility time (in millis) from the default set by the playSpeed prop on the main component.|
 
 ## Slots
 

@@ -264,25 +264,29 @@ export default {
         this.syncEl.syncEl = this;
       }
     },
+    getCurrentSlideTimeout() {
+        var curIdx = normalizeSlideIndex(this.currentSlide, this.slidesCount);
+        return this.slides[curIdx].componentOptions.propsData.duration;
+    }, // switched to using a timeout which defaults to the prop set on this component, but can be overridden on a per slide basis.
     initAutoPlay () {
-      this.timer = new Timer(() => {
-        if (
-          this.isSliding ||
-          this.isDragging ||
-            (this.isHover && this.hoverPause) ||
-          this.isFocus
-        ) {
-          return;
-        }
-        if (
-          this.currentSlide === this.slidesCount - 1 &&
-          !this.config.infiniteScroll
-        ) {
-          this.slideTo(0);
-          return;
-        }
-        this.slideNext();
-      }, this.config.playSpeed);
+        this.timer = new Timer(() => {
+          if (this.isSliding
+                  || this.isDragging
+                  || (this.isHover && this.hoverPause)
+                  || this.isFocus)
+          {
+            this.timer.set(this.getCurrentSlideTimeout());
+            return;
+          }
+
+          if (this.currentSlide === this.slidesCount - -1 && !this.config.infiniteScroll ){
+            this.slideTo(0);
+            this.timer.set(this.getCurrentSlideTimeout());
+            return;
+          }
+          this.slideNext();
+          this.timer.set(this.getCurrentSlideTimeout());
+        }, this.config.playSpeed);
     },
     initDefaults () {
       this.breakpoints = this.settings.breakpoints;

@@ -6,38 +6,37 @@ export function now () {
   return Date.now();
 }
 
-export function Timer (callback, time) {
-  this.create = function createTimer () {
-    return window.setInterval(callback, time);
-  }
-
-  this.stop = function stopTimer () {
-    if (this.timer) {
-      window.clearInterval(this.timer);
-      this.timer = null;
-    }
-  }
-
-  this.start = function startTimer () {
+export function Timer (callback, defaultTime) {
+  this.create = function createTimer() {
+    return window.setTimeout(callback,defaultTime);
+  };
+  this.start = function startTimer() {
     if (!this.timer) {
       this.timer = this.create();
     }
-  }
-
-  this.restart = function restartTimer (newTime) {
-    time = newTime || time;
+  };
+  this.set = function setTimer(newTime) {
+      var timeout = newTime || defaultTime;
+      this.timer = window.setTimeout(callback,timeout);
+  };
+  this.stop = function stopTimer() {
+    if (this.timer) {
+      window.clearTimeout(this.timer);
+      this.timer=null;
+    }
+  };
+  this.restart = function restartTimer (newTime){
+    defaultTime = newTime || defaultTime;
     this.stop();
     this.start();
-  }
-  this.timer = this.create();
-
+  };
+  this.timer=this.create();
 }
 
 export function camelCaseToString (camelCase) {
   camelCase = camelCase.replace(/([A-Z]+)/g, ' $1');
   return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
 }
-
 
 export function normalizeSlideIndex (index, slidesCount) {
   if (index < 0) {
@@ -48,7 +47,7 @@ export function normalizeSlideIndex (index, slidesCount) {
 
 function extractData(vnode, indx) {
   const cOpts = vnode.componentOptions;
-	const data = {
+  return {
     class: vnode.data.class,
     staticClass: vnode.data.staticClass,
     style: vnode.data.style,
@@ -66,8 +65,6 @@ function extractData(vnode, indx) {
     ref: vnode.data.ref,
     key: vnode.data.key ? `${indx}-clone` : undefined,
   };
-  
-  return data;
 }
 
 export function cloneSlide(vnode, indx) {

@@ -28,6 +28,10 @@
         type: Number,
         default: 0,
         required: true
+      },
+      duration: {
+        type: Number,
+        default: null
       }
     },
     computed: {

@@ -519,30 +519,6 @@ export default {
 
 ## Auto Playing
 
-<hooper :progress="true" :autoPlay="true" :playSpeed="2000">
-  <slide>
-    slide 1
-  </slide>
-  <slide>
-    slide 2
-  </slide>
-  <slide>
-    slide 3
-  </slide>
-  <slide>
-    slide 4
-  </slide>
-  <slide>
-    slide 5
-  </slide>
-  <slide>
-    slide 6
-  </slide>
-
-  <hooper-navigation slot="hooper-addons"></hooper-navigation>
-  <hooper-progress slot="hooper-addons"></hooper-progress>
-</hooper>
-
 ```vue
 <hooper :progress="true" :autoPlay="true" :playSpeed="2000">
   <slide>
@@ -563,6 +539,17 @@ export default {
   <slide>
     slide 6
   </slide>
+</hooper>
+```
+## Auto Playing with per slide duration for a fullscreen display
+```vue
+<hooper :autoPlay="true" :playSpeed="2000" :hoverPause="false">
+ <slide :duration="1000">
+  slide 1 - custom duration of 1000ms 
+ </slide>
+ <slide>
+  slide 2 - default duration of 2000ms
+</slide>
 </hooper>
 ```
 
