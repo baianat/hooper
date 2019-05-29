@@ -123,6 +123,11 @@ export default {
       default: '',
       type: String
     },
+    // pause autoPlay on mousehover
+    hoverPause : {
+        default: true,
+        type: Boolean
+    },
     // an object to pass all settings
     settings: {
       default() {
@@ -248,7 +253,7 @@ export default {
     },
     initSync () {
       if (this.config.sync) {
-        const el = this.$parent.$refs[this.config.sync]
+        const el = this.$parent.$refs[this.config.sync];
 
         if (!el && process && process.env.NODE_ENV !== 'production') {
           console.warn(`Hooper: expects an element with attribute ref="${this.config.sync}", but found none.`);
@@ -264,7 +269,7 @@ export default {
         if (
           this.isSliding ||
           this.isDragging ||
-          this.isHover ||
+            (this.isHover && this.hoverPause) ||
           this.isFocus
         ) {
           return;
@@ -297,7 +302,7 @@ export default {
           before.push(cloneSlide(slide, indx - this.slidesCount));
           after.push(cloneSlide(slide, indx + this.slidesCount));
         });
-        this.$slots['clone-before'] = before
+        this.$slots['clone-before'] = before;
         this.$slots['clone-after'] = after;
       }
     },
@@ -330,7 +335,7 @@ export default {
       const breakpoints = Object.keys(this.breakpoints).sort((a, b) => b - a);
       let matched;
       breakpoints.some(breakpoint => {
-        matched = window.matchMedia(`(min-width: ${breakpoint}px)`).matches
+        matched = window.matchMedia(`(min-width: ${breakpoint}px)`).matches;
         if (matched) {
           this.config = Object.assign(
             {},
@@ -378,7 +383,7 @@ export default {
         this.isTouch ? 'touchend' : 'mouseup',
         this.onDragEnd
       );
-      
+
       e.preventDefault();
     },
     onDrag (event) {
@@ -389,7 +394,7 @@ export default {
       this.endPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
       this.delta.x = this.endPosition.x - this.startPosition.x;
       this.delta.y = this.endPosition.y - this.startPosition.y;
-      
+
       e.preventDefault();
     },
     onDragEnd () {
@@ -480,13 +485,13 @@ export default {
     }
   },
   beforeUpdate () {
-    const isForcUpdated = 
+    const isForcUpdated =
       this.config.infiniteScroll &&
       (
         !this.$slots['clone-before'] ||
         !this.$slots['clone-after']
       );
-    const isSlidesUpdated = this.filteredSlides().length !== this.slidesCount
+    const isSlidesUpdated = this.filteredSlides().length !== this.slidesCount;
 
 
     if (isForcUpdated || isSlidesUpdated) {

@@ -98,6 +98,7 @@ more info at [Documentation](https://baianat.github.io/hooper/)
 |`playSpeed`      |2000 |speed of auto play to trigger slide in ms.|
 |`transition`     |300  |sliding transition time in ms.|
 |`sync`           |''   |sync two carousels to slide together.|
+|`hoverPause`     |true |pause autoPlay if the mouse enters the slide.|
 |`settings`       |{ }  |an object to pass all settings.|
 
 ### Available CSS Properties
