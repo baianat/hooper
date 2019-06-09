@@ -99,6 +99,7 @@ more info at [Documentation](https://baianat.github.io/hooper/)
 |`transition`     |300  |sliding transition time in ms.|
 |`sync`           |''   |sync two carousels to slide together.|
 |`hoverPause`     |true |pause autoPlay if the mouse enters the slide.|
+|`trimWhiteSpace` |false|limit carousel to slide only when there will be no completely empty slide-space.|
 |`settings`       |{ }  |an object to pass all settings.|
 
 ### Available CSS Properties
