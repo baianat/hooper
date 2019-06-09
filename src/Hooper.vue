@@ -125,8 +125,13 @@ export default {
     },
     // pause autoPlay on mousehover
     hoverPause : {
-        default: true,
-        type: Boolean
+      default: true,
+      type: Boolean
+    },
+    // remove empty space around slides
+    trimWhiteSpace : {
+      default: false,
+      type: Boolean
     },
     // an object to pass all settings
     settings: {
@@ -146,7 +151,9 @@ export default {
       slideWidth: 0,
       slideHeight: 0,
       slidesCount: 0,
-      currentSlide: 0,
+      trimStart: 0,
+      trimEnd: 1,
+      currentSlide: null,
       timer: null,
       slides: [],
       defaults: {},
@@ -158,28 +165,21 @@ export default {
   computed: {
     trackTransform () {
       const { infiniteScroll, vertical, rtl, centerMode } = this.config;
+
       const direction = rtl ? -1 : 1;
-      let clonesSpace = 0;
-      let centeringSpace = 0;
-      let translate = 0;
-      if (centerMode) {
-        centeringSpace = vertical
-        ? (this.containerHeight - this.slideHeight) / 2
-        : (this.containerWidth - this.slideWidth) / 2;
-      }
-      if (infiniteScroll) {
-        clonesSpace = vertical
-        ? this.slideHeight * this.slidesCount
-        : this.slideWidth * this.slidesCount * direction;
-      }
+      const slideLength = vertical ? this.slideHeight : this.slideWidth;
+      const containerLength = vertical ? this.containerHeight : this.containerWidth;
+      const dragDelta = vertical ? this.delta.y : this.delta.x;
+      const clonesSpace =  infiniteScroll ? slideLength * this.slidesCount : 0;
+      const centeringSpace = centerMode ?  (containerLength - slideLength) / 2 : 0;
+
+      // calculate track translate
+      const translate = dragDelta + direction * (centeringSpace - clonesSpace - this.currentSlide * slideLength);
+
       if (vertical) {
-        translate = this.delta.y + direction * (centeringSpace - this.currentSlide * this.slideHeight);
-        return `transform: translate(0, ${translate - clonesSpace}px);`
+        return `transform: translate(0, ${translate}px);`
       }
-      if (!vertical) {
-        translate = this.delta.x + direction * (centeringSpace - this.currentSlide * this.slideWidth);
-        return `transform: translate(${translate - clonesSpace}px, 0);`
-      }
+      return `transform: translate(${translate}px, 0);`
     },
     trackTransition() {
       if (this.isSliding) {
@@ -200,10 +200,11 @@ export default {
         slideTo: index
       });
 
+      const { infiniteScroll, transition } = this.config;
       const previousSlide = this.currentSlide;
-      const index = this.config.infiniteScroll
+      const index = infiniteScroll
         ? slideIndex
-        : getInRange(slideIndex, 0, this.slidesCount - 1);
+        : getInRange(slideIndex, this.trimStart, this.slidesCount - this.trimEnd);
       if (this.syncEl && !mute) {
         this.syncEl.slideTo(slideIndex, true);
       }
@@ -213,7 +214,7 @@ export default {
       window.setTimeout(() => {
         this.isSliding = false;
         this.currentSlide = normalizeSlideIndex(index, this.slidesCount);
-      }, this.config.transition);
+      }, transition);
 
       this.$emit('slide', {
         currentSlide: this.currentSlide,
@@ -269,7 +270,7 @@ export default {
         if (
           this.isSliding ||
           this.isDragging ||
-            (this.isHover && this.hoverPause) ||
+            (this.isHover && this.config.hoverPause) ||
           this.isFocus
         ) {
           return;
@@ -313,6 +314,7 @@ export default {
         this.updateConfig();
       }
       this.updateWidth();
+      this.updateTrim();
       this.$emit('updated', {
         containerWidth: this.containerWidth,
         containerHeight: this.containerHeight,
@@ -320,6 +322,16 @@ export default {
         slideHeight: this.slideHeight,
         settings: this.config
       });
+    },
+    updateTrim() {
+      const { trimWhiteSpace, itemsToShow, centerMode, infiniteScroll } = this.config;
+      if (!trimWhiteSpace || infiniteScroll) {
+        this.trimStart = 0;
+        this.trimEnd = 1;
+        return;
+      }
+      this.trimStart = centerMode ? Math.floor((itemsToShow - 1) / 2) : 0;
+      this.trimEnd = centerMode ? Math.ceil(itemsToShow / 2) : itemsToShow;
     },
     updateWidth () {
       const rect = this.$el.getBoundingClientRect();
@@ -383,8 +395,8 @@ export default {
         this.isTouch ? 'touchend' : 'mouseup',
         this.onDragEnd
       );
-
-      e.preventDefault();
+      
+      event.preventDefault();
     },
     onDrag (event) {
       if (this.isSliding) {
@@ -394,8 +406,8 @@ export default {
       this.endPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
       this.delta.x = this.endPosition.x - this.startPosition.x;
       this.delta.y = this.endPosition.y - this.startPosition.y;
-
-      e.preventDefault();
+      
+      event.preventDefault();
     },
     onDragEnd () {
       const tolerance = this.config.shortDrag ? 0.5 : 0.15;

@@ -4,7 +4,7 @@
     :class="{ 'is-vertical': $hooper.config.vertical }"
   >
     <ol class="hooper-indicators" v-if="mode === 'indicator'">
-      <li v-for="(slide, index) in $hooper.slides" :key="index">
+      <li v-for="index in slides" :key="index">
         <button
           @click="$hooper.slideTo(index)"
           class="hooper-indicator"
@@ -40,6 +40,10 @@ export default {
         this.$hooper.currentSlide,
         this.$hooper.slidesCount
       );
+    },
+    slides() {
+      const slides = this.$hooper.slides.map((_, index) => index);
+      return slides.slice(this.$hooper.trimStart, this.$hooper.slidesCount - this.$hooper.trimEnd + 1);
     }
   }
 }
