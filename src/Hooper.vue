@@ -158,28 +158,21 @@ export default {
   computed: {
     trackTransform () {
       const { infiniteScroll, vertical, rtl, centerMode } = this.config;
+
       const direction = rtl ? -1 : 1;
-      let clonesSpace = 0;
-      let centeringSpace = 0;
-      let translate = 0;
-      if (centerMode) {
-        centeringSpace = vertical
-        ? (this.containerHeight - this.slideHeight) / 2
-        : (this.containerWidth - this.slideWidth) / 2;
-      }
-      if (infiniteScroll) {
-        clonesSpace = vertical
-        ? this.slideHeight * this.slidesCount
-        : this.slideWidth * this.slidesCount * direction;
-      }
+      const slideLength = vertical ? this.slideHeight : this.slideWidth;
+      const containerLength = vertical ? this.containerHeight : this.containerWidth;
+      const dragDelta = vertical ? this.delta.y : this.delta.x;
+      const clonesSpace =  infiniteScroll ? slideLength * this.slidesCount : 0;
+      const centeringSpace = centerMode ?  (containerLength - slideLength) / 2 : 0;
+
+      // calculate track translate
+      const translate = dragDelta + direction * (centeringSpace - clonesSpace - this.currentSlide * slideLength);
+      
       if (vertical) {
-        translate = this.delta.y + direction * (centeringSpace - this.currentSlide * this.slideHeight);
-        return `transform: translate(0, ${translate - clonesSpace}px);`
+        return `transform: translate(0, ${translate}px);`
       }
-      if (!vertical) {
-        translate = this.delta.x + direction * (centeringSpace - this.currentSlide * this.slideWidth);
-        return `transform: translate(${translate - clonesSpace}px, 0);`
-      }
+      return `transform: translate(${translate}px, 0);`
     },
     trackTransition() {
       if (this.isSliding) {
