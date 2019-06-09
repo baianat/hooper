@@ -125,8 +125,13 @@ export default {
     },
     // pause autoPlay on mousehover
     hoverPause : {
-        default: true,
-        type: Boolean
+      default: true,
+      type: Boolean
+    },
+    // remove empty space around slides
+    trimWhiteSpace : {
+      default: false,
+      type: Boolean
     },
     // an object to pass all settings
     settings: {
@@ -146,7 +151,9 @@ export default {
       slideWidth: 0,
       slideHeight: 0,
       slidesCount: 0,
-      currentSlide: 0,
+      trimStart: 0,
+      trimEnd: 1,
+      currentSlide: null,
       timer: null,
       slides: [],
       defaults: {},
@@ -168,7 +175,7 @@ export default {
 
       // calculate track translate
       const translate = dragDelta + direction * (centeringSpace - clonesSpace - this.currentSlide * slideLength);
-      
+
       if (vertical) {
         return `transform: translate(0, ${translate}px);`
       }
@@ -193,10 +200,11 @@ export default {
         slideTo: index
       });
 
+      const { infiniteScroll, transition } = this.config;
       const previousSlide = this.currentSlide;
-      const index = this.config.infiniteScroll
+      const index = infiniteScroll
         ? slideIndex
-        : getInRange(slideIndex, 0, this.slidesCount - 1);
+        : getInRange(slideIndex, this.trimStart, this.slidesCount - this.trimEnd);
       if (this.syncEl && !mute) {
         this.syncEl.slideTo(slideIndex, true);
       }
@@ -206,7 +214,7 @@ export default {
       window.setTimeout(() => {
         this.isSliding = false;
         this.currentSlide = normalizeSlideIndex(index, this.slidesCount);
-      }, this.config.transition);
+      }, transition);
 
       this.$emit('slide', {
         currentSlide: this.currentSlide,
@@ -262,7 +270,7 @@ export default {
         if (
           this.isSliding ||
           this.isDragging ||
-            (this.isHover && this.hoverPause) ||
+            (this.isHover && this.config.hoverPause) ||
           this.isFocus
         ) {
           return;
@@ -306,6 +314,7 @@ export default {
         this.updateConfig();
       }
       this.updateWidth();
+      this.updateTrim();
       this.$emit('updated', {
         containerWidth: this.containerWidth,
         containerHeight: this.containerHeight,
@@ -313,6 +322,16 @@ export default {
         slideHeight: this.slideHeight,
         settings: this.config
       });
+    },
+    updateTrim() {
+      const { trimWhiteSpace, itemsToShow, centerMode, infiniteScroll } = this.config;
+      if (!trimWhiteSpace || infiniteScroll) {
+        this.trimStart = 0;
+        this.trimEnd = 1;
+        return;
+      }
+      this.trimStart = centerMode ? Math.floor((itemsToShow - 1) / 2) : 0;
+      this.trimEnd = centerMode ? Math.ceil(itemsToShow / 2) : itemsToShow;
     },
     updateWidth () {
       const rect = this.$el.getBoundingClientRect();

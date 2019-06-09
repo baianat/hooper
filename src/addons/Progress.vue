@@ -22,7 +22,8 @@ export default {
       );
     },
     progress() {
-      return this.currentSlide * 100 / (this.$hooper.slidesCount - 1);
+      const range = this.$hooper.slidesCount - this.$hooper.trimStart - this.$hooper.trimEnd;
+      return (this.currentSlide - this.$hooper.trimStart) * 100 / range;
     }
   }
 }
