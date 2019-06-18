@@ -52,12 +52,16 @@ function getConfig (key) {
     input: {
       input: build.input || common.input,
       plugins: build.plugins || common.plugins,
+      external: ['vue']
     },
     output: {
       name: build.name || common.name,
       banner: common.banner,
       format: build.format,
-      exports: 'named'
+      exports: 'named',
+      globals: {
+        vue: 'Vue'
+      }
     }
   }
   return config;
