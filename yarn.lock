@@ -10838,10 +10838,10 @@ vue-server-renderer@^2.5.16:
     serialize-javascript "^1.3.0"
     source-map "0.5.6"
 
-vue-server-renderer@^2.6.4:
-  version "2.6.4"
-  resolved "https://registry.yarnpkg.com/vue-server-renderer/-/vue-server-renderer-2.6.4.tgz#6e317cb3365c02d211c18360c253135980777677"
-  integrity sha512-I8Aj1XcCq2Xk0DdOOFeFNTG82DXJ3UXu/m2IBjxizByYA7ViqfYtCABnr7vYQPjqb9342MtpISyGHMSmqw1opg==
+vue-server-renderer@^2.6.10:
+  version "2.6.10"
+  resolved "https://registry.yarnpkg.com/vue-server-renderer/-/vue-server-renderer-2.6.10.tgz#cb2558842ead360ae2ec1f3719b75564a805b375"
+  integrity sha512-UYoCEutBpKzL2fKCwx8zlRtRtwxbPZXKTqbl2iIF4yRZUNO/ovrHyDAJDljft0kd+K0tZhN53XRHkgvCZoIhug==
   dependencies:
     chalk "^1.1.3"
     hash-sum "^1.0.2"
