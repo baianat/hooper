@@ -1,29 +1,19 @@
 <template>
-  <div 
+  <div
     class="hooper-navigation"
     :class="{
       'is-vertical': $hooper.config.vertical,
-      'is-rtl': $hooper.config.rtl,
+      'is-rtl': $hooper.config.rtl
     }"
   >
-    <button
-      type="button"
-      class="hooper-prev"
-      :class="{ 'is-disabled': isPrevDisabled }"
-      @click="slidePrev"
-    >
+    <button type="button" class="hooper-prev" :class="{ 'is-disabled': isPrevDisabled }" @click="slidePrev">
       <slot name="hooper-prev">
-        <icons :name="isVertical ? 'arrowUp' : isRTL ? 'arrowRight' : 'arrowLeft'"/>
+        <Icons :name="isVertical ? 'arrowUp' : isRTL ? 'arrowRight' : 'arrowLeft'" />
       </slot>
     </button>
-    <button
-      type="button"
-      class="hooper-next"
-      :class="{ 'is-disabled': isNextDisabled  }"
-      @click="slideNext"
-    >
+    <button type="button" class="hooper-next" :class="{ 'is-disabled': isNextDisabled }" @click="slideNext">
       <slot name="hooper-next">
-        <icons :name="isVertical ? 'arrowDown' : isRTL ? 'arrowLeft' : 'arrowRight'"/>
+        <Icons :name="isVertical ? 'arrowDown' : isRTL ? 'arrowLeft' : 'arrowRight'" />
       </slot>
     </button>
   </div>
@@ -39,36 +29,36 @@ export default {
     Icons
   },
   computed: {
-    isPrevDisabled () {
+    isPrevDisabled() {
       if (this.$hooper.config.infiniteScroll) {
         return false;
       }
       return this.$hooper.currentSlide === 0;
     },
-    isNextDisabled () {
+    isNextDisabled() {
       if (this.$hooper.config.infiniteScroll) {
         return false;
       }
       return this.$hooper.currentSlide === this.$hooper.slidesCount - 1;
     },
-    isRTL () {
+    isRTL() {
       return this.$hooper.config.rtl;
     },
-    isVertical () {
+    isVertical() {
       return this.$hooper.config.vertical;
     }
   },
   methods: {
-    slideNext () {
+    slideNext() {
       this.$hooper.slideNext();
       this.$hooper.restartTimer();
     },
-    slidePrev () {
+    slidePrev() {
       this.$hooper.slidePrev();
       this.$hooper.restartTimer();
     }
   }
-}
+};
 </script>
 
 <style>

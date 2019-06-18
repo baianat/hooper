@@ -1,10 +1,6 @@
 <template>
   <div class="hooper-progress">
-    <div
-      class="hooper-progress-inner"
-      :style="`width: ${progress}%`"
-    >
-    </div>
+    <div class="hooper-progress-inner" :style="`width: ${progress}%`"></div>
   </div>
 </template>
 
@@ -16,17 +12,14 @@ export default {
   name: 'HooperProgress',
   computed: {
     currentSlide() {
-      return normalizeSlideIndex(
-        this.$hooper.currentSlide,
-        this.$hooper.slidesCount
-      );
+      return normalizeSlideIndex(this.$hooper.currentSlide, this.$hooper.slidesCount);
     },
     progress() {
       const range = this.$hooper.slidesCount - this.$hooper.trimStart - this.$hooper.trimEnd;
-      return (this.currentSlide - this.$hooper.trimStart) * 100 / range;
+      return ((this.currentSlide - this.$hooper.trimStart) * 100) / range;
     }
   }
-}
+};
 </script>
 
 <style>
