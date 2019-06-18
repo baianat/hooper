@@ -102,7 +102,7 @@
 import {
   Hooper,
   Slide,
-  Navigation as HooperNavigation 
+  Navigation as HooperNavigation
   } from 'hooper';
 
 export default {
@@ -136,7 +136,7 @@ export default {
   <slide>
     slide 6
   </slide>
-  
+
   <hooper-progress slot="hooper-addons"></hooper-progress>
 </hooper>
 
@@ -170,7 +170,7 @@ export default {
 import {
   Hooper,
   Slide,
-  Progress as HooperProgress 
+  Progress as HooperProgress
   } from 'hooper';
 
 export default {
@@ -204,7 +204,7 @@ export default {
   <slide>
     slide 6
   </slide>
-  
+
   <hooper-pagination slot="hooper-addons"></hooper-pagination>
 </hooper>
 
@@ -238,7 +238,7 @@ export default {
 import {
   Hooper,
   Slide,
-  Pagination as HooperPagination 
+  Pagination as HooperPagination
   } from 'hooper';
 
 export default {
@@ -306,7 +306,7 @@ export default {
 import {
   Hooper,
   Slide,
-  Pagination as HooperPagination 
+  Pagination as HooperPagination
   } from 'hooper';
 
 export default {
@@ -614,9 +614,9 @@ export default {
 </hooper>
 ```
 
-## Sync
+## Group
 
-<hooper sync="myCarousel2" :transition="600">
+<hooper group="group1" :transition="600">
   <slide>
     slide 1
   </slide>
@@ -637,7 +637,7 @@ export default {
   </slide>
 </hooper>
 
-<hooper ref="myCarousel2" :itemsToShow="3" :centerMode="true">
+<hooper group="group1" :itemsToShow="3" :centerMode="true">
   <slide>
     slide 1
   </slide>
@@ -662,7 +662,7 @@ export default {
 </hooper>
 
 ```vue
-<hooper sync="myCarousel2">
+<hooper group="group1">
   <slide>
     slide 1
   </slide>
@@ -683,7 +683,7 @@ export default {
   </slide>
 </hooper>
 
-<hooper ref="myCarousel2" :itemsToShow="3" :centerMode="true">
+<hooper group="group1" :itemsToShow="3" :centerMode="true">
   <slide>
     slide 1
   </slide>
@@ -742,7 +742,7 @@ export default {
   <button @click.prevent="slidePrev">prev</button>
   <input v-model="carouselData" type="number" min="0" max="5">
   <button @click.prevent="slideNext">next</button>
-  
+
   <hooper ref="carousel" @slide="updateCarousel">
     <slide>
       slide 1

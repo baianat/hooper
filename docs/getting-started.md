@@ -176,17 +176,12 @@ by default the carousel will automatically display according to the current docu
 </hooper>
 ```
 
-## Sync
+## Carousel Groups
 
-you can sync tow carousels to control each other, tow way control.
-to achieve this you have to pass to one of them the `ref` name of the other carousel.
-
-::: tip note
-The two carousel should be at the same scope
-:::
+you can group multiple carousels to slide together, sliding can be initiated from any carousel in the group, all carousels will try to slide to the same index as the carousel that initiated the sliding event.
 
 ```vue
-<hooper sync="hooper2">
+<hooper group="group1">
   <slide>
     slide 1
   </slide>
@@ -195,7 +190,7 @@ The two carousel should be at the same scope
   </slide>
 </hooper>
 
-<hooper ref="hooper2">
+<hooper group="group1">
   <slide>
     slide 1
   </slide>
@@ -205,11 +200,16 @@ The two carousel should be at the same scope
 </hooper>
 ```
 
+::: tip Note!
+  Grouped carousels nested inside other components will still be synced, so be careful to give deterministic group names to your carousels. You can use `v-bind` to assign a dynamic carousel group as well.
+:::
+
 ## Addons
 
 Hooper shipped with addons component, that add extra features to carousel
 
 Available Addons:
+
 * Navigation
 * Pagination
 * Progress
@@ -234,7 +234,7 @@ Available Addons:
 </template>
 
 <script>
-  import { 
+  import {
     Hooper,
     Slide,
     Progress as HooperProgress,
