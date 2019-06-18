@@ -18,16 +18,26 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
+    "@commitlint/cli": "^8.0.0",
     "@vue/test-utils": "^1.0.0-beta.29",
     "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.2",
     "babel-jest": "^24.8.0",
     "chalk": "^2.4.2",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^5.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-vue": "^5.2.2",
     "filesize": "^4.1.2",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "gzip-size": "^5.1.1",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^2.4.1",
     "jest": "24.8.0",
+    "lint-staged": "^8.2.1",
     "mkdirp": "^0.5.1",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
     "progress-bar-webpack-plugin": "^1.12.1",
     "rollup": "^1.15.6",
     "rollup-plugin-babel": "^4.3.2",
@@ -54,5 +64,12 @@
       "email": "abdelrahman3d@gmail.com"
     }
   ],
+  "lint-staged": {
+    "*.{js,vue}": [
+      "prettier --write",
+      "git add",
+      "jest --maxWorkers=1 --bail --findRelatedTests"
+    ]
+  },
   "dependencies": {}
 }
