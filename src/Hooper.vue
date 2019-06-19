@@ -8,7 +8,7 @@
     @focusout="isFocus = false"
     :class="{
       'is-vertical': config.vertical,
-      'is-rtl': config.rtl,
+      'is-rtl': config.rtl
     }"
   >
     <div class="hooper-list">
@@ -22,7 +22,6 @@
         <slot name="clone-before"></slot>
         <slot></slot>
         <slot name="clone-after"></slot>
-
       </ul>
     </div>
     <slot name="hooper-addons"></slot>
@@ -33,14 +32,17 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { getInRange, now, Timer, normalizeSlideIndex, cloneSlide } from './utils';
+
+let EMITTER = new Vue();
 
 export default {
   name: 'Hooper',
-  provide () {
+  provide() {
     return {
       $hooper: this
-    }
+    };
   },
   props: {
     // count of items to showed per view
@@ -118,18 +120,13 @@ export default {
       default: 300,
       type: Number
     },
-    // sync two carousels to slide together
-    sync: {
-      default: '',
-      type: String
-    },
     // pause autoPlay on mousehover
-    hoverPause : {
+    hoverPause: {
       default: true,
       type: Boolean
     },
     // remove empty space around slides
-    trimWhiteSpace : {
+    trimWhiteSpace: {
       default: false,
       type: Boolean
     },
@@ -139,9 +136,13 @@ export default {
         return {};
       },
       type: Object
+    },
+    group: {
+      type: String,
+      default: null
     }
   },
-  data () {
+  data() {
     return {
       isDragging: false,
       isSliding: false,
@@ -157,29 +158,29 @@ export default {
       timer: null,
       slides: [],
       defaults: {},
-      breakpoints:{},
+      breakpoints: {},
       delta: { x: 0, y: 0 },
       config: {}
-    }
+    };
   },
   computed: {
-    trackTransform () {
+    trackTransform() {
       const { infiniteScroll, vertical, rtl, centerMode } = this.config;
 
       const direction = rtl ? -1 : 1;
       const slideLength = vertical ? this.slideHeight : this.slideWidth;
       const containerLength = vertical ? this.containerHeight : this.containerWidth;
       const dragDelta = vertical ? this.delta.y : this.delta.x;
-      const clonesSpace =  infiniteScroll ? slideLength * this.slidesCount : 0;
-      const centeringSpace = centerMode ?  (containerLength - slideLength) / 2 : 0;
+      const clonesSpace = infiniteScroll ? slideLength * this.slidesCount : 0;
+      const centeringSpace = centerMode ? (containerLength - slideLength) / 2 : 0;
 
       // calculate track translate
       const translate = dragDelta + direction * (centeringSpace - clonesSpace - this.currentSlide * slideLength);
 
       if (vertical) {
-        return `transform: translate(0, ${translate}px);`
+        return `transform: translate(0, ${translate}px);`;
       }
-      return `transform: translate(${translate}px, 0);`
+      return `transform: translate(${translate}px, 0);`;
     },
     trackTransition() {
       if (this.isSliding) {
@@ -188,9 +189,19 @@ export default {
       return '';
     }
   },
+  watch: {
+    group(val, oldVal) {
+      if (val === oldVal) {
+        return;
+      }
+
+      EMITTER.$off(`slideGroup:${oldVal}`, this._groupSlideHandler);
+      this.addGroupListeners();
+    }
+  },
   methods: {
     // controlling methods
-    slideTo (slideIndex, mute = false) {
+    slideTo(slideIndex, isSource = true) {
       if (this.isSliding || slideIndex === this.currentSlide) {
         return;
       }
@@ -205,9 +216,12 @@ export default {
       const index = infiniteScroll
         ? slideIndex
         : getInRange(slideIndex, this.trimStart, this.slidesCount - this.trimEnd);
-      if (this.syncEl && !mute) {
-        this.syncEl.slideTo(slideIndex, true);
+
+      // Notify others if in a group and is the slide event initiator.
+      if (this.group && isSource) {
+        EMITTER.$emit(`slideGroup:${this.group}`, slideIndex);
       }
+
       this.currentSlide = index;
       this.isSliding = true;
 
@@ -221,14 +235,14 @@ export default {
         slideFrom: previousSlide
       });
     },
-    slideNext () {
+    slideNext() {
       this.slideTo(this.currentSlide + this.config.itemsToSlide);
     },
-    slidePrev () {
+    slidePrev() {
       this.slideTo(this.currentSlide - this.config.itemsToSlide);
     },
 
-    initEvents () {
+    initEvents() {
       // get the element direction if not explicitly set
       if (this.defaults.rtl === null) {
         this.defaults.rtl = getComputedStyle(this.$el).direction === 'rtl';
@@ -241,7 +255,9 @@ export default {
         this.$refs.track.addEventListener('mousedown', this.onDragStart);
       }
       if (this.config.touchDrag) {
-        this.$refs.track.addEventListener('touchstart', this.onDragStart, { passive: true });
+        this.$refs.track.addEventListener('touchstart', this.onDragStart, {
+          passive: true
+        });
       }
       if (this.config.keysControl) {
         this.$el.addEventListener('keydown', this.onKeypress);
@@ -252,45 +268,24 @@ export default {
       }
       window.addEventListener('resize', this.update);
     },
-    initSync () {
-      if (this.config.sync) {
-        const el = this.$parent.$refs[this.config.sync];
-
-        if (!el && process && process.env.NODE_ENV !== 'production') {
-          console.warn(`Hooper: expects an element with attribute ref="${this.config.sync}", but found none.`);
-          return;
-        }
-
-        this.syncEl = this.$parent.$refs[this.config.sync];
-        this.syncEl.syncEl = this;
-      }
-    },
-    initAutoPlay () {
+    initAutoPlay() {
       this.timer = new Timer(() => {
-        if (
-          this.isSliding ||
-          this.isDragging ||
-            (this.isHover && this.config.hoverPause) ||
-          this.isFocus
-        ) {
+        if (this.isSliding || this.isDragging || (this.isHover && this.config.hoverPause) || this.isFocus) {
           return;
         }
-        if (
-          this.currentSlide === this.slidesCount - 1 &&
-          !this.config.infiniteScroll
-        ) {
+        if (this.currentSlide === this.slidesCount - 1 && !this.config.infiniteScroll) {
           this.slideTo(0);
           return;
         }
         this.slideNext();
       }, this.config.playSpeed);
     },
-    initDefaults () {
+    initDefaults() {
       this.breakpoints = this.settings.breakpoints;
       this.defaults = Object.assign({}, this.$props, this.settings);
       this.config = Object.assign({}, this.defaults);
     },
-    initSlides () {
+    initSlides() {
       this.slides = this.filteredSlides();
       this.slidesCount = this.slides.length;
       this.slides.forEach((slide, indx) => {
@@ -309,7 +304,7 @@ export default {
     },
 
     // updating methods
-    update () {
+    update() {
       if (this.breakpoints) {
         this.updateConfig();
       }
@@ -333,28 +328,23 @@ export default {
       this.trimStart = centerMode ? Math.floor((itemsToShow - 1) / 2) : 0;
       this.trimEnd = centerMode ? Math.ceil(itemsToShow / 2) : itemsToShow;
     },
-    updateWidth () {
+    updateWidth() {
       const rect = this.$el.getBoundingClientRect();
       this.containerWidth = rect.width;
       this.containerHeight = rect.height;
       if (this.config.vertical) {
-        this.slideHeight = (this.containerHeight / this.config.itemsToShow);
+        this.slideHeight = this.containerHeight / this.config.itemsToShow;
         return;
       }
-      this.slideWidth = (this.containerWidth / this.config.itemsToShow);
+      this.slideWidth = this.containerWidth / this.config.itemsToShow;
     },
-    updateConfig () {
+    updateConfig() {
       const breakpoints = Object.keys(this.breakpoints).sort((a, b) => b - a);
       let matched;
       breakpoints.some(breakpoint => {
         matched = window.matchMedia(`(min-width: ${breakpoint}px)`).matches;
         if (matched) {
-          this.config = Object.assign(
-            {},
-            this.config,
-            this.defaults,
-            this.breakpoints[breakpoint]
-          );
+          this.config = Object.assign({}, this.config, this.defaults, this.breakpoints[breakpoint]);
           return true;
         }
       });
@@ -362,12 +352,12 @@ export default {
         this.config = Object.assign(this.config, this.defaults);
       }
     },
-    restartTimer () {
+    restartTimer() {
       if (this.timer) {
         this.timer.restart();
       }
     },
-    restart () {
+    restart() {
       this.initSlides();
       this.$nextTick(() => {
         this.update();
@@ -375,7 +365,7 @@ export default {
     },
 
     // events handlers
-    onDragStart (event) {
+    onDragStart(event) {
       this.isTouch = event.type === 'touchstart';
       if (!this.isTouch && event.button !== 0) {
         return;
@@ -387,18 +377,12 @@ export default {
       this.startPosition.x = this.isTouch ? event.touches[0].clientX : event.clientX;
       this.startPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
 
-      document.addEventListener(
-        this.isTouch ? 'touchmove' : 'mousemove',
-        this.onDrag
-      );
-      document.addEventListener(
-        this.isTouch ? 'touchend' : 'mouseup',
-        this.onDragEnd
-      );
-      
+      document.addEventListener(this.isTouch ? 'touchmove' : 'mousemove', this.onDrag);
+      document.addEventListener(this.isTouch ? 'touchend' : 'mouseup', this.onDragEnd);
+
       event.preventDefault();
     },
-    onDrag (event) {
+    onDrag(event) {
       if (this.isSliding) {
         return;
       }
@@ -406,10 +390,10 @@ export default {
       this.endPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
       this.delta.x = this.endPosition.x - this.startPosition.x;
       this.delta.y = this.endPosition.y - this.startPosition.y;
-      
+
       event.preventDefault();
     },
-    onDragEnd () {
+    onDragEnd() {
       const tolerance = this.config.shortDrag ? 0.5 : 0.15;
       this.isDragging = false;
 
@@ -424,23 +408,17 @@ export default {
       }
       this.delta.x = 0;
       this.delta.y = 0;
-      document.removeEventListener(
-        this.isTouch ? 'touchmove' : 'mousemove',
-        this.onDrag
-      );
-      document.removeEventListener(
-        this.isTouch ? 'touchend' : 'mouseup',
-        this.onDragEnd
-      );
+      document.removeEventListener(this.isTouch ? 'touchmove' : 'mousemove', this.onDrag);
+      document.removeEventListener(this.isTouch ? 'touchend' : 'mouseup', this.onDragEnd);
       this.restartTimer();
     },
-    onTransitionend () {
+    onTransitionend() {
       this.isSliding = false;
       this.$emit('afterSlide', {
         currentSlide: this.currentSlide
       });
     },
-    onKeypress (event) {
+    onKeypress(event) {
       const key = event.key;
       if (key.startsWith('Arrow')) {
         event.preventDefault();
@@ -470,7 +448,7 @@ export default {
         this.slidePrev();
       }
     },
-    onWheel (event) {
+    onWheel(event) {
       event.preventDefault();
       if (now() - this.lastScrollTime < 200) {
         return;
@@ -494,42 +472,51 @@ export default {
         }
         return el.componentOptions.Ctor.options.name === 'HooperSlide';
       });
+    },
+    addGroupListeners() {
+      if (!this.group) {
+        return;
+      }
+
+      this._groupSlideHandler = slideIndex => {
+        // set the isSource to false to prevent infinite emitting loop.
+        this.slideTo(slideIndex, false);
+      };
+      EMITTER.$on(`slideGroup:${this.group}`, this._groupSlideHandler);
     }
   },
-  beforeUpdate () {
-    const isForcUpdated =
-      this.config.infiniteScroll &&
-      (
-        !this.$slots['clone-before'] ||
-        !this.$slots['clone-after']
-      );
+  beforeUpdate() {
+    const isForcUpdated = this.config.infiniteScroll && (!this.$slots['clone-before'] || !this.$slots['clone-after']);
     const isSlidesUpdated = this.filteredSlides().length !== this.slidesCount;
-
 
     if (isForcUpdated || isSlidesUpdated) {
       this.initSlides();
     }
   },
-  created () {
+  created() {
     this.initDefaults();
     this.initSlides();
   },
-  mounted () {
+  mounted() {
     this.initEvents();
+    this.addGroupListeners();
     this.$nextTick(() => {
-      this.initSync();
       this.update();
       this.slideTo(this.config.initialSlide);
       this.$emit('loaded');
     });
   },
-  beforeDestroy () {
+  beforeDestroy() {
     window.removeEventListener('resize', this.update);
+    if (this.group) {
+      EMITTER.$off(`slideGroup:${this.group}`, this._groupSlideHandler);
+    }
+
     if (this.timer) {
       this.timer.stop();
     }
   }
-}
+};
 </script>
 
 <style>
@@ -571,8 +558,7 @@ export default {
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0,0,0,0);
+  clip: rect(0, 0, 0, 0);
   border: 0;
 }
-
 </style>

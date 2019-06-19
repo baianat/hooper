@@ -19,7 +19,7 @@
 |`autoPlay`       |false|enable auto sliding to carousel.|
 |`playSpeed`      |2000 |speed of auto play to trigger slide in ms.|
 |`transition`     |300  |sliding transition time in ms.|
-|`sync`           |''   |sync two carousels to slide together.|
+|`group`          |null   | Carousels with the same group name will slide together to the same index if possible.|
 |`hoverPause`     |true |pause autoPlay if the mouse enters the slide.|
 |`trimWhiteSpace` |false|limit carousel to slide only when there will be no completely empty slide-space.|
 |`settings`       |{ }  |an object to pass all settings.|

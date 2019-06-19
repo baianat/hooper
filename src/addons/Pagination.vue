@@ -1,8 +1,5 @@
 <template>
-  <div 
-    class="hooper-pagination"
-    :class="{ 'is-vertical': $hooper.config.vertical }"
-  >
+  <div class="hooper-pagination" :class="{ 'is-vertical': $hooper.config.vertical }">
     <ol class="hooper-indicators" v-if="mode === 'indicator'">
       <li v-for="index in slides" :key="index">
         <button
@@ -14,7 +11,7 @@
         </button>
       </li>
     </ol>
-    <template  v-if="mode === 'fraction'">
+    <template v-if="mode === 'fraction'">
       <span>{{ currentSlide + 1 }}</span>
       <span>/</span>
       <span>{{ $hooper.slidesCount }}</span>
@@ -36,17 +33,14 @@ export default {
   },
   computed: {
     currentSlide() {
-      return normalizeSlideIndex(
-        this.$hooper.currentSlide,
-        this.$hooper.slidesCount
-      );
+      return normalizeSlideIndex(this.$hooper.currentSlide, this.$hooper.slidesCount);
     },
     slides() {
       const slides = this.$hooper.slides.map((_, index) => index);
       return slides.slice(this.$hooper.trimStart, this.$hooper.slidesCount - this.$hooper.trimEnd + 1);
     }
   }
-}
+};
 </script>
 
 <style>
@@ -87,7 +81,7 @@ export default {
 .hooper-pagination.is-vertical .hooper-indicators {
   flex-direction: column;
 }
-.hooper-pagination.is-vertical .hooper-indicator{
+.hooper-pagination.is-vertical .hooper-indicator {
   width: 6px;
 }
 </style>
