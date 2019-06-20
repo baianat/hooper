@@ -27,18 +27,22 @@ yarn add hooper
 </template>
 
 <script>
-  import { Hooper, Slide } from 'hooper';
-  import 'hooper/dist/hooper.css';
+import { Hooper, Slide } from 'hooper';
+import 'hooper/dist/hooper.css';
 
-  export default {
-    name: 'App',
-    components: {
-      Hooper,
-      Slide
-    }
+export default {
+  name: 'App',
+  components: {
+    Hooper,
+    Slide
   }
+};
 </script>
 ```
+
+:::tip
+If you are using [PurgeCSS](https://www.purgecss.com/), make sure to whitelist hooper css When importing `hooper/dist/hooper.css`.
+:::
 
 ## Configuring carousel
 
@@ -69,28 +73,27 @@ you can combine all settings in one object and pass it using `setting` prop
       slide 2
     </slide>
     ...
-
   </hooper>
 </template>
 
 <script>
-  import { Hooper, Slide } from 'hooper';
+import { Hooper, Slide } from 'hooper';
 
-  export default {
-    name: 'App',
-    components: {
-      Hooper,
-      Slide
-    },
-    data () {
-      return {
-        hooperSettings: {
-          itemsToShow: 2,
-          centerMode: true
-        }
+export default {
+  name: 'App',
+  components: {
+    Hooper,
+    Slide
+  },
+  data() {
+    return {
+      hooperSettings: {
+        itemsToShow: 2,
+        centerMode: true
       }
-    }
+    };
   }
+};
 </script>
 ```
 
@@ -124,38 +127,37 @@ you can pass an array of breaking points to the carousel settings, to specify a 
       slide 2
     </slide>
     ...
-
   </hooper>
 </template>
 
 <script>
-  import { Hooper, Slide } from 'hooper';
+import { Hooper, Slide } from 'hooper';
 
-  export default {
-    name: 'App',
-    components: {
-      Hooper,
-      Slide
-    },
-    data () {
-      return {
-        hooperSettings: {
-          itemsToShow: 2,
-          centerMode: true,
-          breakpoints: {
-            800: {
-              centerMode: false,
-              itemsToShow: 3
-            },
-            1000: {
-              itemsToShow: 6,
-              pagination: 'fraction'
-            }
+export default {
+  name: 'App',
+  components: {
+    Hooper,
+    Slide
+  },
+  data() {
+    return {
+      hooperSettings: {
+        itemsToShow: 2,
+        centerMode: true,
+        breakpoints: {
+          800: {
+            centerMode: false,
+            itemsToShow: 3
+          },
+          1000: {
+            itemsToShow: 6,
+            pagination: 'fraction'
           }
         }
       }
-    }
+    };
   }
+};
 </script>
 ```
 
@@ -201,7 +203,7 @@ you can group multiple carousels to slide together, sliding can be initiated fro
 ```
 
 ::: tip Note!
-  Grouped carousels nested inside other components will still be synced, so be careful to give deterministic group names to your carousels. You can use `v-bind` to assign a dynamic carousel group as well.
+Grouped carousels nested inside other components will still be synced, so be careful to give deterministic group names to your carousels. You can use `v-bind` to assign a dynamic carousel group as well.
 :::
 
 ## Addons
@@ -210,9 +212,9 @@ Hooper shipped with addons component, that add extra features to carousel
 
 Available Addons:
 
-* Navigation
-* Pagination
-* Progress
+- Navigation
+- Pagination
+- Progress
 
 ### Work with Addons
 
@@ -234,31 +236,31 @@ Available Addons:
 </template>
 
 <script>
-  import {
+import {
+  Hooper,
+  Slide,
+  Progress as HooperProgress,
+  Pagination as HooperPagination,
+  Navigation as HooperNavigation
+} from 'hooper';
+
+export default {
+  name: 'App',
+  components: {
     Hooper,
     Slide,
-    Progress as HooperProgress,
-    Pagination as HooperPagination,
-    Navigation as HooperNavigation
-    } from 'hooper';
-
-  export default {
-    name: 'App',
-    components: {
-      Hooper,
-      Slide,
-      HooperProgress,
-      HooperPagination,
-      HooperNavigation
-    },
-    data () {
-      return {
-        hooperSettings: {
-          itemsToShow: 2,
-          centerMode: true
-        }
+    HooperProgress,
+    HooperPagination,
+    HooperNavigation
+  },
+  data() {
+    return {
+      hooperSettings: {
+        itemsToShow: 2,
+        centerMode: true
       }
-    }
+    };
   }
+};
 </script>
 ```
