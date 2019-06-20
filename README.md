@@ -76,6 +76,8 @@ yarn add hooper
 </script>
 ```
 
+> If you are using [PurgeCSS](https://www.purgecss.com/), make sure to whitelist hooper css When importing `hooper/dist/hooper.css`.
+
 more info at [Documentation](https://baianat.github.io/hooper/)
 
 ### Available Props
