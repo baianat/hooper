@@ -379,8 +379,9 @@ export default {
 
       document.addEventListener(this.isTouch ? 'touchmove' : 'mousemove', this.onDrag);
       document.addEventListener(this.isTouch ? 'touchend' : 'mouseup', this.onDragEnd);
-
-      event.preventDefault();
+      if (event.type !== 'touchstart') {
+        event.preventDefault();
+      }
     },
     onDrag(event) {
       if (this.isSliding) {
@@ -391,7 +392,9 @@ export default {
       this.delta.x = this.endPosition.x - this.startPosition.x;
       this.delta.y = this.endPosition.y - this.startPosition.y;
 
-      event.preventDefault();
+      if (!this.isTouch) {
+        event.preventDefault();
+      }
     },
     onDragEnd() {
       const tolerance = this.config.shortDrag ? 0.5 : 0.15;
