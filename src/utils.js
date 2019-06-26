@@ -44,40 +44,12 @@ export function normalizeSlideIndex(index, slidesCount) {
   return index % slidesCount;
 }
 
-function extractData(vnode, indx) {
-  const cOpts = vnode.componentOptions;
-  const data = {
-    class: vnode.data.class,
-    staticClass: vnode.data.staticClass,
-    style: vnode.data.style,
-    attrs: vnode.data.attrs,
-    props: {
-      ...cOpts.propsData,
-      isClone: true,
-      index: indx
-    },
-    on: cOpts.listeners,
-    nativeOn: vnode.data.nativeOn,
-    directives: vnode.data.directives,
-    scopesSlots: vnode.data.scopesSlots,
-    slot: vnode.data.slot,
-    ref: vnode.data.ref,
-    key: vnode.data.key ? `${indx}-clone` : undefined
-  };
-
-  return data;
-}
-
-export function cloneSlide(vnode, indx) {
+export function cloneNode(h, vNode) {
   // use the context that the original vnode was created in.
-  const h = vnode.context && vnode.context.$createElement;
-  const children = vnode.componentOptions.children;
+  const children = vNode.children || vNode.componentOptions.children || vNode.text;
+  const tag = vNode.componentOptions.Ctor;
 
-  const data = extractData(vnode, indx);
-
-  const tag = vnode.componentOptions.Ctor;
-
-  return h(tag, data, children);
+  return h(tag, vNode.data, children);
 }
 
 // IE11 :)
