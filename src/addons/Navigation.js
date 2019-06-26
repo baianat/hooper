@@ -13,11 +13,13 @@ function renderButton(h, disabled, slot, isPrev, { isVertical, isRTL }, onClick)
   const children =
     slot && slot.length
       ? slot
-      : h(Icon, {
-          props: {
-            name: iconName(isVertical, isRTL, isPrev)
-          }
-        });
+      : [
+          h(Icon, {
+            props: {
+              name: iconName(isVertical, isRTL, isPrev)
+            }
+          })
+        ];
 
   return h(
     'button',
@@ -72,7 +74,7 @@ export default {
 
     const children = [
       renderButton(h, this.isPrevDisabled, this.$slots['hooper-prev'], true, config, () => this.slidePrev()),
-      renderButton(h, this.isNextDisabled, this.$slots['hooper-next'], true, config, () => this.slideNext())
+      renderButton(h, this.isNextDisabled, this.$slots['hooper-next'], false, config, () => this.slideNext())
     ];
 
     return h(
