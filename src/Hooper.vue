@@ -33,7 +33,7 @@
 
 <script>
 import Vue from 'vue';
-import { getInRange, now, Timer, normalizeSlideIndex, cloneSlide } from './utils';
+import { getInRange, now, Timer, normalizeSlideIndex, cloneSlide, assign, sign } from './utils';
 
 let EMITTER = new Vue();
 
@@ -282,8 +282,8 @@ export default {
     },
     initDefaults() {
       this.breakpoints = this.settings.breakpoints;
-      this.defaults = Object.assign({}, this.$props, this.settings);
-      this.config = Object.assign({}, this.defaults);
+      this.defaults = assign({}, this.$props, this.settings);
+      this.config = assign({}, this.defaults);
     },
     initSlides() {
       this.slides = this.filteredSlides();
@@ -344,12 +344,12 @@ export default {
       breakpoints.some(breakpoint => {
         matched = window.matchMedia(`(min-width: ${breakpoint}px)`).matches;
         if (matched) {
-          this.config = Object.assign({}, this.config, this.defaults, this.breakpoints[breakpoint]);
+          this.config = assign({}, this.config, this.defaults, this.breakpoints[breakpoint]);
           return true;
         }
       });
       if (!matched) {
-        this.config = Object.assign(this.config, this.defaults);
+        this.config = assign(this.config, this.defaults);
       }
     },
     restartTimer() {
@@ -402,10 +402,10 @@ export default {
 
       if (this.config.vertical) {
         const draggedSlides = Math.round(Math.abs(this.delta.y / this.slideHeight) + tolerance);
-        this.slideTo(this.currentSlide - Math.sign(this.delta.y) * draggedSlides);
+        this.slideTo(this.currentSlide - sign(this.delta.y) * draggedSlides);
       }
       if (!this.config.vertical) {
-        const direction = (this.config.rtl ? -1 : 1) * Math.sign(this.delta.x);
+        const direction = (this.config.rtl ? -1 : 1) * sign(this.delta.x);
         const draggedSlides = Math.round(Math.abs(this.delta.x / this.slideWidth) + tolerance);
         this.slideTo(this.currentSlide - direction * draggedSlides);
       }
@@ -459,7 +459,7 @@ export default {
       // get wheel direction
       this.lastScrollTime = now();
       const value = event.wheelDelta || -event.deltaY;
-      const delta = Math.sign(value);
+      const delta = sign(value);
       if (delta === -1) {
         this.slideNext();
       }
