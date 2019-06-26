@@ -252,13 +252,6 @@ export default {
       this.defaults = Object.assign({}, this.$props, this.settings);
       this.config = Object.assign({}, this.defaults);
     },
-    initSlides() {
-      this.slides = this.filteredSlides();
-      this.slidesCount = this.slides.length;
-      this.slides.forEach((slide, indx) => {
-        slide.componentOptions.propsData.index = indx;
-      });
-    },
     // updating methods
     update() {
       if (this.breakpoints) {
@@ -482,52 +475,70 @@ export default {
   }
 };
 
+/**
+ * Renders additional slides for infinite slides mode.
+ * By cloning Slides VNodes before and after either edges.
+ */
+function renderBufferSlides(h, slides) {
+  const before = [];
+  const after = [];
+  // reduce prop access
+  const slidesCount = slides.length;
+  for (let i = 0; i < slidesCount; i++) {
+    const slide = slides[i];
+    const clonedBefore = cloneNode(h, slide);
+    clonedBefore.data.key = `index-${i - slidesCount}`;
+    clonedBefore.data.props = {
+      index: i - slidesCount,
+      isClone: true
+    };
+
+    before.push(clonedBefore);
+
+    const clonedAfter = cloneNode(h, slide);
+    clonedAfter.data.key = `index-${i + slidesCount}`;
+    clonedBefore.data.props = {
+      index: i + slidesCount,
+      isClone: true
+    };
+    after.push(clonedAfter);
+  }
+
+  slides = [...before, ...slides, ...after];
+}
+
+/**
+ * Produces the VNodes for the Slides.
+ * requires {this} to be bound to hooper.
+ * So use with .call or .bind
+ */
 function renderSlides(h) {
-  let slides = normalizeChildren(this).filter(child => {
-    if (!child.componentOptions || !child.componentOptions.Ctor) {
-      return false;
+  const children = normalizeChildren(this);
+  const childrenCount = children.length;
+  let idx = 0;
+  let slides = [];
+  for (let i = 0; i < childrenCount; i++) {
+    const child = children[i];
+    const ctor = child.componentOptions && child.componentOptions.Ctor;
+    if (!ctor || ctor.options.name !== 'HooperSlide') {
+      continue;
     }
 
-    return child.componentOptions.Ctor.options.name === 'HooperSlide';
-  });
-
-  this.slidesCount = slides.length;
-  // give each an index.
-  slides.forEach((slide, idx) => {
-    slide.componentOptions.propsData.index = idx;
-    slide.data.props = {
-      ...(slide.data.props || {}),
+    // give slide an index behind the scenes
+    child.componentOptions.propsData.index = idx;
+    child.data.props = {
+      ...(child.data.props || {}),
       isClone: false,
-      index: idx
+      index: idx++
     };
-  });
 
+    slides.push(child);
+  }
+
+  // update hooper's information of the slide count.
+  this.slidesCount = slides.length;
   if (this.config.infiniteScroll) {
-    const before = [];
-    const after = [];
-    // reduce prop access
-    const totalCount = this.slidesCount;
-
-    slides.forEach((slide, idx) => {
-      const clonedBefore = cloneNode(h, slide);
-      clonedBefore.data.key = `index-${idx - totalCount}`;
-      clonedBefore.data.props = {
-        index: idx - totalCount,
-        isClone: true
-      };
-
-      before.push(clonedBefore);
-
-      const clonedAfter = cloneNode(h, slide);
-      clonedAfter.data.key = `index-${idx + totalCount}`;
-      clonedBefore.data.props = {
-        index: idx + totalCount,
-        isClone: true
-      };
-      after.push(clonedAfter);
-    });
-
-    slides = [...before, ...slides, ...after];
+    slides = renderBufferSlides(h, slides);
   }
 
   return h(
@@ -547,6 +558,12 @@ function renderSlides(h) {
   );
 }
 
+/**
+ * Builds the VNodes for the hooper body.
+ * Which is the slides, addons if available, and a11y stuff.
+ * REQUIRES {this} to be bound to the hooper instance.
+ * use with .call or .bind
+ */
 function renderBody(h) {
   const slides = renderSlides.call(this, h);
   const addons = this.$slots['hooper-addons'] || [];
