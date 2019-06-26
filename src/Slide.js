@@ -1,21 +1,6 @@
-<template>
-  <li
-    class="hooper-slide"
-    :class="{
-      'is-clone': isClone,
-      'is-active': isActive,
-      'is-prev': isPrev,
-      'is-next': isNext,
-      'is-current': isCurrent
-    }"
-    :aria-hidden="isActive"
-    :style="style"
-  >
-    <slot></slot>
-  </li>
-</template>
+import { normalizeChildren } from './utils';
+import './styles/slide.css';
 
-<script>
 export default {
   name: 'HooperSlide',
   inject: ['$hooper'],
@@ -33,10 +18,10 @@ export default {
   computed: {
     style() {
       const { config, slideHeight, slideWidth } = this.$hooper || {};
-
       if (config.vertical) {
         return `height: ${slideHeight}px`;
       }
+
       return `width: ${slideWidth}px`;
     },
     lower() {
@@ -62,16 +47,29 @@ export default {
     isCurrent() {
       return this.index === this.$hooper.currentSlide;
     }
+  },
+  render(h) {
+    const classes = {
+      'hooper-slide': true,
+      'is-clone': this.isClone,
+      'is-active': this.isActive,
+      'is-prev': this.isPrev,
+      'is-next': this.isNext,
+      'is-current': this.isCurrent
+    };
+
+    const children = normalizeChildren(this);
+
+    return h(
+      'li',
+      {
+        class: classes,
+        style: this.style,
+        attrs: {
+          'aria-hidden': !this.isActive
+        }
+      },
+      children
+    );
   }
 };
-</script>
-
-<style>
-.hooper-slide {
-  flex-shrink: 0;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-</style>
