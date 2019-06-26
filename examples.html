@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Examples | Hooper</title>
+    <meta name="description" content="Vue.js carousel component">
+    <meta charset="utf-8">
+  <meta name="theme-color" content="#41b883">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="/hooper/hooper.png">
+  <script src="https://polyfill.io/v3/polyfill.min.js" crossorigin="anonymous"></script>
+    
+    <link rel="preload" href="/hooper/assets/css/0.styles.9dd28526.css" as="style"><link rel="preload" href="/hooper/assets/js/app.00615458.js" as="script"><link rel="preload" href="/hooper/assets/js/2.41922544.js" as="script"><link rel="preload" href="/hooper/assets/js/4.3e7590fc.js" as="script"><link rel="prefetch" href="/hooper/assets/js/3.cdfd678e.js"><link rel="prefetch" href="/hooper/assets/js/5.0913ff45.js"><link rel="prefetch" href="/hooper/assets/js/6.c79718c8.js"><link rel="prefetch" href="/hooper/assets/js/7.cd30828d.js"><link rel="prefetch" href="/hooper/assets/js/8.46b32645.js"><link rel="prefetch" href="/hooper/assets/js/9.26f19e11.js">
+    <link rel="stylesheet" href="/hooper/assets/css/0.styles.9dd28526.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/hooper/" class="home-link router-link-active"><!----> <span class="site-name">Hooper</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/hooper/api.html" class="nav-link">API</a></div><div class="nav-item"><a href="/hooper/examples.html" class="nav-link router-link-exact-active router-link-active">Examples</a></div> <a href="https://github.com/baianat/hooper" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/hooper/api.html" class="nav-link">API</a></div><div class="nav-item"><a href="/hooper/examples.html" class="nav-link router-link-exact-active router-link-active">Examples</a></div> <a href="https://github.com/baianat/hooper" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><a href="/hooper/getting-started.html" class="sidebar-link">Getting started</a></li><li><a href="/hooper/examples.html" class="active sidebar-link">Examples</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/hooper/examples.html#default-example" class="sidebar-link">Default Example</a></li><li class="sidebar-sub-header"><a href="/hooper/examples.html#navigation-component" class="sidebar-link">Navigation Component</a></li><li class="sidebar-sub-header"><a href="/hooper/examples.html#progress-component" class="sidebar-link">Progress Component</a></li><li class="sidebar-sub-header"><a href="/hooper/examples.html#indicator-pagination" class="sidebar-link">Indicator Pagination</a></li><li class="sidebar-sub-header"><a href="/hooper/examples.html#fraction-pagination" class="sidebar-link">Fraction Pagination</a></li><li class="sidebar-sub-header"><a href="/hooper/examples.html#show-multiple-items" class="sidebar-link">Show Multiple Items</a></li><li class="sidebar-sub-header"><a href="/hooper/examples.html#slide-multiple-items" class="sidebar-link">Slide Multiple Items</a></li><li class="sidebar-sub-header"><a href="/hooper/examples.html#infinite-scrolling" class="sidebar-link">Infinite Scrolling</a></li><li class="sidebar-sub-header"><a href="/hooper/examples.html#center-mode" class="sidebar-link">Center Mode</a></li><li class="sidebar-sub-header"><a href="/hooper/examples.html#auto-playing" class="sidebar-link">Auto Playing</a></li><li class="sidebar-sub-header"><a href="/hooper/examples.html#vertical-sliding" class="sidebar-link">Vertical Sliding</a></li><li class="sidebar-sub-header"><a href="/hooper/examples.html#group" class="sidebar-link">Group</a></li><li class="sidebar-sub-header"><a href="/hooper/examples.html#custom-controllers" class="sidebar-link">Custom Controllers</a></li></ul></li><li><a href="/hooper/api.html" class="sidebar-link">API</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="examples"><a href="#examples" aria-hidden="true" class="header-anchor">#</a> Examples</h1> <h2 id="default-example"><a href="#default-example" aria-hidden="true" class="header-anchor">#</a> Default Example</h2> <section tabindex="0" class="hooper"><div class="hooper-list"><ul class="hooper-track" style="transform:translate(0px, 0);"> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 1
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 2
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 3
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 4
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 5
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 6
+  </li> </ul></div>  <div aria-live="polite" aria-atomic="true" class="hooper-liveregion hooper-sr-only">
+    Item 1 of 6
+  </div></section> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 1
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 2
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 3
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 4
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 5
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 6
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h2 id="navigation-component"><a href="#navigation-component" aria-hidden="true" class="header-anchor">#</a> Navigation Component</h2> <section tabindex="0" class="hooper"><div class="hooper-list"><ul class="hooper-track" style="transform:translate(0px, 0);"> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 1
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 2
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 3
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 4
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 5
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 6
+  </li>  </ul></div> <div class="hooper-navigation"><button type="button" class="hooper-prev"><svg class="icon icon-arrowLeft" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Left</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg></button> <button type="button" class="hooper-next"><svg class="icon icon-arrowRight" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Right</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg></button></div> <div aria-live="polite" aria-atomic="true" class="hooper-liveregion hooper-sr-only">
+    Item 1 of 6
+  </div></section> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 1
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 2
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 3
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 4
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 5
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 6
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper-navigation</span> <span class="token attr-name">slot</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>hooper-addons<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper-navigation</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+<span class="token keyword">import</span> <span class="token punctuation">{</span>
+  Hooper<span class="token punctuation">,</span>
+  Slide<span class="token punctuation">,</span>
+  Navigation <span class="token keyword">as</span> HooperNavigation
+  <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'hooper'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  components<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    Hooper<span class="token punctuation">,</span>
+    Slide<span class="token punctuation">,</span>
+    HooperNavigation
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h2 id="progress-component"><a href="#progress-component" aria-hidden="true" class="header-anchor">#</a> Progress Component</h2> <section tabindex="0" class="hooper"><div class="hooper-list"><ul class="hooper-track" style="transform:translate(0px, 0);"> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 1
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 2
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 3
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 4
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 5
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 6
+  </li>  </ul></div> <div class="hooper-progress"><div class="hooper-progress-inner" style="width:0%;"></div></div> <div aria-live="polite" aria-atomic="true" class="hooper-liveregion hooper-sr-only">
+    Item 1 of 6
+  </div></section> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 1
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 2
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 3
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 4
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 5
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 6
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper-navigation</span> <span class="token attr-name">slot</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>hooper-addons<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper-navigation</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+<span class="token keyword">import</span> <span class="token punctuation">{</span>
+  Hooper<span class="token punctuation">,</span>
+  Slide<span class="token punctuation">,</span>
+  Progress <span class="token keyword">as</span> HooperProgress
+  <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'hooper'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  components<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    Hooper<span class="token punctuation">,</span>
+    Slide<span class="token punctuation">,</span>
+    HooperProgress
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h2 id="indicator-pagination"><a href="#indicator-pagination" aria-hidden="true" class="header-anchor">#</a> Indicator Pagination</h2> <section tabindex="0" class="hooper"><div class="hooper-list"><ul class="hooper-track" style="transform:translate(0px, 0);"> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 1
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 2
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 3
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 4
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 5
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 6
+  </li>  </ul></div> <div class="hooper-pagination"><ol class="hooper-indicators"><li><button class="hooper-indicator is-active"><span class="hooper-sr-only">item 0</span></button></li><li><button class="hooper-indicator"><span class="hooper-sr-only">item 1</span></button></li><li><button class="hooper-indicator"><span class="hooper-sr-only">item 2</span></button></li><li><button class="hooper-indicator"><span class="hooper-sr-only">item 3</span></button></li><li><button class="hooper-indicator"><span class="hooper-sr-only">item 4</span></button></li><li><button class="hooper-indicator"><span class="hooper-sr-only">item 5</span></button></li></ol> <!----></div> <div aria-live="polite" aria-atomic="true" class="hooper-liveregion hooper-sr-only">
+    Item 1 of 6
+  </div></section> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 1
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 2
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 3
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 4
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 5
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 6
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper-pagination</span> <span class="token attr-name">slot</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>hooper-addons<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper-pagination</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+<span class="token keyword">import</span> <span class="token punctuation">{</span>
+  Hooper<span class="token punctuation">,</span>
+  Slide<span class="token punctuation">,</span>
+  Pagination <span class="token keyword">as</span> HooperPagination
+  <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'hooper'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  components<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    Hooper<span class="token punctuation">,</span>
+    Slide<span class="token punctuation">,</span>
+    HooperPagination
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h2 id="fraction-pagination"><a href="#fraction-pagination" aria-hidden="true" class="header-anchor">#</a> Fraction Pagination</h2> <section tabindex="0" class="hooper"><div class="hooper-list"><ul class="hooper-track" style="transform:translate(0px, 0);"> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 1
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 2
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 3
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 4
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 5
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 6
+  </li>  </ul></div> <div class="hooper-pagination"><!----> <span>1</span> <span>/</span> <span>6</span></div> <div aria-live="polite" aria-atomic="true" class="hooper-liveregion hooper-sr-only">
+    Item 1 of 6
+  </div></section> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 1
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 2
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 3
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 4
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 5
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 6
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper-pagination</span> <span class="token attr-name">slot</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>hooper-addons<span class="token punctuation">&quot;</span></span> <span class="token attr-name">mode</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>fraction<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper-pagination</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+<span class="token keyword">import</span> <span class="token punctuation">{</span>
+  Hooper<span class="token punctuation">,</span>
+  Slide<span class="token punctuation">,</span>
+  Pagination <span class="token keyword">as</span> HooperPagination
+  <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'hooper'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  components<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    Hooper<span class="token punctuation">,</span>
+    Slide<span class="token punctuation">,</span>
+    HooperPagination
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h2 id="show-multiple-items"><a href="#show-multiple-items" aria-hidden="true" class="header-anchor">#</a> Show Multiple Items</h2> <section tabindex="0" class="hooper"><div class="hooper-list"><ul class="hooper-track" style="transform:translate(0px, 0);"> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 1
+  </li> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 2
+  </li> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 3
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 4
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 5
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 6
+  </li>  </ul></div> <div class="hooper-navigation"><button type="button" class="hooper-prev"><svg class="icon icon-arrowLeft" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Left</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg></button> <button type="button" class="hooper-next"><svg class="icon icon-arrowRight" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Right</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg></button></div> <div aria-live="polite" aria-atomic="true" class="hooper-liveregion hooper-sr-only">
+    Item 1 of 6
+  </div></section> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper</span> <span class="token attr-name">:itemsToShow</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>3<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 1
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 2
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 3
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 4
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 5
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 6
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h2 id="slide-multiple-items"><a href="#slide-multiple-items" aria-hidden="true" class="header-anchor">#</a> Slide Multiple Items</h2> <section tabindex="0" class="hooper"><div class="hooper-list"><ul class="hooper-track" style="transform:translate(0px, 0);"> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 1
+  </li> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 2
+  </li> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 3
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 4
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 5
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 6
+  </li>  </ul></div> <div class="hooper-navigation"><button type="button" class="hooper-prev"><svg class="icon icon-arrowLeft" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Left</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg></button> <button type="button" class="hooper-next"><svg class="icon icon-arrowRight" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Right</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg></button></div> <div aria-live="polite" aria-atomic="true" class="hooper-liveregion hooper-sr-only">
+    Item 1 of 6
+  </div></section> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper</span> <span class="token attr-name">:itemsToSlide</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>3<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 1
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 2
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 3
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 4
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 5
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 6
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h2 id="infinite-scrolling"><a href="#infinite-scrolling" aria-hidden="true" class="header-anchor">#</a> Infinite Scrolling</h2> <section tabindex="0" class="hooper"><div class="hooper-list"><ul class="hooper-track" style="transform:translate(0px, 0);"><li class="hooper-slide is-clone is-prev" style="width:0px;">
+    slide 1
+  </li><li class="hooper-slide is-clone is-prev" style="width:0px;">
+    slide 2
+  </li><li class="hooper-slide is-clone is-prev" style="width:0px;">
+    slide 3
+  </li><li class="hooper-slide is-clone is-prev" style="width:0px;">
+    slide 4
+  </li><li class="hooper-slide is-clone is-prev" style="width:0px;">
+    slide 5
+  </li><li class="hooper-slide is-clone is-prev" style="width:0px;">
+    slide 6
+  </li> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 1
+  </li> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 2
+  </li> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 3
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 4
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 5
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 6
+  </li>  <li class="hooper-slide is-clone is-next" style="width:0px;">
+    slide 1
+  </li><li class="hooper-slide is-clone is-next" style="width:0px;">
+    slide 2
+  </li><li class="hooper-slide is-clone is-next" style="width:0px;">
+    slide 3
+  </li><li class="hooper-slide is-clone is-next" style="width:0px;">
+    slide 4
+  </li><li class="hooper-slide is-clone is-next" style="width:0px;">
+    slide 5
+  </li><li class="hooper-slide is-clone is-next" style="width:0px;">
+    slide 6
+  </li></ul></div> <div class="hooper-navigation"><button type="button" class="hooper-prev"><svg class="icon icon-arrowLeft" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Left</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg></button> <button type="button" class="hooper-next"><svg class="icon icon-arrowRight" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Right</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg></button></div> <div aria-live="polite" aria-atomic="true" class="hooper-liveregion hooper-sr-only">
+    Item 1 of 6
+  </div></section> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper</span> <span class="token attr-name">:infiniteScroll</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>true<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 1
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 2
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 3
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 4
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 5
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 6
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h2 id="center-mode"><a href="#center-mode" aria-hidden="true" class="header-anchor">#</a> Center Mode</h2> <section tabindex="0" id="centerMode" class="hooper"><div class="hooper-list"><ul class="hooper-track" style="transform:translate(NaNpx, 0);"> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 1
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 2
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 3
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 4
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 5
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 6
+  </li>  </ul></div> <div class="hooper-navigation"><button type="button" class="hooper-prev"><svg class="icon icon-arrowLeft" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Left</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg></button> <button type="button" class="hooper-next"><svg class="icon icon-arrowRight" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Right</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg></button></div> <div aria-live="polite" aria-atomic="true" class="hooper-liveregion hooper-sr-only">
+    Item 1 of 6
+  </div></section> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper</span> <span class="token attr-name">:itemsToShow</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>1.25<span class="token punctuation">&quot;</span></span> <span class="token attr-name">:centerMode</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>true<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 1
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 2
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 3
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 4
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 5
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 6
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><div class="language-css extra-class"><pre class="language-css"><code><span class="token selector">.hooper-slide.is-current</span> <span class="token punctuation">{</span>
+  <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">scale</span><span class="token punctuation">(</span>1.2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="auto-playing"><a href="#auto-playing" aria-hidden="true" class="header-anchor">#</a> Auto Playing</h2> <section tabindex="0" progress="true" class="hooper"><div class="hooper-list"><ul class="hooper-track" style="transform:translate(0px, 0);"> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 1
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 2
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 3
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 4
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 5
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 6
+  </li>   </ul></div> <div class="hooper-navigation"><button type="button" class="hooper-prev"><svg class="icon icon-arrowLeft" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Left</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg></button> <button type="button" class="hooper-next"><svg class="icon icon-arrowRight" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Right</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg></button></div><div class="hooper-progress"><div class="hooper-progress-inner" style="width:0%;"></div></div> <div aria-live="polite" aria-atomic="true" class="hooper-liveregion hooper-sr-only">
+    Item 1 of 6
+  </div></section> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper</span> <span class="token attr-name">:progress</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>true<span class="token punctuation">&quot;</span></span> <span class="token attr-name">:autoPlay</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>true<span class="token punctuation">&quot;</span></span> <span class="token attr-name">:playSpeed</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>2000<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 1
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 2
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 3
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 4
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 5
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 6
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h2 id="vertical-sliding"><a href="#vertical-sliding" aria-hidden="true" class="header-anchor">#</a> Vertical Sliding</h2> <section tabindex="0" class="hooper is-vertical" style="height:400px;"><div class="hooper-list"><ul class="hooper-track" style="transform:translate(0, NaNpx);"> <li aria-hidden="true" class="hooper-slide is-active" style="height:0px;">
+    slide 1
+  </li> <li class="hooper-slide is-next" style="height:0px;">
+    slide 2
+  </li> <li class="hooper-slide is-next" style="height:0px;">
+    slide 3
+  </li> <li class="hooper-slide is-next" style="height:0px;">
+    slide 4
+  </li> <li class="hooper-slide is-next" style="height:0px;">
+    slide 5
+  </li> <li class="hooper-slide is-next" style="height:0px;">
+    slide 6
+  </li>  </ul></div> <div class="hooper-navigation is-vertical"><button type="button" class="hooper-prev"><svg class="icon icon-arrowUp" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Up</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg></button> <button type="button" class="hooper-next"><svg class="icon icon-arrowDown" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Down</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg></button></div> <div aria-live="polite" aria-atomic="true" class="hooper-liveregion hooper-sr-only">
+    Item 1 of 6
+  </div></section> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper</span> <span class="token attr-name">:vertical</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>true<span class="token punctuation">&quot;</span></span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">=&quot;</span><span class="token attr-value"><span class="token property">height</span><span class="token punctuation">:</span> 400px</span><span class="token punctuation">&quot;</span></span> <span class="token attr-name">:itemsToShow</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>1.5<span class="token punctuation">&quot;</span></span> <span class="token attr-name">:centerMode</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>true<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 1
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 2
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 3
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 4
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 5
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 6
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h2 id="group"><a href="#group" aria-hidden="true" class="header-anchor">#</a> Group</h2> <section tabindex="0" class="hooper"><div class="hooper-list"><ul class="hooper-track" style="transform:translate(0px, 0);"> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 1
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 2
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 3
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 4
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 5
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 6
+  </li> </ul></div>  <div aria-live="polite" aria-atomic="true" class="hooper-liveregion hooper-sr-only">
+    Item 1 of 6
+  </div></section> <section tabindex="0" class="hooper"><div class="hooper-list"><ul class="hooper-track" style="transform:translate(NaNpx, 0);"> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 1
+  </li> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 2
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 3
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 4
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 5
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 6
+  </li>   </ul></div> <div class="hooper-navigation"><button type="button" class="hooper-prev"><svg class="icon icon-arrowLeft" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Left</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg></button> <button type="button" class="hooper-next"><svg class="icon icon-arrowRight" viewBox="0 0 24 24" width="24px" height="24px"><title>Arrow Right</title><path d="M0 0h24v24H0z" fill="none"></path><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg></button></div><div class="hooper-pagination"><ol class="hooper-indicators"><li><button class="hooper-indicator is-active"><span class="hooper-sr-only">item 0</span></button></li><li><button class="hooper-indicator"><span class="hooper-sr-only">item 1</span></button></li><li><button class="hooper-indicator"><span class="hooper-sr-only">item 2</span></button></li><li><button class="hooper-indicator"><span class="hooper-sr-only">item 3</span></button></li><li><button class="hooper-indicator"><span class="hooper-sr-only">item 4</span></button></li><li><button class="hooper-indicator"><span class="hooper-sr-only">item 5</span></button></li></ol> <!----></div> <div aria-live="polite" aria-atomic="true" class="hooper-liveregion hooper-sr-only">
+    Item 1 of 6
+  </div></section> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper</span> <span class="token attr-name">group</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>group1<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 1
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 2
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 3
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 4
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 5
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 6
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper</span> <span class="token attr-name">group</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>group1<span class="token punctuation">&quot;</span></span> <span class="token attr-name">:itemsToShow</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>3<span class="token punctuation">&quot;</span></span> <span class="token attr-name">:centerMode</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>true<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 1
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 2
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 3
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 4
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 5
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+    slide 6
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper-navigation</span> <span class="token attr-name">slot</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>hooper-addons<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper-navigation</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper-pagination</span> <span class="token attr-name">slot</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>hooper-addons<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper-pagination</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h2 id="custom-controllers"><a href="#custom-controllers" aria-hidden="true" class="header-anchor">#</a> Custom Controllers</h2> <a href="">prev</a> <input type="number" min="0" max="5" value="0"> <a href="">next</a> <section tabindex="0" class="hooper"><div class="hooper-list"><ul class="hooper-track" style="transform:translate(NaNpx, 0);"> <li aria-hidden="true" class="hooper-slide is-active" style="width:0px;">
+    slide 1
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 2
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 3
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 4
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 5
+  </li> <li class="hooper-slide is-next" style="width:0px;">
+    slide 6
+  </li> </ul></div>  <div aria-live="polite" aria-atomic="true" class="hooper-liveregion hooper-sr-only">
+    Item 1 of 6
+  </div></section> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">@click.prevent</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>slidePrev<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>prev<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>carouselData<span class="token punctuation">&quot;</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>number<span class="token punctuation">&quot;</span></span> <span class="token attr-name">min</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>0<span class="token punctuation">&quot;</span></span> <span class="token attr-name">max</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>5<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">@click.prevent</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>slideNext<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>next<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hooper</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>carousel<span class="token punctuation">&quot;</span></span> <span class="token attr-name">@slide</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>updateCarousel<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 1
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 2
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 3
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 4
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 5
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slide</span><span class="token punctuation">&gt;</span></span>
+      slide 6
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slide</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hooper</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token function">data</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      carouselData<span class="token punctuation">:</span> <span class="token number">0</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  watch<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token function">carouselData</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>carousel<span class="token punctuation">.</span><span class="token function">slideTo</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>carouselData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token function">slidePrev</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>carousel<span class="token punctuation">.</span><span class="token function">slidePrev</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">slideNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>carousel<span class="token punctuation">.</span><span class="token function">slideNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">updateCarousel</span><span class="token punctuation">(</span>payload<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>myCarouselData <span class="token operator">=</span> payload<span class="token punctuation">.</span>currentSlide<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/baianat/hooper/edit/master/docs/examples.md" target="_blank" rel="noopener noreferrer">Help us improve this page!</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/hooper/getting-started.html" class="prev">
+          Getting started
+        </a></span> <span class="next"><a href="/hooper/api.html">
+          API
+        </a>
+        →
+      </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/hooper/assets/js/app.00615458.js" defer></script><script src="/hooper/assets/js/2.41922544.js" defer></script><script src="/hooper/assets/js/4.3e7590fc.js" defer></script>
+  </body>
+</html>
