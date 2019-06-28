@@ -792,11 +792,62 @@ export default {
 </script>
 ```
 
+## Dynamic Slides
+
+Hooper plays well with dynamic slides as well.
+
+<template>
+  <input type="text" v-model="body">
+  <a href="#" @click.prevent="addSlide">Add</a>
+  <hooper>
+    <slide v-for="slide in slides">
+      {{ slide.body }}
+    </slide>
+
+    <hooper-navigation slot="hooper-addons"></hooper-navigation>
+  </hooper>
+</template>
+
+```vue
+<template>
+  <div>
+    <input type="text" v-model="body">
+    <a href="#" @click.prevent="addSlide">Add</a>
+    <hooper>
+      <slide v-for="slide in slides">
+        {{ slide.body }}
+      </slide>
+
+      <hooper-navigation slot="hooper-addons"></hooper-navigation>
+    </hooper>
+  </div>
+</template>
+
 <script>
 export default {
   data () {
     return {
-      myCarouselData: 0
+      slides: [],
+      body: 'New Slide 1'
+    }
+  },
+  methods: {
+    addSlide () {
+      this.slides.push({ body: this.body || 'New Slide' });
+      this.body = 'New Slide ' + this.slides.length;
+    }
+  }
+}
+</script>
+```
+
+<script>
+export default {
+  data () {
+    return {
+      myCarouselData: 0,
+      slides: [],
+      body: 'New Slide'
     }
   },
   watch: {
@@ -805,6 +856,10 @@ export default {
     }
   },
   methods: {
+    addSlide () {
+      this.slides.push({ body: this.body || 'New Slide' });
+      this.body = 'New Slide ' + this.slides.length;
+    },
     slidePrev() {
       this.$refs.myCarousel.slidePrev();
     },

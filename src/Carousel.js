@@ -123,7 +123,6 @@ export default {
       trimEnd: 1,
       currentSlide: null,
       timer: null,
-      slides: [],
       defaults: {},
       breakpoints: {},
       delta: { x: 0, y: 0 },
@@ -435,7 +434,7 @@ export default {
     this.addGroupListeners();
     this.$nextTick(() => {
       this.update();
-      this.slideTo(this.config.initialSlide);
+      this.slideTo(this.config.initialSlide || 0);
       this.$emit('loaded');
     });
   },

@@ -38,10 +38,19 @@ export function camelCaseToString(camelCase) {
 }
 
 export function normalizeSlideIndex(index, slidesCount) {
+  let realIndex;
   if (index < 0) {
-    return (index + slidesCount) % slidesCount;
+    realIndex = (index + slidesCount) % slidesCount;
+  } else {
+    realIndex = index % slidesCount;
   }
-  return index % slidesCount;
+
+  // Test for NaN
+  if (realIndex !== realIndex) {
+    return 0;
+  }
+
+  return realIndex;
 }
 
 export function cloneNode(h, vNode) {
