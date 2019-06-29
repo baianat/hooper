@@ -503,7 +503,7 @@ function renderBufferSlides(h, slides) {
     after.push(clonedAfter);
   }
 
-  slides = [...before, ...slides, ...after];
+  return [...before, ...slides, ...after];
 }
 
 /**
