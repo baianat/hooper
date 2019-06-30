@@ -487,6 +487,7 @@ function renderBufferSlides(h, slides) {
     const slide = slides[i];
     const clonedBefore = cloneNode(h, slide);
     clonedBefore.data.key = `index-${i - slidesCount}`;
+    clonedBefore.key = clonedBefore.data.key;
     clonedBefore.data.props = {
       index: i - slidesCount,
       isClone: true
@@ -496,7 +497,8 @@ function renderBufferSlides(h, slides) {
 
     const clonedAfter = cloneNode(h, slide);
     clonedAfter.data.key = `index-${i + slidesCount}`;
-    clonedBefore.data.props = {
+    clonedAfter.key = clonedAfter.data.key;
+    clonedAfter.data.props = {
       index: i + slidesCount,
       isClone: true
     };
@@ -525,6 +527,8 @@ function renderSlides(h) {
 
     // give slide an index behind the scenes
     child.componentOptions.propsData.index = idx;
+    child.data.key = idx;
+    child.key = idx;
     child.data.props = {
       ...(child.data.props || {}),
       isClone: false,
