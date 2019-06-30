@@ -38,46 +38,27 @@ export function camelCaseToString(camelCase) {
 }
 
 export function normalizeSlideIndex(index, slidesCount) {
+  let realIndex;
   if (index < 0) {
-    return (index + slidesCount) % slidesCount;
+    realIndex = (index + slidesCount) % slidesCount;
+  } else {
+    realIndex = index % slidesCount;
   }
-  return index % slidesCount;
+
+  // Test for NaN
+  if (realIndex !== realIndex) {
+    return 0;
+  }
+
+  return realIndex;
 }
 
-function extractData(vnode, indx) {
-  const cOpts = vnode.componentOptions;
-  const data = {
-    class: vnode.data.class,
-    staticClass: vnode.data.staticClass,
-    style: vnode.data.style,
-    attrs: vnode.data.attrs,
-    props: {
-      ...cOpts.propsData,
-      isClone: true,
-      index: indx
-    },
-    on: cOpts.listeners,
-    nativeOn: vnode.data.nativeOn,
-    directives: vnode.data.directives,
-    scopesSlots: vnode.data.scopesSlots,
-    slot: vnode.data.slot,
-    ref: vnode.data.ref,
-    key: vnode.data.key ? `${indx}-clone` : undefined
-  };
-
-  return data;
-}
-
-export function cloneSlide(vnode, indx) {
+export function cloneNode(h, vNode) {
   // use the context that the original vnode was created in.
-  const h = vnode.context && vnode.context.$createElement;
-  const children = vnode.componentOptions.children;
+  const children = vNode.children || vNode.componentOptions.children || vNode.text;
+  const tag = vNode.componentOptions.Ctor;
 
-  const data = extractData(vnode, indx);
-
-  const tag = vnode.componentOptions.Ctor;
-
-  return h(tag, data, children);
+  return h(tag, vNode.data, children);
 }
 
 // IE11 :)
@@ -118,3 +99,11 @@ function signPoly(value) {
 }
 
 export const sign = Math.sign || signPoly;
+
+export function normalizeChildren(context, slotProps = {}) {
+  if (context.$scopedSlots.default) {
+    return context.$scopedSlots.default(slotProps) || [];
+  }
+
+  return context.$slots.default || [];
+}

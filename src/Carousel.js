@@ -1,39 +1,6 @@
-<template>
-  <section
-    class="hooper"
-    tabindex="0"
-    @mouseover="isHover = true"
-    @mouseleave="isHover = false"
-    @focusin="isFocus = true"
-    @focusout="isFocus = false"
-    :class="{
-      'is-vertical': config.vertical,
-      'is-rtl': config.rtl
-    }"
-  >
-    <div class="hooper-list">
-      <ul
-        class="hooper-track"
-        :class="{ 'is-dragging': isDragging }"
-        ref="track"
-        @transitionend="onTransitionend"
-        :style="trackTransform + trackTransition"
-      >
-        <slot name="clone-before"></slot>
-        <slot></slot>
-        <slot name="clone-after"></slot>
-      </ul>
-    </div>
-    <slot name="hooper-addons"></slot>
-    <div class="hooper-liveregion hooper-sr-only" aria-live="polite" aria-atomic="true">
-      {{ `Item ${currentSlide + 1} of ${slidesCount}` }}
-    </div>
-  </section>
-</template>
-
-<script>
 import Vue from 'vue';
-import { getInRange, now, Timer, normalizeSlideIndex, cloneSlide, assign, sign } from './utils';
+import { getInRange, now, Timer, normalizeSlideIndex, cloneNode, normalizeChildren } from './utils';
+import './styles/carousel.css';
 
 let EMITTER = new Vue();
 
@@ -156,7 +123,6 @@ export default {
       trimEnd: 1,
       currentSlide: null,
       timer: null,
-      slides: [],
       defaults: {},
       breakpoints: {},
       delta: { x: 0, y: 0 },
@@ -282,27 +248,9 @@ export default {
     },
     initDefaults() {
       this.breakpoints = this.settings.breakpoints;
-      this.defaults = assign({}, this.$props, this.settings);
-      this.config = assign({}, this.defaults);
+      this.defaults = Object.assign({}, this.$props, this.settings);
+      this.config = Object.assign({}, this.defaults);
     },
-    initSlides() {
-      this.slides = this.filteredSlides();
-      this.slidesCount = this.slides.length;
-      this.slides.forEach((slide, indx) => {
-        slide.componentOptions.propsData.index = indx;
-      });
-      if (this.config.infiniteScroll) {
-        const before = [];
-        const after = [];
-        this.slides.forEach((slide, indx) => {
-          before.push(cloneSlide(slide, indx - this.slidesCount));
-          after.push(cloneSlide(slide, indx + this.slidesCount));
-        });
-        this.$slots['clone-before'] = before;
-        this.$slots['clone-after'] = after;
-      }
-    },
-
     // updating methods
     update() {
       if (this.breakpoints) {
@@ -344,12 +292,12 @@ export default {
       breakpoints.some(breakpoint => {
         matched = window.matchMedia(`(min-width: ${breakpoint}px)`).matches;
         if (matched) {
-          this.config = assign({}, this.config, this.defaults, this.breakpoints[breakpoint]);
+          this.config = Object.assign({}, this.config, this.defaults, this.breakpoints[breakpoint]);
           return true;
         }
       });
       if (!matched) {
-        this.config = assign(this.config, this.defaults);
+        this.config = Object.assign(this.config, this.defaults);
       }
     },
     restartTimer() {
@@ -358,7 +306,6 @@ export default {
       }
     },
     restart() {
-      this.initSlides();
       this.$nextTick(() => {
         this.update();
       });
@@ -402,10 +349,10 @@ export default {
 
       if (this.config.vertical) {
         const draggedSlides = Math.round(Math.abs(this.delta.y / this.slideHeight) + tolerance);
-        this.slideTo(this.currentSlide - sign(this.delta.y) * draggedSlides);
+        this.slideTo(this.currentSlide - Math.sign(this.delta.y) * draggedSlides);
       }
       if (!this.config.vertical) {
-        const direction = (this.config.rtl ? -1 : 1) * sign(this.delta.x);
+        const direction = (this.config.rtl ? -1 : 1) * Math.sign(this.delta.x);
         const draggedSlides = Math.round(Math.abs(this.delta.x / this.slideWidth) + tolerance);
         this.slideTo(this.currentSlide - direction * draggedSlides);
       }
@@ -459,22 +406,13 @@ export default {
       // get wheel direction
       this.lastScrollTime = now();
       const value = event.wheelDelta || -event.deltaY;
-      const delta = sign(value);
+      const delta = Math.sign(value);
       if (delta === -1) {
         this.slideNext();
       }
       if (delta === 1) {
         this.slidePrev();
       }
-    },
-
-    filteredSlides() {
-      return this.$slots.default.filter(el => {
-        if (!el.componentOptions || !el.componentOptions.Ctor) {
-          return false;
-        }
-        return el.componentOptions.Ctor.options.name === 'HooperSlide';
-      });
     },
     addGroupListeners() {
       if (!this.group) {
@@ -488,24 +426,15 @@ export default {
       EMITTER.$on(`slideGroup:${this.group}`, this._groupSlideHandler);
     }
   },
-  beforeUpdate() {
-    const isForcUpdated = this.config.infiniteScroll && (!this.$slots['clone-before'] || !this.$slots['clone-after']);
-    const isSlidesUpdated = this.filteredSlides().length !== this.slidesCount;
-
-    if (isForcUpdated || isSlidesUpdated) {
-      this.initSlides();
-    }
-  },
   created() {
     this.initDefaults();
-    this.initSlides();
   },
   mounted() {
     this.initEvents();
     this.addGroupListeners();
     this.$nextTick(() => {
       this.update();
-      this.slideTo(this.config.initialSlide);
+      this.slideTo(this.config.initialSlide || 0);
       this.$emit('loaded');
     });
   },
@@ -518,50 +447,150 @@ export default {
     if (this.timer) {
       this.timer.stop();
     }
+  },
+  render(h) {
+    const body = renderBody.call(this, h);
+
+    return h(
+      'section',
+      {
+        class: {
+          hooper: true,
+          'is-vertical': this.config.vertical,
+          'is-rtl': this.config.rtl
+        },
+        attrs: {
+          tabindex: '0'
+        },
+        on: {
+          focusin: () => (this.isFocus = true),
+          focusout: () => (this.isFocus = false),
+          mouseover: () => (this.isHover = true),
+          mouseleave: () => (this.isHover = false)
+        }
+      },
+      body
+    );
   }
 };
-</script>
 
-<style>
-.hooper {
-  position: relative;
-  box-sizing: border-box;
-  width: 100%;
-  height: 200px;
-}
-.hooper * {
-  box-sizing: border-box;
-}
-.hooper-list {
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-}
-.hooper-track {
-  display: flex;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-}
-.hooper.is-vertical .hooper-track {
-  flex-direction: column;
-  height: 200px;
+/**
+ * Renders additional slides for infinite slides mode.
+ * By cloning Slides VNodes before and after either edges.
+ */
+function renderBufferSlides(h, slides) {
+  const before = [];
+  const after = [];
+  // reduce prop access
+  const slidesCount = slides.length;
+  for (let i = 0; i < slidesCount; i++) {
+    const slide = slides[i];
+    const clonedBefore = cloneNode(h, slide);
+    clonedBefore.data.key = `index-${i - slidesCount}`;
+    clonedBefore.key = clonedBefore.data.key;
+    clonedBefore.data.props = {
+      index: i - slidesCount,
+      isClone: true
+    };
+
+    before.push(clonedBefore);
+
+    const clonedAfter = cloneNode(h, slide);
+    clonedAfter.data.key = `index-${i + slidesCount}`;
+    clonedAfter.key = clonedAfter.data.key;
+    clonedAfter.data.props = {
+      index: i + slidesCount,
+      isClone: true
+    };
+    after.push(clonedAfter);
+  }
+
+  return [...before, ...slides, ...after];
 }
 
-.hooper.is-rtl {
-  direction: rtl;
+/**
+ * Produces the VNodes for the Slides.
+ * requires {this} to be bound to hooper.
+ * So use with .call or .bind
+ */
+function renderSlides(h) {
+  const children = normalizeChildren(this);
+  const childrenCount = children.length;
+  let idx = 0;
+  let slides = [];
+  for (let i = 0; i < childrenCount; i++) {
+    const child = children[i];
+    const ctor = child.componentOptions && child.componentOptions.Ctor;
+    if (!ctor || ctor.options.name !== 'HooperSlide') {
+      continue;
+    }
+
+    // give slide an index behind the scenes
+    child.componentOptions.propsData.index = idx;
+    child.data.key = idx;
+    child.key = idx;
+    child.data.props = {
+      ...(child.data.props || {}),
+      isClone: false,
+      index: idx++
+    };
+
+    slides.push(child);
+  }
+
+  // update hooper's information of the slide count.
+  this.slidesCount = slides.length;
+  if (this.config.infiniteScroll) {
+    slides = renderBufferSlides(h, slides);
+  }
+
+  return h(
+    'ul',
+    {
+      class: {
+        'hooper-track': true,
+        'is-dragging': this.isDragging
+      },
+      style: this.trackTransform + this.trackTransition,
+      ref: 'track',
+      on: {
+        transitionend: this.onTransitionend
+      }
+    },
+    slides
+  );
 }
 
-.hooper-sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
+/**
+ * Builds the VNodes for the hooper body.
+ * Which is the slides, addons if available, and a11y stuff.
+ * REQUIRES {this} to be bound to the hooper instance.
+ * use with .call or .bind
+ */
+function renderBody(h) {
+  const slides = renderSlides.call(this, h);
+  const addons = this.$slots['hooper-addons'] || [];
+  const a11y = h(
+    'div',
+    {
+      class: 'hooper-liveregion hooper-sr-only',
+      attrs: {
+        'aria-live': 'polite',
+        'aria-atomic': 'true'
+      }
+    },
+    `Item ${this.currentSlide + 1} of ${this.slidesCount}`
+  );
+
+  const children = [slides, ...addons, a11y];
+
+  return [
+    h(
+      'div',
+      {
+        class: 'hooper-list'
+      },
+      children
+    )
+  ];
 }
-</style>
