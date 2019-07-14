@@ -53,6 +53,12 @@ export default {
       if (this.$hooper.config.infiniteScroll) {
         return false;
       }
+
+      if (this.$hooper.config.trimWhiteSpace) {
+        return this.$hooper.currentSlide
+          === (this.$hooper.slidesCount - Math.min(this.$hooper.config.itemsToShow, this.$hooper.slidesCount));
+      }
+
       return this.$hooper.currentSlide === this.$hooper.slidesCount - 1;
     }
   },
