@@ -218,10 +218,10 @@ export default {
         this.initAutoPlay();
       }
       if (this.config.mouseDrag) {
-        this.$refs.track.addEventListener('mousedown', this.onDragStart);
+        this.$refs.list.addEventListener('mousedown', this.onDragStart);
       }
       if (this.config.touchDrag) {
-        this.$refs.track.addEventListener('touchstart', this.onDragStart, {
+        this.$refs.list.addEventListener('touchstart', this.onDragStart, {
           passive: true
         });
       }
@@ -588,7 +588,8 @@ function renderBody(h) {
     h(
       'div',
       {
-        class: 'hooper-list'
+        class: 'hooper-list',
+        ref: 'list'
       },
       children
     )
