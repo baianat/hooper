@@ -7,9 +7,15 @@ function renderFraction(h, current, totalCount) {
 
 function renderIndicator(h, index, isCurrent, onClick) {
   return h('li', [
-    h('button', { class: { 'hooper-indicator': true, 'is-active': isCurrent }, on: { click: onClick } }, [
-      h('span', { class: 'hooper-sr-only' }, `item ${index}`)
-    ])
+    h(
+      'button',
+      {
+        class: { 'hooper-indicator': true, 'is-active': isCurrent },
+        on: { click: onClick },
+        attrs: { type: 'button' }
+      },
+      [h('span', { class: 'hooper-sr-only' }, `item ${index}`)]
+    )
   ]);
 }
 
