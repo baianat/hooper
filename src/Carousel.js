@@ -331,10 +331,17 @@ export default {
       if (this.isSliding) {
         return;
       }
+
       this.endPosition.x = this.isTouch ? event.touches[0].clientX : event.clientX;
       this.endPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
-      this.delta.x = this.endPosition.x - this.startPosition.x;
-      this.delta.y = this.endPosition.y - this.startPosition.y;
+      const deltaX = this.endPosition.x - this.startPosition.x;
+      const deltaY = this.endPosition.y - this.startPosition.y;
+      if (!this.config.vertical && Math.abs(deltaX) <= Math.abs(deltaY)) {
+        // Maybe scrolling.
+        return;
+      }
+      this.delta.y = deltaY;
+      this.delta.x = deltaX;
 
       if (!this.isTouch) {
         event.preventDefault();
