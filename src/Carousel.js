@@ -310,7 +310,6 @@ export default {
         this.update();
       });
     },
-
     // events handlers
     onDragStart(event) {
       this.isTouch = event.type === 'touchstart';
@@ -327,6 +326,17 @@ export default {
       document.addEventListener(this.isTouch ? 'touchmove' : 'mousemove', this.onDrag);
       document.addEventListener(this.isTouch ? 'touchend' : 'mouseup', this.onDragEnd);
     },
+    isInvalidDirection(deltaX, deltaY) {
+      if (!this.config.vertical) {
+        return Math.abs(deltaX) <= Math.abs(deltaY);
+      }
+
+      if (this.config.vertical) {
+        return Math.abs(deltaY) <= Math.abs(deltaX);
+      }
+
+      return false;
+    },
     onDrag(event) {
       if (this.isSliding) {
         return;
@@ -336,10 +346,11 @@ export default {
       this.endPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
       const deltaX = this.endPosition.x - this.startPosition.x;
       const deltaY = this.endPosition.y - this.startPosition.y;
-      if (!this.config.vertical && Math.abs(deltaX) <= Math.abs(deltaY)) {
-        // Maybe scrolling.
+      // Maybe scrolling.
+      if (this.isInvalidDirection(deltaX, deltaY)) {
         return;
       }
+
       this.delta.y = deltaY;
       this.delta.x = deltaX;
 
