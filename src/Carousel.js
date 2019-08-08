@@ -326,9 +326,6 @@ export default {
 
       document.addEventListener(this.isTouch ? 'touchmove' : 'mousemove', this.onDrag);
       document.addEventListener(this.isTouch ? 'touchend' : 'mouseup', this.onDragEnd);
-      if (event.type !== 'touchstart') {
-        event.preventDefault();
-      }
     },
     onDrag(event) {
       if (this.isSliding) {
