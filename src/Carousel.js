@@ -582,7 +582,6 @@ function renderSlides(h) {
   this.slidesCount = slides.length;
   if (this.config.infiniteScroll) {
     slides = renderBufferSlides(h, slides);
-    console.log(slides);
   }
 
   return h(
