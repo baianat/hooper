@@ -11,7 +11,6 @@ export default {
     },
     index: {
       type: Number,
-      default: 0,
       required: true
     }
   },
@@ -24,25 +23,37 @@ export default {
 
       return `width: ${slideWidth}px`;
     },
-    lower() {
-      const { config, currentSlide } = this.$hooper || {};
+    bounds() {
+      const { config, currentSlide } = this.$hooper;
+      // Because the "isActive" depends on the slides shown, not the number of slidable ones.
+      // but upper and lower bounds for Next,Prev depend on whatever is smaller.
       const siblings = config.itemsToShow;
-      return config.centerMode ? Math.ceil(currentSlide - siblings / 2) : currentSlide;
-    },
-    upper() {
-      const { config, currentSlide } = this.$hooper || {};
-      const siblings = config.itemsToShow;
+      const lower = config.centerMode ? Math.ceil(currentSlide - siblings / 2) : currentSlide;
+      const upper = config.centerMode
+        ? Math.floor(currentSlide + siblings / 2)
+        : Math.floor(currentSlide + siblings - 1);
 
-      return config.centerMode ? Math.floor(currentSlide + siblings / 2) : Math.floor(currentSlide + siblings - 1);
+      return {
+        lower,
+        upper
+      };
     },
     isActive() {
-      return this.index >= this.lower && this.index <= this.upper;
+      const { upper, lower } = this.bounds;
+
+      return this.index >= lower && this.index <= upper;
     },
     isPrev() {
-      return this.index <= this.lower - 1;
+      const { lower } = this.bounds;
+      const { itemsToSlide } = this.$hooper.config;
+
+      return this.index < lower && this.index >= lower - itemsToSlide;
     },
     isNext() {
-      return this.index >= this.upper + 1;
+      const { upper } = this.bounds;
+      const { itemsToSlide } = this.$hooper.config;
+
+      return this.index > upper && this.index <= upper + itemsToSlide;
     },
     isCurrent() {
       return this.index === this.$hooper.currentSlide;

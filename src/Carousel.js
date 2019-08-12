@@ -507,20 +507,24 @@ function renderBufferSlides(h, slides) {
   for (let i = 0; i < slidesCount; i++) {
     const slide = slides[i];
     const clonedBefore = cloneNode(h, slide);
-    clonedBefore.data.key = `index-${i - slidesCount}`;
+    let slideIndex = i - slidesCount;
+    clonedBefore.data.key = `before_${i}`;
     clonedBefore.key = clonedBefore.data.key;
+    clonedBefore.componentOptions.propsData.index = slideIndex;
     clonedBefore.data.props = {
-      index: i - slidesCount,
+      index: slideIndex,
       isClone: true
     };
 
     before.push(clonedBefore);
 
     const clonedAfter = cloneNode(h, slide);
-    clonedAfter.data.key = `index-${i + slidesCount}`;
+    slideIndex = i + slidesCount;
+    clonedAfter.data.key = `after_${slideIndex}`;
+    clonedAfter.componentOptions.propsData.index = slideIndex;
     clonedAfter.key = clonedAfter.data.key;
     clonedAfter.data.props = {
-      index: i + slidesCount,
+      index: slideIndex,
       isClone: true
     };
     after.push(clonedAfter);
@@ -563,6 +567,7 @@ function renderSlides(h) {
   this.slidesCount = slides.length;
   if (this.config.infiniteScroll) {
     slides = renderBufferSlides(h, slides);
+    console.log(slides);
   }
 
   return h(
