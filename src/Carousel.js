@@ -131,6 +131,21 @@ export default {
     };
   },
   computed: {
+    slideBounds() {
+      const { config, currentSlide } = this;
+      // Because the "isActive" depends on the slides shown, not the number of slidable ones.
+      // but upper and lower bounds for Next,Prev depend on whatever is smaller.
+      const siblings = config.itemsToShow;
+      const lower = config.centerMode ? Math.ceil(currentSlide - siblings / 2) : currentSlide;
+      const upper = config.centerMode
+        ? Math.floor(currentSlide + siblings / 2)
+        : Math.floor(currentSlide + siblings - 1);
+
+      return {
+        lower,
+        upper
+      };
+    },
     trackTransform() {
       const { infiniteScroll, vertical, rtl, centerMode } = this.config;
 
@@ -507,20 +522,24 @@ function renderBufferSlides(h, slides) {
   for (let i = 0; i < slidesCount; i++) {
     const slide = slides[i];
     const clonedBefore = cloneNode(h, slide);
-    clonedBefore.data.key = `index-${i - slidesCount}`;
+    let slideIndex = i - slidesCount;
+    clonedBefore.data.key = `before_${i}`;
     clonedBefore.key = clonedBefore.data.key;
+    clonedBefore.componentOptions.propsData.index = slideIndex;
     clonedBefore.data.props = {
-      index: i - slidesCount,
+      index: slideIndex,
       isClone: true
     };
 
     before.push(clonedBefore);
 
     const clonedAfter = cloneNode(h, slide);
-    clonedAfter.data.key = `index-${i + slidesCount}`;
+    slideIndex = i + slidesCount;
+    clonedAfter.data.key = `after_${slideIndex}`;
+    clonedAfter.componentOptions.propsData.index = slideIndex;
     clonedAfter.key = clonedAfter.data.key;
     clonedAfter.data.props = {
-      index: i + slidesCount,
+      index: slideIndex,
       isClone: true
     };
     after.push(clonedAfter);

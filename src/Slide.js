@@ -11,7 +11,6 @@ export default {
     },
     index: {
       type: Number,
-      default: 0,
       required: true
     }
   },
@@ -24,25 +23,22 @@ export default {
 
       return `width: ${slideWidth}px`;
     },
-    lower() {
-      const { config, currentSlide } = this.$hooper || {};
-      const siblings = config.itemsToShow;
-      return config.centerMode ? Math.ceil(currentSlide - siblings / 2) : currentSlide;
-    },
-    upper() {
-      const { config, currentSlide } = this.$hooper || {};
-      const siblings = config.itemsToShow;
-
-      return config.centerMode ? Math.floor(currentSlide + siblings / 2) : Math.floor(currentSlide + siblings - 1);
-    },
     isActive() {
-      return this.index >= this.lower && this.index <= this.upper;
+      const { upper, lower } = this.$hooper.slideBounds;
+
+      return this.index >= lower && this.index <= upper;
     },
     isPrev() {
-      return this.index <= this.lower - 1;
+      const { lower } = this.$hooper.slideBounds;
+      const { itemsToSlide } = this.$hooper.config;
+
+      return this.index < lower && this.index >= lower - itemsToSlide;
     },
     isNext() {
-      return this.index >= this.upper + 1;
+      const { upper } = this.$hooper.slideBounds;
+      const { itemsToSlide } = this.$hooper.config;
+
+      return this.index > upper && this.index <= upper + itemsToSlide;
     },
     isCurrent() {
       return this.index === this.$hooper.currentSlide;
