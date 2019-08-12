@@ -116,6 +116,7 @@ export default {
       isTouch: false,
       isHover: false,
       isFocus: false,
+      initialized: false,
       slideWidth: 0,
       slideHeight: 0,
       slidesCount: 0,
@@ -146,12 +147,14 @@ export default {
       if (vertical) {
         return `transform: translate(0, ${translate}px);`;
       }
+
       return `transform: translate(${translate}px, 0);`;
     },
     trackTransition() {
-      if (this.isSliding) {
+      if (this.initialized && this.isSliding) {
         return `transition: ${this.config.transition}ms`;
       }
+
       return '';
     }
   },
@@ -450,7 +453,10 @@ export default {
     this.$nextTick(() => {
       this.update();
       this.slideTo(this.config.initialSlide || 0);
-      this.$emit('loaded');
+      setTimeout(() => {
+        this.$emit('loaded');
+        this.initialized = true;
+      }, this.transition);
     });
   },
   beforeDestroy() {
