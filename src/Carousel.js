@@ -131,6 +131,21 @@ export default {
     };
   },
   computed: {
+    slideBounds() {
+      const { config, currentSlide } = this;
+      // Because the "isActive" depends on the slides shown, not the number of slidable ones.
+      // but upper and lower bounds for Next,Prev depend on whatever is smaller.
+      const siblings = config.itemsToShow;
+      const lower = config.centerMode ? Math.ceil(currentSlide - siblings / 2) : currentSlide;
+      const upper = config.centerMode
+        ? Math.floor(currentSlide + siblings / 2)
+        : Math.floor(currentSlide + siblings - 1);
+
+      return {
+        lower,
+        upper
+      };
+    },
     trackTransform() {
       const { infiniteScroll, vertical, rtl, centerMode } = this.config;
 
