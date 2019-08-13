@@ -181,6 +181,12 @@ export default {
 
       EMITTER.$off(`slideGroup:${oldVal}`, this._groupSlideHandler);
       this.addGroupListeners();
+    },
+    autoPlay(val, oldVal) {
+      if (val === oldVal) {
+        return;
+      }
+      this.restartTimer();
     }
   },
   methods: {
@@ -232,7 +238,7 @@ export default {
         this.defaults.rtl = getComputedStyle(this.$el).direction === 'rtl';
       }
 
-      if (this.config.autoPlay) {
+      if (this.$props.autoPlay) {
         this.initAutoPlay();
       }
       if (this.config.mouseDrag) {
@@ -254,7 +260,13 @@ export default {
     },
     initAutoPlay() {
       this.timer = new Timer(() => {
-        if (this.isSliding || this.isDragging || (this.isHover && this.config.hoverPause) || this.isFocus) {
+        if (
+          this.isSliding ||
+          this.isDragging ||
+          (this.isHover && this.config.hoverPause) ||
+          this.isFocus ||
+          !this.$props.autoPlay
+        ) {
           return;
         }
         if (this.currentSlide === this.slidesCount - 1 && !this.config.infiniteScroll) {
@@ -319,9 +331,19 @@ export default {
       }
     },
     restartTimer() {
-      if (this.timer) {
-        this.timer.restart();
-      }
+      this.$nextTick(() => {
+        if (this.timer === null && this.$props.autoPlay) {
+          this.initAutoPlay();
+          return;
+        }
+
+        if (this.timer) {
+          this.timer.stop();
+          if (this.$props.autoPlay) {
+            this.timer.start();
+          }
+        }
+      });
     },
     restart() {
       this.$nextTick(() => {

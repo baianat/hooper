@@ -96,7 +96,7 @@ more info at [Documentation](https://baianat.github.io/hooper/)
 |`wheelControl`   |true |toggle mouse wheel sliding.|
 |`keysControl`    |true |toggle keyboard control.|
 |`shortDrag`      |true |enable any move to commit a slide.|
-|`autoPlay`       |false|enable auto sliding to carousel.|
+|`autoPlay`       |false|enable auto sliding to carousel. This could be changed dynamically.|
 |`playSpeed`      |2000 |speed of auto play to trigger slide in ms.|
 |`transition`     |300  |sliding transition time in ms.|
 |`sync`           |''   |sync two carousels to slide together.|

@@ -7,25 +7,24 @@ export function now() {
 }
 
 export function Timer(callback, time) {
-  this.create = function createTimer() {
+  this.create = function() {
     return window.setInterval(callback, time);
   };
 
-  this.stop = function stopTimer() {
+  this.stop = function() {
     if (this.timer) {
       window.clearInterval(this.timer);
       this.timer = null;
     }
   };
 
-  this.start = function startTimer() {
+  this.start = function() {
     if (!this.timer) {
       this.timer = this.create();
     }
   };
 
-  this.restart = function restartTimer(newTime) {
-    time = newTime || time;
+  this.restart = function() {
     this.stop();
     this.start();
   };
