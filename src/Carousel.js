@@ -163,6 +163,12 @@ export default {
 
       EMITTER.$off(`slideGroup:${oldVal}`, this._groupSlideHandler);
       this.addGroupListeners();
+    },
+    autoPlay(val, oldVal) {
+      if (val === oldVal) {
+        return;
+      }
+      this.restartTimer();
     }
   },
   methods: {
@@ -308,14 +314,15 @@ export default {
     },
     restartTimer() {
       this.$nextTick(() => {
+        if (this.timer === null && this.$props.autoPlay) {
+          this.initAutoPlay();
+          return;
+        }
+
         if (this.timer) {
           this.timer.stop();
-        }
-        if (this.$props.autoPlay) {
-          if (this.timer) {
+          if (this.$props.autoPlay) {
             this.timer.start();
-          } else {
-            this.initAutoPlay();
           }
         }
       });
