@@ -258,6 +258,11 @@ export default {
       }
       window.addEventListener('resize', this.update);
     },
+    getCurrentSlideTimeout() {
+      const curIdx = normalizeSlideIndex(this.currentSlide, this.slidesCount);
+      const children = normalizeChildren(this);
+      return children[curIdx].componentOptions.propsData.duration;
+    }, // switched to using a timeout which defaults to the prop set on this component, but can be overridden on a per slide basis.
     initAutoPlay() {
       this.timer = new Timer(() => {
         if (
@@ -267,14 +272,17 @@ export default {
           this.isFocus ||
           !this.$props.autoPlay
         ) {
+          this.timer.set(this.getCurrentSlideTimeout());
           return;
         }
         if (this.currentSlide === this.slidesCount - 1 && !this.config.infiniteScroll) {
           this.slideTo(0);
+          this.timer.set(this.getCurrentSlideTimeout());
           return;
         }
         this.slideNext();
-      }, this.config.playSpeed);
+        this.timer.set(this.getCurrentSlideTimeout());
+      }, this.getCurrentSlideTimeout());
     },
     initDefaults() {
       this.breakpoints = this.settings.breakpoints;
@@ -340,6 +348,7 @@ export default {
         if (this.timer) {
           this.timer.stop();
           if (this.$props.autoPlay) {
+            this.timer.set(this.getCurrentSlideTimeout());
             this.timer.start();
           }
         }
