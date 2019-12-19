@@ -106,3 +106,16 @@ export function normalizeChildren(context, slotProps = {}) {
 
   return context.$slots.default || [];
 }
+
+export const focusableHTMLElements = [
+  'a',
+  'area',
+  'audio',
+  'button',
+  'iframe',
+  'input',
+  'select',
+  'summary',
+  'textarea',
+  'video'
+];

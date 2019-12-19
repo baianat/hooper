@@ -3,3 +3,7 @@ dist
 *.
 *.log
 coverage
+g1vmo
+.DS_Store
+.idea
+yarn.lock
