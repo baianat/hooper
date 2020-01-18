@@ -51,7 +51,7 @@ yarn add hooper
     </slide>
     ...
   </hooper>
-<template>
+</template>
 
 <script>
   import { Hooper, Slide } from 'hooper';
