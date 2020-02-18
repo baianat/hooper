@@ -1,5 +1,5 @@
 {
-  "name": "hooper",
+  "name": "hooper-cnb",
   "version": "0.3.4",
   "description": "A customizable accessible carousel slider optimized for Vue",
   "module": "dist/hooper.esm.js",
@@ -55,12 +55,6 @@
   },
   "license": "MIT",
   "keywords": [],
-  "maintainers": [
-    {
-      "name": "Abdelrahman3D",
-      "email": "abdelrahman3d@gmail.com"
-    }
-  ],
   "lint-staged": {
     "*.{js,vue}": [
       "prettier --write",
