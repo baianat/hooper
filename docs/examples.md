@@ -756,12 +756,12 @@ export default {
 export default {
   data () {
     return {
-      carouselData: 0
+      myCarouselData: 0
     }
   },
   watch: {
     carouselData () {
-      this.$refs.carousel.slideTo(this.carouselData);
+      this.$refs.carousel.slideTo(this.myCarouselData);
     }
   },
   methods: {
