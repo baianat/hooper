@@ -55,7 +55,7 @@ export default {
     }
   },
   render(h) {
-    const totalCount = this.$hooper.slidesCount;
+    const totalCount = this.$hooper.slidesCount - this.$hooper.trimStart - this.$hooper.trimEnd + 1;
     const children =
       this.mode === 'indicator'
         ? renderDefault(h, this.currentSlide, totalCount, index => this.$hooper.slideTo(index))
