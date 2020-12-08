@@ -426,8 +426,8 @@ export default {
       document.removeEventListener(this.isTouch ? 'touchend' : 'mouseup', this.onDragEnd);
       this.restartTimer();
     },
-    onTransitionend() {
-      if (!e.target.classList.contains('hooper-track')) {
+    onTransitionend(event) {
+      if (!event.target.classList.contains('hooper-track')) {
         return;
       }
       this.isSliding = false;
