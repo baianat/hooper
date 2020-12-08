@@ -426,7 +426,10 @@ export default {
       document.removeEventListener(this.isTouch ? 'touchend' : 'mouseup', this.onDragEnd);
       this.restartTimer();
     },
-    onTransitionend() {
+    onTransitionend(event) {
+      if (!event.target.classList.contains('hooper-track')) {
+        return;
+      }
       this.isSliding = false;
       this.$emit('afterSlide', {
         currentSlide: this.currentSlide
