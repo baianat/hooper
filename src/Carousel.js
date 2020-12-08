@@ -427,6 +427,9 @@ export default {
       this.restartTimer();
     },
     onTransitionend() {
+      if (!e.target.classList.contains('hooper-track')) {
+        return;
+      }
       this.isSliding = false;
       this.$emit('afterSlide', {
         currentSlide: this.currentSlide
