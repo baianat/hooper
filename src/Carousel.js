@@ -32,6 +32,11 @@ export default {
       default: false,
       type: Boolean
     },
+    // whether or not it should lock to slide
+    lockToSlide: {
+      default: true,
+      type: Boolean
+    },
     // control center mode
     centerMode: {
       default: false,
@@ -411,15 +416,18 @@ export default {
       const tolerance = this.config.shortDrag ? 0.5 : 0.15;
       this.isDragging = false;
 
-      if (this.config.vertical) {
-        const draggedSlides = Math.round(Math.abs(this.delta.y / this.slideHeight) + tolerance);
-        this.slideTo(this.currentSlide - sign(this.delta.y) * draggedSlides);
+      if (this.config.lockToSlide) {
+        if (this.config.vertical) {
+          const draggedSlides = Math.round(Math.abs(this.delta.y / this.slideHeight) + tolerance);
+          this.slideTo(this.currentSlide - sign(this.delta.y) * draggedSlides);
+        }
+        if (!this.config.vertical) {
+          const direction = (this.config.rtl ? -1 : 1) * sign(this.delta.x);
+          const draggedSlides = Math.round(Math.abs(this.delta.x / this.slideWidth) + tolerance);
+          this.slideTo(this.currentSlide - direction * draggedSlides);
+        }
       }
-      if (!this.config.vertical) {
-        const direction = (this.config.rtl ? -1 : 1) * sign(this.delta.x);
-        const draggedSlides = Math.round(Math.abs(this.delta.x / this.slideWidth) + tolerance);
-        this.slideTo(this.currentSlide - direction * draggedSlides);
-      }
+
       this.delta.x = 0;
       this.delta.y = 0;
       document.removeEventListener(this.isTouch ? 'touchmove' : 'mousemove', this.onDrag);
