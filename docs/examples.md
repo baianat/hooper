@@ -463,6 +463,54 @@ export default {
 </hooper>
 ```
 
+## Free Scrolling (no lock)
+
+<hooper :lockToSlide="false" :itemsToShow="3">
+  <slide>
+    slide 1
+  </slide>
+  <slide>
+    slide 2
+  </slide>
+  <slide>
+    slide 3
+  </slide>
+  <slide>
+    slide 4
+  </slide>
+  <slide>
+    slide 5
+  </slide>
+  <slide>
+    slide 6
+  </slide>
+
+  <hooper-navigation slot="hooper-addons"></hooper-navigation>
+</hooper>
+
+```vue
+<hooper :lockToSlide="false">
+  <slide>
+    slide 1
+  </slide>
+  <slide>
+    slide 2
+  </slide>
+  <slide>
+    slide 3
+  </slide>
+  <slide>
+    slide 4
+  </slide>
+  <slide>
+    slide 5
+  </slide>
+  <slide>
+    slide 6
+  </slide>
+</hooper>
+```
+
 ## Center Mode
 
 <hooper id="centerMode" :itemsToShow="1.25" :centerMode="true">

@@ -9,6 +9,7 @@
 |`itemsToSlide`   |1    |count of items to slide when use navigation buttons.|
 |`initialSlide`   |0    |index number of initial slide.|
 |`infiniteScroll` |false|enable infinite scrolling mode.|
+|`lockToSlide` |true|locks to slide on drag end|
 |`centerMode`     |false|enable center mode.|
 |`vertical`       |false|enable vertical sliding mode.|
 |`rtl`            |null |enable rtl mode.|
