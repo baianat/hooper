@@ -1,5 +1,5 @@
 {
-  "name": "hooper-cnb",
+  "name": "@unclegena/hooper-cnb",
   "version": "0.3.7",
   "description": "A customizable accessible carousel slider optimized for Vue",
   "module": "dist/hooper.esm.js",
