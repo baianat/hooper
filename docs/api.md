@@ -120,6 +120,10 @@ Restart auto-play timer.
 
 ## Events
 
+### @loaded
+
+Emits after slider has been initialized. 
+
 ### @beforeSlide
 
 Emits before sliding start occurring.
