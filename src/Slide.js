@@ -1,4 +1,4 @@
-import { normalizeChildren } from './utils';
+import { normalizeChildren, isServer } from './utils';
 import './styles/slide.css';
 
 export default {
@@ -21,6 +21,13 @@ export default {
   computed: {
     style() {
       const { config, slideHeight, slideWidth } = this.$hooper || {};
+
+      // Don't append any styles from server side.
+      // Allow css to do its job on first render
+      if (isServer()) {
+        return '';
+      }
+
       if (config.vertical) {
         return `height: ${slideHeight}px`;
       }

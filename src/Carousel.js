@@ -585,7 +585,7 @@ function renderBufferSlides(h, slides) {
  * So use with .call or .bind
  */
 function renderSlides(h) {
-  const children = normalizeChildren(this);
+  const children = normalizeChildren(this, this.$data);
   const childrenCount = children.length;
   let idx = 0;
   let slides = [];

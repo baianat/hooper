@@ -6,6 +6,10 @@ export function now() {
   return Date.now();
 }
 
+export function isServer() {
+  return typeof window === 'undefined';
+}
+
 export function Timer(callback, defaultTime) {
   this.create = function() {
     return window.setTimeout(callback, defaultTime);
