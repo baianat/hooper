@@ -463,16 +463,16 @@ export default {
       }
     },
     onWheel(event) {
-      event.preventDefault();
+      var event_delta;
+      if (this.config.vertical) event_delta = event.wheelDeltaY || -event.deltaY;
+      else event_delta = event.wheelDeltaX || -event.deltaX;
+      var value = event_delta;
+      if (value) event.preventDefault();
       if (now() - this.lastScrollTime < 200) {
         return;
       }
       // get wheel direction
       this.lastScrollTime = now();
-      var event_delta;
-      if (this.config.vertical) event_delta = event.wheelDeltaY || -event.deltaY;
-      else event_delta = event.wheelDeltaX || -event.deltaX;
-      var value = event_delta;
       const delta = sign(value);
       if (delta === -1) {
         this.slideNext();
