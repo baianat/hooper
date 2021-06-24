@@ -469,7 +469,10 @@ export default {
       }
       // get wheel direction
       this.lastScrollTime = now();
-      const value = event.wheelDelta || -event.deltaY;
+      var event_delta;
+      if (this.config.vertical) event_delta = event.wheelDeltaY || -event.deltaY;
+      else event_delta = event.wheelDeltaX || -event.deltaX;
+      var value = event_delta;
       const delta = sign(value);
       if (delta === -1) {
         this.slideNext();
