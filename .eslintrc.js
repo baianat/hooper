@@ -8,5 +8,10 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     'vue/max-attributes-per-line': 'off'
-  }
+  },
+  globals: {
+    describe: true,
+    expect: true,
+    test: true,
+  },
 };

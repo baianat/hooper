@@ -6,8 +6,9 @@ localVue.component('Hooper', Hooper);
 localVue.component('Slide', Slide);
 localVue.component('Navigation', Navigation);
 describe('Testing hooper component', () => {
-  const wrapper = mount({
-    template: `
+  const wrapper = mount(
+    {
+      template: `
       <hooper>
         <slide>slide 1</slide>
         <slide>slide 2</slide>
@@ -15,7 +16,9 @@ describe('Testing hooper component', () => {
         <navigation slot="hooper-addons"></navigation>
       </hooper>
     `
-  }, { localVue });
+    },
+    { localVue }
+  );
 
   test('default slot', () => {
     const slides = wrapper.findAll('.hooper-slide');
