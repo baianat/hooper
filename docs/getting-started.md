@@ -229,9 +229,11 @@ Available Addons:
     </slide>
     ...
 
-    <hooper-navigation slot="hooper-addons"></hooper-navigation>
-    <hooper-pagination slot="hooper-addons"></hooper-pagination>
-    <hooper-progress slot="hooper-addons"></hooper-progress>
+    <template v-slot:hooper-addons>
+      <hooper-navigation />
+      <hooper-pagination />
+      <hooper-progress />
+    </template>
   </hooper>
 </template>
 

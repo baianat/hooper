@@ -1,3 +1,4 @@
+import { h } from 'vue';
 import { camelCaseToString } from '../utils';
 
 const icons = {
@@ -18,38 +19,32 @@ export default {
       validator: val => val in icons
     }
   },
-  render(createElement, { props }) {
+  render(props) {
     const icon = icons[props.name];
     const children = [];
 
-    children.push(createElement('title', camelCaseToString(props.name)));
+    children.push(h('title', camelCaseToString(props.name)));
 
     children.push(
-      createElement('path', {
-        attrs: {
-          d: 'M0 0h24v24H0z',
-          fill: 'none'
-        }
+      h('path', {
+        d: 'M0 0h24v24H0z',
+        fill: 'none'
       })
     );
 
     children.push(
-      createElement('path', {
-        attrs: {
-          d: icon
-        }
+      h('path', {
+        d: icon
       })
     );
 
-    return createElement(
+    return h(
       'svg',
       {
-        attrs: {
-          class: `icon icon-${props.name}`,
-          viewBox: '0 0 24 24',
-          width: '24px',
-          height: '24px'
-        }
+        class: `icon icon-${props.name}`,
+        viewBox: '0 0 24 24',
+        width: '24px',
+        height: '24px'
       },
       children
     );

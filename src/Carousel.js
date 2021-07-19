@@ -1,16 +1,13 @@
-import Vue from 'vue';
-import { getInRange, now, Timer, normalizeSlideIndex, cloneNode, normalizeChildren, sign, assign } from './utils';
+import { computed, ref, h, watch, onMounted, onBeforeUnmount, nextTick, provide } from 'vue';
+import mitt from 'mitt';
+import { getInRange, now, Timer, normalizeSlideIndex, cloneNode } from './utils';
 import './styles/carousel.css';
 
-let EMITTER = new Vue();
+let EMITTER = mitt();
 
 export default {
   name: 'Hooper',
-  provide() {
-    return {
-      $hooper: this
-    };
-  },
+
   props: {
     // count of items to showed per view
     itemsToShow: {
@@ -109,560 +106,561 @@ export default {
       default: null
     }
   },
-  data() {
-    return {
-      isDragging: false,
-      isSliding: false,
-      isTouch: false,
-      isHover: false,
-      isFocus: false,
-      initialized: false,
-      slideWidth: 0,
-      slideHeight: 0,
-      slidesCount: 0,
-      trimStart: 0,
-      trimEnd: 1,
-      currentSlide: null,
-      timer: null,
-      defaults: {},
-      breakpoints: {},
-      delta: { x: 0, y: 0 },
-      config: {}
-    };
-  },
-  computed: {
-    slideBounds() {
-      const { config, currentSlide } = this;
+
+  setup(props, context) {
+    const isDragging = ref(false);
+    const isSliding = ref(false);
+    const isTouch = ref(false);
+    const isHover = ref(false);
+    const isFocus = ref(false);
+    const initialized = ref(false);
+    const slideWidth = ref(0);
+    const slideHeight = ref(0);
+    const slidesCount = ref(0);
+    const trimStart = ref(0);
+    const trimEnd = ref(1);
+    const currentSlide = ref(null);
+    const timer = ref(null);
+    const defaults = ref({});
+    const breakpoints = ref({});
+    const delta = ref({ x: 0, y: 0 });
+    const config = ref({});
+    const containerHeight = ref(null);
+    const containerWidth = ref(null);
+    const lastScrollTime = ref(null);
+    const startPosition = ref(null);
+    const endPosition = ref(null);
+
+    const hooperCarousel = ref(null);
+    const list = ref(null);
+    const track = ref(null);
+
+    const slideBounds = computed(() => {
       // Because the "isActive" depends on the slides shown, not the number of slidable ones.
       // but upper and lower bounds for Next,Prev depend on whatever is smaller.
-      const siblings = config.itemsToShow;
-      const lower = config.centerMode ? Math.ceil(currentSlide - siblings / 2) : currentSlide;
-      const upper = config.centerMode
-        ? Math.floor(currentSlide + siblings / 2)
-        : Math.floor(currentSlide + siblings - 1);
+      const siblings = config.value.itemsToShow;
+      const lower = config.value.centerMode ? Math.ceil(currentSlide.value - siblings / 2) : currentSlide.value;
+      const upper = config.value.centerMode
+        ? Math.floor(currentSlide.value + siblings / 2)
+        : Math.floor(currentSlide.value + siblings - 1);
 
       return {
         lower,
         upper
       };
-    },
-    trackTransform() {
-      const { infiniteScroll, vertical, rtl, centerMode } = this.config;
+    });
+    const trackTransform = computed(() => {
+      const { infiniteScroll, vertical, rtl, centerMode } = config.value;
 
       const direction = rtl ? -1 : 1;
-      const slideLength = vertical ? this.slideHeight : this.slideWidth;
-      const containerLength = vertical ? this.containerHeight : this.containerWidth;
-      const dragDelta = vertical ? this.delta.y : this.delta.x;
-      const clonesSpace = infiniteScroll ? slideLength * this.slidesCount : 0;
+      const slideLength = vertical ? slideHeight.value : slideWidth.value;
+      const containerLength = vertical ? containerHeight.value : containerWidth.value;
+      const dragDelta = vertical ? delta.value.y : delta.value.x;
+      const clonesSpace = infiniteScroll ? slideLength * slidesCount.value : 0;
       const centeringSpace = centerMode ? (containerLength - slideLength) / 2 : 0;
 
       // calculate track translate
-      const translate = dragDelta + direction * (centeringSpace - clonesSpace - this.currentSlide * slideLength);
+      const translate = dragDelta + direction * (centeringSpace - clonesSpace - currentSlide.value * slideLength);
 
       if (vertical) {
         return `transform: translate(0, ${translate}px);`;
       }
 
       return `transform: translate(${translate}px, 0);`;
-    },
-    trackTransition() {
-      if (this.initialized && this.isSliding) {
-        return `transition: ${this.config.transition}ms`;
+    });
+    const trackTransition = computed(() => {
+      if (initialized.value && isSliding.value) {
+        return `transition: ${config.value.transition}ms`;
       }
 
       return '';
-    }
-  },
-  watch: {
-    group(val, oldVal) {
-      if (val === oldVal) {
-        return;
-      }
+    });
 
-      EMITTER.$off(`slideGroup:${oldVal}`, this._groupSlideHandler);
-      this.addGroupListeners();
-    },
-    autoPlay(val, oldVal) {
-      if (val === oldVal) {
-        return;
-      }
-      this.restartTimer();
-    }
-  },
-  methods: {
     // controlling methods
-    slideTo(slideIndex, isSource = true) {
-      if (this.isSliding || slideIndex === this.currentSlide) {
+    const slideTo = (slideIndex, isSource = true) => {
+      if (isSliding.value || slideIndex === currentSlide.value) {
         return;
       }
 
-      const { infiniteScroll, transition } = this.config;
-      const previousSlide = this.currentSlide;
+      const { infiniteScroll, transition } = config.value;
+      const previousSlide = currentSlide.value;
       const index = infiniteScroll
         ? slideIndex
-        : getInRange(slideIndex, this.trimStart, this.slidesCount - this.trimEnd);
+        : getInRange(slideIndex, trimStart.value, slidesCount.value - trimEnd.value);
 
-      this.$emit('beforeSlide', {
-        currentSlide: this.currentSlide,
+      context.emit('beforeSlide', {
+        currentSlide: currentSlide.value,
         slideTo: index
       });
 
       // Notify others if in a group and is the slide event initiator.
-      if (this.group && isSource) {
-        EMITTER.$emit(`slideGroup:${this.group}`, slideIndex);
+      if (props.group && isSource) {
+        EMITTER.emit(`slideGroup:${props.group}`, slideIndex);
       }
 
-      this.currentSlide = index;
-      this.isSliding = true;
+      currentSlide.value = index;
+      isSliding.value = true;
 
       window.setTimeout(() => {
-        this.isSliding = false;
-        this.currentSlide = normalizeSlideIndex(index, this.slidesCount);
+        isSliding.value = false;
+        currentSlide.value = normalizeSlideIndex(index, slidesCount.value);
       }, transition);
 
-      this.$emit('slide', {
-        currentSlide: this.currentSlide,
+      context.emit('slide', {
+        currentSlide: currentSlide.value,
         slideFrom: previousSlide
       });
-    },
-    slideNext() {
-      this.slideTo(this.currentSlide + this.config.itemsToSlide);
-    },
-    slidePrev() {
-      this.slideTo(this.currentSlide - this.config.itemsToSlide);
-    },
-
-    initEvents() {
+    };
+    const slideNext = () => {
+      slideTo(currentSlide.value + config.value.itemsToSlide);
+    };
+    const slidePrev = () => {
+      slideTo(currentSlide.value - config.value.itemsToSlide);
+    };
+    const initEvents = () => {
       // get the element direction if not explicitly set
-      if (this.defaults.rtl === null) {
-        this.defaults.rtl = getComputedStyle(this.$el).direction === 'rtl';
+      if (defaults.value.rtl === null) {
+        defaults.value.rtl = getComputedStyle(hooperCarousel.value).direction === 'rtl';
       }
 
-      if (this.$props.autoPlay) {
-        this.initAutoPlay();
+      if (props.autoPlay) {
+        initAutoPlay();
       }
-      if (this.config.mouseDrag) {
-        this.$refs.list.addEventListener('mousedown', this.onDragStart);
+      if (config.value.mouseDrag) {
+        list.value.addEventListener('mousedown', onDragStart);
       }
-      if (this.config.touchDrag) {
-        this.$refs.list.addEventListener('touchstart', this.onDragStart, {
+      if (config.value.touchDrag) {
+        list.value.addEventListener('touchstart', onDragStart, {
           passive: true
         });
       }
-      if (this.config.keysControl) {
-        this.$el.addEventListener('keydown', this.onKeypress);
+      if (config.value.keysControl) {
+        hooperCarousel.value.addEventListener('keydown', onKeypress);
       }
-      if (this.config.wheelControl) {
-        this.lastScrollTime = now();
-        this.$el.addEventListener('wheel', this.onWheel, { passive: false });
+      if (config.value.wheelControl) {
+        lastScrollTime.value = now();
+        hooperCarousel.value.addEventListener('wheel', onWheel, { passive: false });
       }
-      window.addEventListener('resize', this.update);
-    },
-    getCurrentSlideTimeout() {
-      const curIdx = normalizeSlideIndex(this.currentSlide, this.slidesCount);
-      const children = normalizeChildren(this);
-      return children[curIdx].componentOptions.propsData.duration;
-    }, // switched to using a timeout which defaults to the prop set on this component, but can be overridden on a per slide basis.
-    initAutoPlay() {
-      this.timer = new Timer(() => {
+      window.addEventListener('resize', update);
+    };
+    const getCurrentSlideTimeout = () => {
+      const curIdx = normalizeSlideIndex(currentSlide.value, slidesCount.value);
+      const children = context.slots.default();
+      return children[curIdx]?.props?.duration ?? props.playSpeed;
+    }; // switched to using a timeout which defaults to the prop set on this component, but can be overridden on a per slide basis
+    const initAutoPlay = () => {
+      timer.value = new Timer(() => {
         if (
-          this.isSliding ||
-          this.isDragging ||
-          (this.isHover && this.config.hoverPause) ||
-          this.isFocus ||
-          !this.$props.autoPlay
+          isSliding.value ||
+          isDragging.value ||
+          (isHover.value && props.hoverPause) ||
+          isFocus.value ||
+          !props.autoPlay
         ) {
-          this.timer.set(this.getCurrentSlideTimeout());
+          timer.value.set(getCurrentSlideTimeout());
           return;
         }
-        if (this.currentSlide === this.slidesCount - 1 && !this.config.infiniteScroll) {
-          this.slideTo(0);
-          this.timer.set(this.getCurrentSlideTimeout());
+        if (currentSlide.value === slidesCount.value - 1 && !config.value.infiniteScroll) {
+          slideTo(0);
+          timer.value.set(getCurrentSlideTimeout());
           return;
         }
-        this.slideNext();
-        this.timer.set(this.getCurrentSlideTimeout());
-      }, this.getCurrentSlideTimeout());
-    },
-    initDefaults() {
-      this.breakpoints = this.settings.breakpoints;
-      this.defaults = assign({}, this.$props, this.settings);
-      this.config = assign({}, this.defaults);
-    },
+        slideNext();
+        timer.value.set(getCurrentSlideTimeout());
+      }, getCurrentSlideTimeout());
+    };
+    const initDefaults = () => {
+      breakpoints.value = props.settings.breakpoints;
+      defaults.value = Object.assign({}, props, props.settings);
+      config.value = Object.assign({}, defaults.value);
+    };
     // updating methods
-    update() {
-      if (this.breakpoints) {
-        this.updateConfig();
+    const update = () => {
+      if (breakpoints.value) {
+        updateConfig();
       }
-      this.updateWidth();
-      this.updateTrim();
-      this.$emit('updated', {
-        containerWidth: this.containerWidth,
-        containerHeight: this.containerHeight,
-        slideWidth: this.slideWidth,
-        slideHeight: this.slideHeight,
-        settings: this.config
+      updateWidth();
+      updateTrim();
+      context.emit('updated', {
+        containerWidth,
+        containerHeight,
+        slideWidth,
+        slideHeight,
+        settings: config
       });
-    },
-    updateTrim() {
-      const { trimWhiteSpace, itemsToShow, centerMode, infiniteScroll } = this.config;
+    };
+    const updateTrim = () => {
+      const { trimWhiteSpace, itemsToShow, centerMode, infiniteScroll } = config.value;
       if (!trimWhiteSpace || infiniteScroll) {
-        this.trimStart = 0;
-        this.trimEnd = 1;
+        trimStart.value = 0;
+        trimEnd.value = 1;
         return;
       }
-      this.trimStart = centerMode ? Math.floor((itemsToShow - 1) / 2) : 0;
-      this.trimEnd = centerMode ? Math.ceil(itemsToShow / 2) : itemsToShow;
-    },
-    updateWidth() {
-      const rect = this.$el.getBoundingClientRect();
-      this.containerWidth = rect.width;
-      this.containerHeight = rect.height;
-      if (this.config.vertical) {
-        this.slideHeight = this.containerHeight / this.config.itemsToShow;
+      trimStart.value = centerMode ? Math.floor((itemsToShow - 1) / 2) : 0;
+      trimEnd.value = centerMode ? Math.ceil(itemsToShow / 2) : itemsToShow;
+    };
+    const updateWidth = () => {
+      const rect = hooperCarousel.value.getBoundingClientRect();
+      containerWidth.value = rect.width;
+      containerHeight.value = rect.height;
+      if (config.value.vertical) {
+        slideHeight.value = containerHeight.value / config.value.itemsToShow;
         return;
       }
-      this.slideWidth = this.containerWidth / this.config.itemsToShow;
-    },
-    updateConfig() {
-      const breakpoints = Object.keys(this.breakpoints).sort((a, b) => b - a);
+      slideWidth.value = containerWidth.value / config.value.itemsToShow;
+    };
+    const updateConfig = () => {
+      const breakpointsConfig = Object.keys(breakpoints.value).sort((a, b) => b - a);
       let matched;
-      breakpoints.some(breakpoint => {
+      breakpointsConfig.some(breakpoint => {
         matched = window.matchMedia(`(min-width: ${breakpoint}px)`).matches;
         if (matched) {
-          this.config = assign({}, this.config, this.defaults, this.breakpoints[breakpoint]);
+          config.value = Object.assign({}, config.value, defaults.value, breakpoints.value[breakpoint]);
           return true;
         }
       });
       if (!matched) {
-        this.config = assign(this.config, this.defaults);
+        config.value = Object.assign(config.value, defaults.value);
       }
-    },
-    restartTimer() {
-      this.$nextTick(() => {
-        if (this.timer === null && this.$props.autoPlay) {
-          this.initAutoPlay();
+    };
+    const restartTimer = () => {
+      nextTick(() => {
+        if (timer.value === null && props.autoPlay) {
+          initAutoPlay();
           return;
         }
 
-        if (this.timer) {
-          this.timer.stop();
-          if (this.$props.autoPlay) {
-            this.timer.set(this.getCurrentSlideTimeout());
-            this.timer.start();
+        if (timer.value) {
+          timer.value.stop();
+          if (props.autoPlay) {
+            timer.value.set(getCurrentSlideTimeout());
+            timer.value.start();
           }
         }
       });
-    },
-    restart() {
-      this.$nextTick(() => {
-        this.update();
+    };
+    const restart = () => {
+      nextTick(() => {
+        update();
       });
-    },
+    };
     // events handlers
-    onDragStart(event) {
-      this.isTouch = event.type === 'touchstart';
-      if (!this.isTouch && event.button !== 0) {
+    const onDragStart = event => {
+      isTouch.value = event.type === 'touchstart';
+      if (!isTouch.value && event.button !== 0) {
         return;
       }
 
-      this.startPosition = { x: 0, y: 0 };
-      this.endPosition = { x: 0, y: 0 };
-      this.isDragging = true;
-      this.startPosition.x = this.isTouch ? event.touches[0].clientX : event.clientX;
-      this.startPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
+      startPosition.value = { x: 0, y: 0 };
+      endPosition.value = { x: 0, y: 0 };
+      isDragging.value = true;
+      startPosition.value.x = isTouch.value ? event.touches[0].clientX : event.clientX;
+      startPosition.value.y = isTouch.value ? event.touches[0].clientY : event.clientY;
 
-      document.addEventListener(this.isTouch ? 'touchmove' : 'mousemove', this.onDrag);
-      document.addEventListener(this.isTouch ? 'touchend' : 'mouseup', this.onDragEnd);
-    },
-    isInvalidDirection(deltaX, deltaY) {
-      if (!this.config.vertical) {
+      document.addEventListener(isTouch.value ? 'touchmove' : 'mousemove', onDrag);
+      document.addEventListener(isTouch.value ? 'touchend' : 'mouseup', onDragEnd);
+    };
+    const isInvalidDirection = (deltaX, deltaY) => {
+      if (!config.value.vertical) {
         return Math.abs(deltaX) <= Math.abs(deltaY);
       }
 
-      if (this.config.vertical) {
+      if (config.value.vertical) {
         return Math.abs(deltaY) <= Math.abs(deltaX);
       }
 
       return false;
-    },
-    onDrag(event) {
-      if (this.isSliding) {
+    };
+    const onDrag = event => {
+      if (isSliding.value) {
         return;
       }
 
-      this.endPosition.x = this.isTouch ? event.touches[0].clientX : event.clientX;
-      this.endPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
-      const deltaX = this.endPosition.x - this.startPosition.x;
-      const deltaY = this.endPosition.y - this.startPosition.y;
+      endPosition.value.x = isTouch.value ? event.touches[0].clientX : event.clientX;
+      endPosition.value.y = isTouch.value ? event.touches[0].clientY : event.clientY;
+      const deltaX = endPosition.value.x - startPosition.value.x;
+      const deltaY = endPosition.value.y - startPosition.value.y;
       // Maybe scrolling.
-      if (this.isInvalidDirection(deltaX, deltaY)) {
+      if (isInvalidDirection(deltaX, deltaY)) {
         return;
       }
 
-      this.delta.y = deltaY;
-      this.delta.x = deltaX;
+      delta.value.y = deltaY;
+      delta.value.x = deltaX;
 
-      if (!this.isTouch) {
+      if (!isTouch.value) {
         event.preventDefault();
       }
-    },
-    onDragEnd() {
-      const tolerance = this.config.shortDrag ? 0.5 : 0.15;
-      this.isDragging = false;
+    };
+    const onDragEnd = () => {
+      const tolerance = config.value.shortDrag ? 0.5 : 0.15;
+      isDragging.value = false;
 
-      if (this.config.vertical) {
-        const draggedSlides = Math.round(Math.abs(this.delta.y / this.slideHeight) + tolerance);
-        this.slideTo(this.currentSlide - sign(this.delta.y) * draggedSlides);
+      if (config.value.vertical) {
+        const draggedSlides = Math.round(Math.abs(delta.value.y / slideHeight.value) + tolerance);
+        slideTo(currentSlide.value - Math.sign(delta.value.y) * draggedSlides);
       }
-      if (!this.config.vertical) {
-        const direction = (this.config.rtl ? -1 : 1) * sign(this.delta.x);
-        const draggedSlides = Math.round(Math.abs(this.delta.x / this.slideWidth) + tolerance);
-        this.slideTo(this.currentSlide - direction * draggedSlides);
+      if (!config.value.vertical) {
+        const direction = (config.value.rtl ? -1 : 1) * Math.sign(delta.value.x);
+        const draggedSlides = Math.round(Math.abs(delta.value.x / slideWidth.value) + tolerance);
+        slideTo(currentSlide.value - direction * draggedSlides);
       }
-      this.delta.x = 0;
-      this.delta.y = 0;
-      document.removeEventListener(this.isTouch ? 'touchmove' : 'mousemove', this.onDrag);
-      document.removeEventListener(this.isTouch ? 'touchend' : 'mouseup', this.onDragEnd);
-      this.restartTimer();
-    },
-    onTransitionend() {
-      this.isSliding = false;
-      this.$emit('afterSlide', {
-        currentSlide: this.currentSlide
+      delta.value.x = 0;
+      delta.value.y = 0;
+      document.removeEventListener(isTouch.value ? 'touchmove' : 'mousemove', onDrag);
+      document.removeEventListener(isTouch.value ? 'touchend' : 'mouseup', onDragEnd);
+      restartTimer();
+    };
+    const onTransitionend = () => {
+      isSliding.value = false;
+      context.emit('afterSlide', {
+        currentSlide: currentSlide.value
       });
-    },
-    onKeypress(event) {
+    };
+    const onKeypress = event => {
       const key = event.key;
       if (key.startsWith('Arrow')) {
         event.preventDefault();
       }
-      if (this.config.vertical) {
+      if (config.value.vertical) {
         if (key === 'ArrowUp') {
-          this.slidePrev();
+          slidePrev();
         }
         if (key === 'ArrowDown') {
-          this.slideNext();
+          slideNext();
         }
         return;
       }
-      if (this.config.rtl) {
+      if (config.value.rtl) {
         if (key === 'ArrowRight') {
-          this.slidePrev();
+          slidePrev();
         }
         if (key === 'ArrowLeft') {
-          this.slideNext();
+          slideNext();
         }
         return;
       }
       if (key === 'ArrowRight') {
-        this.slideNext();
+        slideNext();
       }
       if (key === 'ArrowLeft') {
-        this.slidePrev();
+        slidePrev();
       }
-    },
-    onWheel(event) {
+    };
+    const onWheel = event => {
       event.preventDefault();
-      if (now() - this.lastScrollTime < 200) {
+      if (now() - lastScrollTime.value < 200) {
         return;
       }
       // get wheel direction
-      this.lastScrollTime = now();
+      lastScrollTime.value = now();
       const value = event.wheelDelta || -event.deltaY;
-      const delta = sign(value);
+      const delta = Math.sign(value);
       if (delta === -1) {
-        this.slideNext();
+        slideNext();
       }
       if (delta === 1) {
-        this.slidePrev();
+        slidePrev();
       }
-    },
-    addGroupListeners() {
-      if (!this.group) {
+    };
+    const _groupSlideHandler = slideIndex => {
+      // set the isSource to false to prevent infinite emitting loop.
+      slideTo(slideIndex, false);
+    };
+    const addGroupListeners = () => {
+      if (!props.group) {
         return;
       }
+      EMITTER.on(`slideGroup:${props.group}`, _groupSlideHandler);
+    };
 
-      this._groupSlideHandler = slideIndex => {
-        // set the isSource to false to prevent infinite emitting loop.
-        this.slideTo(slideIndex, false);
-      };
-      EMITTER.$on(`slideGroup:${this.group}`, this._groupSlideHandler);
-    }
-  },
-  created() {
-    this.initDefaults();
-  },
-  mounted() {
-    this.initEvents();
-    this.addGroupListeners();
-    this.$nextTick(() => {
-      this.update();
-      this.slideTo(this.config.initialSlide || 0);
-      setTimeout(() => {
-        this.$emit('loaded');
-        this.initialized = true;
-      }, this.transition);
-    });
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.update);
-    if (this.group) {
-      EMITTER.$off(`slideGroup:${this.group}`, this._groupSlideHandler);
-    }
-
-    if (this.timer) {
-      this.timer.stop();
-    }
-  },
-  render(h) {
-    const body = renderBody.call(this, h);
-
-    return h(
-      'section',
-      {
-        class: {
-          hooper: true,
-          'is-vertical': this.config.vertical,
-          'is-rtl': this.config.rtl
-        },
-        attrs: {
-          tabindex: '0'
-        },
-        on: {
-          focusin: () => (this.isFocus = true),
-          focusout: () => (this.isFocus = false),
-          mouseover: () => (this.isHover = true),
-          mouseleave: () => (this.isHover = false)
+    watch(
+      () => props.group,
+      (val, oldVal) => {
+        if (val === oldVal) {
+          return;
         }
-      },
-      body
+        EMITTER.off(`slideGroup:${oldVal}`, _groupSlideHandler);
+        addGroupListeners();
+      }
     );
+    watch(
+      () => props.autoPlay,
+      (val, oldVal) => {
+        if (val === oldVal) {
+          return;
+        }
+        restartTimer();
+      }
+    );
+
+    initDefaults();
+
+    onMounted(() => {
+      nextTick(() => {
+        initEvents();
+        addGroupListeners();
+        update();
+        slideTo(config.value.initialSlide || 0);
+        setTimeout(() => {
+          context.emit('loaded');
+          initialized.value = true;
+        }, props.transition);
+      });
+    });
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', update);
+      if (props.group) {
+        EMITTER.off(`slideGroup:${props.group}`, _groupSlideHandler);
+      }
+
+      if (timer.value) {
+        timer.value.stop();
+      }
+    });
+
+    provide('$hooper', {
+      config,
+      slidesCount,
+      slideHeight,
+      slideWidth,
+      slideBounds,
+      trimStart,
+      trimEnd,
+      currentSlide,
+      slideNext,
+      slidePrev,
+      restartTimer
+    });
+
+    context.expose({
+      slideTo,
+      slideNext,
+      slidePrev,
+      restart
+    });
+
+    /**
+     * Renders additional slides for infinite slides mode.
+     * By cloning Slides VNodes before and after either edges.
+     */
+    const renderBufferSlides = slides => {
+      const before = [];
+      const after = [];
+      // reduce prop access
+      const slidesCount = slides.length;
+      for (let i = 0; i < slidesCount; i++) {
+        const slide = slides[i];
+        const clonedBefore = cloneNode(h, slide);
+        let slideIndex = i - slidesCount;
+
+        clonedBefore.type.props.index = slideIndex;
+        clonedBefore.type.key = `before_${i}`;
+        clonedBefore.key = clonedBefore.type.key;
+
+        before.push(clonedBefore);
+
+        const clonedAfter = cloneNode(h, slide);
+        slideIndex = i + slidesCount;
+
+        clonedAfter.type.props.index = slideIndex;
+        clonedAfter.type.key = `after_${i}`;
+        clonedAfter.key = clonedAfter.type.key;
+
+        after.push(clonedAfter);
+      }
+
+      return [...before, ...slides, ...after];
+    };
+
+    const renderSlides = children => {
+      const childrenCount = children.length;
+      let idx = 0;
+      let slides = [];
+      for (let i = 0; i < childrenCount; i++) {
+        const child = children[i];
+
+        if (!child || child?.type?.name !== 'HooperSlide') {
+          continue;
+        }
+
+        // give slide an index behind the scenes
+        child.type.props.index = idx;
+        child.type.key = idx;
+        child.key = idx;
+
+        slides.push(child);
+      }
+
+      // update hooper's information of the slide count.
+      slidesCount.value = slides.length;
+      if (config.value.infiniteScroll) {
+        slides = renderBufferSlides(slides);
+      }
+
+      // When no slides are found try to find them in the child (<slides v-for=... use case)
+      if (slides.length === 0 && children[0]?.children) {
+        slides = renderSlides(children[0].children);
+      }
+
+      return slides;
+    };
+
+    const renderAddons = slots => {
+      return slots['hooper-addons'] ? slots['hooper-addons']() : [];
+    };
+
+    return () =>
+      h(
+        'section',
+        {
+          ref: hooperCarousel,
+          class: {
+            hooper: true,
+            'is-vertical': config.value.vertical,
+            'is-rtl': config.value.rtl
+          },
+          tabindex: '0',
+          onFocusin: () => (isFocus.value = true),
+          onFocusout: () => (isFocus.value = false),
+          onMouseover: () => (isHover.value = true),
+          onMouseleave: () => (isHover.value = false)
+        },
+        [
+          h(
+            'div',
+            {
+              class: 'hooper-list',
+              ref: list
+            },
+            [
+              h(
+                'ul',
+                {
+                  class: {
+                    'hooper-track': true,
+                    'is-dragging': isDragging.value
+                  },
+                  style: trackTransform.value + trackTransition.value,
+                  ref: track,
+                  onTransitionend: onTransitionend
+                },
+                renderSlides(context.slots.default())
+              ),
+              h(
+                'div',
+                {
+                  class: 'hooper-liveregion hooper-sr-only',
+                  'aria-live': 'polite',
+                  'aria-atomic': 'true'
+                },
+                `Item ${currentSlide.value + 1} of ${slidesCount.value}`
+              ),
+              renderAddons(context.slots)
+            ]
+          )
+        ]
+      );
   }
 };
-
-/**
- * Renders additional slides for infinite slides mode.
- * By cloning Slides VNodes before and after either edges.
- */
-function renderBufferSlides(h, slides) {
-  const before = [];
-  const after = [];
-  // reduce prop access
-  const slidesCount = slides.length;
-  for (let i = 0; i < slidesCount; i++) {
-    const slide = slides[i];
-    const clonedBefore = cloneNode(h, slide);
-    let slideIndex = i - slidesCount;
-    clonedBefore.data.key = `before_${i}`;
-    clonedBefore.key = clonedBefore.data.key;
-    clonedBefore.componentOptions.propsData.index = slideIndex;
-    clonedBefore.data.props = {
-      index: slideIndex,
-      isClone: true
-    };
-
-    before.push(clonedBefore);
-
-    const clonedAfter = cloneNode(h, slide);
-    slideIndex = i + slidesCount;
-    clonedAfter.data.key = `after_${slideIndex}`;
-    clonedAfter.componentOptions.propsData.index = slideIndex;
-    clonedAfter.key = clonedAfter.data.key;
-    clonedAfter.data.props = {
-      index: slideIndex,
-      isClone: true
-    };
-    after.push(clonedAfter);
-  }
-
-  return [...before, ...slides, ...after];
-}
-
-/**
- * Produces the VNodes for the Slides.
- * requires {this} to be bound to hooper.
- * So use with .call or .bind
- */
-function renderSlides(h) {
-  const children = normalizeChildren(this);
-  const childrenCount = children.length;
-  let idx = 0;
-  let slides = [];
-  for (let i = 0; i < childrenCount; i++) {
-    const child = children[i];
-    const ctor = child.componentOptions && child.componentOptions.Ctor;
-    if (!ctor || ctor.options.name !== 'HooperSlide') {
-      continue;
-    }
-
-    // give slide an index behind the scenes
-    child.componentOptions.propsData.index = idx;
-    child.data.key = idx;
-    child.key = idx;
-    child.data.props = {
-      ...(child.data.props || {}),
-      isClone: false,
-      index: idx++
-    };
-
-    slides.push(child);
-  }
-
-  // update hooper's information of the slide count.
-  this.slidesCount = slides.length;
-  if (this.config.infiniteScroll) {
-    slides = renderBufferSlides(h, slides);
-  }
-
-  return h(
-    'ul',
-    {
-      class: {
-        'hooper-track': true,
-        'is-dragging': this.isDragging
-      },
-      style: this.trackTransform + this.trackTransition,
-      ref: 'track',
-      on: {
-        transitionend: this.onTransitionend
-      }
-    },
-    slides
-  );
-}
-
-/**
- * Builds the VNodes for the hooper body.
- * Which is the slides, addons if available, and a11y stuff.
- * REQUIRES {this} to be bound to the hooper instance.
- * use with .call or .bind
- */
-function renderBody(h) {
-  const slides = renderSlides.call(this, h);
-  const addons = this.$slots['hooper-addons'] || [];
-  const a11y = h(
-    'div',
-    {
-      class: 'hooper-liveregion hooper-sr-only',
-      attrs: {
-        'aria-live': 'polite',
-        'aria-atomic': 'true'
-      }
-    },
-    `Item ${this.currentSlide + 1} of ${this.slidesCount}`
-  );
-
-  const children = [slides, ...addons, a11y];
-
-  return [
-    h(
-      'div',
-      {
-        class: 'hooper-list',
-        ref: 'list'
-      },
-      children
-    )
-  ];
-}

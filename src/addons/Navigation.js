@@ -1,3 +1,4 @@
+import { h } from 'vue';
 import Icon from './Icon';
 import '../styles/navigation.css';
 
@@ -11,13 +12,11 @@ function iconName(isVertical, isRTL, isPrev) {
 
 function renderButton(h, disabled, slot, isPrev, { isVertical, isRTL }, onClick) {
   const children =
-    slot && slot.length
-      ? slot
+    slot && slot() && slot().length
+      ? slot()
       : [
           h(Icon, {
-            props: {
-              name: iconName(isVertical, isRTL, isPrev)
-            }
+            name: iconName(isVertical, isRTL, isPrev)
           })
         ];
 
@@ -28,12 +27,8 @@ function renderButton(h, disabled, slot, isPrev, { isVertical, isRTL }, onClick)
         [`hooper-${isPrev ? 'prev' : 'next'}`]: true,
         'is-disabled': disabled
       },
-      attrs: {
-        type: 'button'
-      },
-      on: {
-        click: onClick
-      }
+      type: 'button',
+      onClick: onClick
     },
     children
   );
@@ -44,22 +39,25 @@ export default {
   name: 'HooperNavigation',
   computed: {
     isPrevDisabled() {
-      if (this.$hooper.config.infiniteScroll) {
+      if (this.$hooper.config.value.infiniteScroll) {
         return false;
       }
-      return this.$hooper.currentSlide === 0;
+      return this.$hooper.currentSlide.value === 0;
     },
     isNextDisabled() {
-      if (this.$hooper.config.infiniteScroll) {
+      if (this.$hooper.config.value.infiniteScroll) {
         return false;
       }
 
-      if (this.$hooper.config.trimWhiteSpace) {
-        return this.$hooper.currentSlide
-          === (this.$hooper.slidesCount - Math.min(this.$hooper.config.itemsToShow, this.$hooper.slidesCount));
+      if (this.$hooper.config.value.trimWhiteSpace) {
+        return (
+          this.$hooper.currentSlide.value ===
+          this.$hooper.slidesCount.value -
+            Math.min(this.$hooper.config.value.itemsToShow, this.$hooper.slidesCount.value)
+        );
       }
 
-      return this.$hooper.currentSlide === this.$hooper.slidesCount - 1;
+      return this.$hooper.currentSlide.value === this.$hooper.slidesCount.value - 1;
     }
   },
   methods: {
@@ -72,10 +70,10 @@ export default {
       this.$hooper.restartTimer();
     }
   },
-  render(h) {
+  render() {
     const config = {
-      isRTL: this.$hooper.config.rtl,
-      isVertical: this.$hooper.config.vertical
+      isRTL: this.$hooper.config.value.rtl,
+      isVertical: this.$hooper.config.value.vertical
     };
 
     const children = [
@@ -88,8 +86,8 @@ export default {
       {
         class: {
           'hooper-navigation': true,
-          'is-vertical': this.$hooper.config.vertical,
-          'is-rtl': this.$hooper.config.rtl
+          'is-vertical': this.$hooper.config.value.vertical,
+          'is-rtl': this.$hooper.config.value.rtl
         }
       },
       children
