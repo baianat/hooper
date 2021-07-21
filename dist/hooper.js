@@ -4,11 +4,12 @@
     * @license MIT
     */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue'), require('mitt')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'vue', 'mitt'], factory) :
-  (global = global || self, factory(global.Hooper = {}, global.Vue, global.mitt));
-}(this, (function (exports, vue, mitt) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('lodash.debounce'), require('vue'), require('mitt')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'lodash.debounce', 'vue', 'mitt'], factory) :
+  (global = global || self, factory(global.Hooper = {}, global.debounce, global.Vue, global.mitt));
+}(this, (function (exports, debounce, vue, mitt) { 'use strict';
 
+  debounce = debounce && Object.prototype.hasOwnProperty.call(debounce, 'default') ? debounce['default'] : debounce;
   mitt = mitt && Object.prototype.hasOwnProperty.call(mitt, 'default') ? mitt['default'] : mitt;
 
   function _defineProperty(obj, key, value) {
@@ -358,7 +359,7 @@
           });
         }
 
-        window.addEventListener('resize', update);
+        window.addEventListener('resize', debounce(update, 100));
       };
 
       var getCurrentSlideTimeout = function getCurrentSlideTimeout() {
@@ -1059,7 +1060,7 @@
           return false;
         }
 
-        return this.$hooper.currentSlide === 0;
+        return this.$hooper.currentSlide.value === 0;
       },
       isNextDisabled: function isNextDisabled() {
         if (this.$hooper.config.value.infiniteScroll) {
@@ -1067,10 +1068,10 @@
         }
 
         if (this.$hooper.config.value.trimWhiteSpace) {
-          return this.$hooper.currentSlide === this.$hooper.slidesCount - Math.min(this.$hooper.config.value.itemsToShow, this.$hooper.slidesCount);
+          return this.$hooper.currentSlide.value === this.$hooper.slidesCount.value - Math.min(this.$hooper.config.value.itemsToShow, this.$hooper.slidesCount.value);
         }
 
-        return this.$hooper.currentSlide === this.$hooper.slidesCount - 1;
+        return this.$hooper.currentSlide.value === this.$hooper.slidesCount.value - 1;
       }
     },
     methods: {

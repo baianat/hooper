@@ -1,3 +1,4 @@
+import debounce from 'lodash.debounce';
 import { computed, ref, h, watch, onMounted, onBeforeUnmount, nextTick, provide } from 'vue';
 import mitt from 'mitt';
 import { getInRange, now, Timer, normalizeSlideIndex, cloneNode } from './utils';
@@ -241,7 +242,7 @@ export default {
         lastScrollTime.value = now();
         hooperCarousel.value.addEventListener('wheel', onWheel, { passive: false });
       }
-      window.addEventListener('resize', update);
+      window.addEventListener('resize', debounce(update, 100));
     };
     const getCurrentSlideTimeout = () => {
       const curIdx = normalizeSlideIndex(currentSlide.value, slidesCount.value);

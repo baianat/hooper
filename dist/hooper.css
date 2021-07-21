@@ -1,3 +1,10 @@
+.hooper-slide {
+  flex-shrink: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 .hooper {
   position: relative;
   box-sizing: border-box;
@@ -38,27 +45,7 @@
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
-}.hooper-slide {
-  flex-shrink: 0;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.hooper-progress {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 4px;
-  background-color: #efefef;
-}
-.hooper-progress-inner {
-  height: 100%;
-  background-color: #4285f4;
-  transition: 300ms;
-}
-.hooper-pagination {
+}.hooper-pagination {
   position: absolute;
   bottom: 0;
   right: 50%;
@@ -138,4 +125,17 @@
 .hooper-navigation.is-rtl .hooper-next {
   right: auto;
   left: 0;
+}
+.hooper-progress {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4px;
+  background-color: #efefef;
+}
+.hooper-progress-inner {
+  height: 100%;
+  background-color: #4285f4;
+  transition: 300ms;
 }

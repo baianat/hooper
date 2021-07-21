@@ -3,6 +3,7 @@
   * (c) 2021
     * @license MIT
     */
+import debounce from 'lodash.debounce';
 import { ref, computed, watch, onMounted, nextTick, onBeforeUnmount, provide, h } from 'vue';
 import mitt from 'mitt';
 
@@ -353,7 +354,7 @@ var Carousel = {
         });
       }
 
-      window.addEventListener('resize', update);
+      window.addEventListener('resize', debounce(update, 100));
     };
 
     var getCurrentSlideTimeout = function getCurrentSlideTimeout() {
@@ -1054,7 +1055,7 @@ var Navigation = {
         return false;
       }
 
-      return this.$hooper.currentSlide === 0;
+      return this.$hooper.currentSlide.value === 0;
     },
     isNextDisabled: function isNextDisabled() {
       if (this.$hooper.config.value.infiniteScroll) {
@@ -1062,10 +1063,10 @@ var Navigation = {
       }
 
       if (this.$hooper.config.value.trimWhiteSpace) {
-        return this.$hooper.currentSlide === this.$hooper.slidesCount - Math.min(this.$hooper.config.value.itemsToShow, this.$hooper.slidesCount);
+        return this.$hooper.currentSlide.value === this.$hooper.slidesCount.value - Math.min(this.$hooper.config.value.itemsToShow, this.$hooper.slidesCount.value);
       }
 
-      return this.$hooper.currentSlide === this.$hooper.slidesCount - 1;
+      return this.$hooper.currentSlide.value === this.$hooper.slidesCount.value - 1;
     }
   },
   methods: {

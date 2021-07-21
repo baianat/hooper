@@ -69,5 +69,8 @@
       "git add",
       "jest --maxWorkers=1 --bail --findRelatedTests"
     ]
+  },
+  "dependencies": {
+    "lodash.debounce": "4.0.8"
   }
 }
