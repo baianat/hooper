@@ -2,7 +2,7 @@
 
 ## Default Example
 
-<hooper>
+<hooper xmlns:v-slot='http://www.w3.org/1999/XSL/Transform'>
   <slide>
     slide 1
   </slide>
@@ -69,7 +69,9 @@
     slide 6
   </slide>
 
-  <hooper-navigation slot="hooper-addons"></hooper-navigation>
+  <template v-slot:hooper-addons>
+    <hooper-navigation />
+  </template>
 </hooper>
 
 ```vue
@@ -94,16 +96,14 @@
       slide 6
     </slide>
 
-    <hooper-navigation slot="hooper-addons"></hooper-navigation>
+    <template v-slot:hooper-addons>
+      <hooper-navigation />
+    </template>
   </hooper>
 </template>
 
 <script>
-import {
-  Hooper,
-  Slide,
-  Navigation as HooperNavigation
-  } from 'hooper';
+import { Hooper, Slide, Navigation as HooperNavigation } from 'hooper';
 
 export default {
   components: {
@@ -111,7 +111,7 @@ export default {
     Slide,
     HooperNavigation
   }
-}
+};
 </script>
 ```
 
@@ -137,7 +137,9 @@ export default {
     slide 6
   </slide>
 
-  <hooper-progress slot="hooper-addons"></hooper-progress>
+  <template v-slot:hooper-addons>
+    <hooper-progress />
+  </template>
 </hooper>
 
 ```vue
@@ -162,16 +164,14 @@ export default {
       slide 6
     </slide>
 
-    <hooper-navigation slot="hooper-addons"></hooper-navigation>
+    <template v-slot:hooper-addons>
+      <hooper-progress />
+    </template>
   </hooper>
 </template>
 
 <script>
-import {
-  Hooper,
-  Slide,
-  Progress as HooperProgress
-  } from 'hooper';
+import { Hooper, Slide, Progress as HooperProgress } from 'hooper';
 
 export default {
   components: {
@@ -179,7 +179,7 @@ export default {
     Slide,
     HooperProgress
   }
-}
+};
 </script>
 ```
 
@@ -205,7 +205,9 @@ export default {
     slide 6
   </slide>
 
-  <hooper-pagination slot="hooper-addons"></hooper-pagination>
+  <template v-slot:hooper-addons>
+    <hooper-pagination />
+  </template>
 </hooper>
 
 ```vue
@@ -230,16 +232,14 @@ export default {
       slide 6
     </slide>
 
-    <hooper-pagination slot="hooper-addons"></hooper-pagination>
+    <template v-slot:hooper-addons>
+      <hooper-pagination />
+    </template>
   </hooper>
 </template>
 
 <script>
-import {
-  Hooper,
-  Slide,
-  Pagination as HooperPagination
-  } from 'hooper';
+import { Hooper, Slide, Pagination as HooperPagination } from 'hooper';
 
 export default {
   components: {
@@ -247,7 +247,7 @@ export default {
     Slide,
     HooperPagination
   }
-}
+};
 </script>
 ```
 
@@ -273,7 +273,9 @@ export default {
     slide 6
   </slide>
 
-  <hooper-pagination slot="hooper-addons" mode="fraction"></hooper-pagination>
+  <template v-slot:hooper-addons>
+    <hooper-pagination mode="fraction" style="color: white;" />
+  </template>
 </hooper>
 
 ```vue
@@ -298,16 +300,14 @@ export default {
       slide 6
     </slide>
 
-    <hooper-pagination slot="hooper-addons" mode="fraction"></hooper-pagination>
+    <template v-slot:hooper-addons>
+      <hooper-pagination mode="fraction" style="color: white;" />
+    </template>
   </hooper>
 </template>
 
 <script>
-import {
-  Hooper,
-  Slide,
-  Pagination as HooperPagination
-  } from 'hooper';
+import { Hooper, Slide, Pagination as HooperPagination } from 'hooper';
 
 export default {
   components: {
@@ -315,10 +315,9 @@ export default {
     Slide,
     HooperPagination
   }
-}
+};
 </script>
 ```
-
 
 ## Show Multiple Items
 
@@ -342,7 +341,9 @@ export default {
     slide 6
   </slide>
 
-  <hooper-navigation slot="hooper-addons"></hooper-navigation>
+  <template v-slot:hooper-addons>
+    <hooper-navigation />
+  </template>
 </hooper>
 
 ```vue
@@ -365,6 +366,10 @@ export default {
   <slide>
     slide 6
   </slide>
+
+  <template v-slot:hooper-addons>
+    <hooper-navigation />
+  </template>
 </hooper>
 ```
 
@@ -389,7 +394,10 @@ export default {
   <slide>
     slide 6
   </slide>
-  <hooper-navigation slot="hooper-addons"></hooper-navigation>
+
+  <template v-slot:hooper-addons>
+    <hooper-navigation />
+  </template>
 </hooper>
 
 ```vue
@@ -412,6 +420,10 @@ export default {
   <slide>
     slide 6
   </slide>
+
+  <template v-slot:hooper-addons>
+    <hooper-navigation />
+  </template>
 </hooper>
 ```
 
@@ -437,7 +449,9 @@ export default {
     slide 6
   </slide>
 
-  <hooper-navigation slot="hooper-addons"></hooper-navigation>
+  <template v-slot:hooper-addons>
+    <hooper-navigation />
+  </template>
 </hooper>
 
 ```vue
@@ -460,6 +474,10 @@ export default {
   <slide>
     slide 6
   </slide>
+
+  <template v-slot:hooper-addons>
+    <hooper-navigation />
+  </template>
 </hooper>
 ```
 
@@ -485,7 +503,9 @@ export default {
     slide 6
   </slide>
 
-  <hooper-navigation slot="hooper-addons"></hooper-navigation>
+  <template v-slot:hooper-addons>
+    <hooper-navigation />
+  </template>
 </hooper>
 
 ```vue
@@ -508,6 +528,10 @@ export default {
   <slide>
     slide 6
   </slide>
+
+  <template v-slot:hooper-addons>
+    <hooper-navigation />
+  </template>
 </hooper>
 ```
 
@@ -519,8 +543,29 @@ export default {
 
 ## Auto Playing
 
+<hooper :progress="true" :autoPlay="true" :playSpeed="2000" :hoverPause="true">
+  <slide>
+    slide 1
+  </slide>
+  <slide>
+    slide 2
+  </slide>
+  <slide>
+    slide 3
+  </slide>
+  <slide>
+    slide 4
+  </slide>
+  <slide>
+    slide 5
+  </slide>
+  <slide>
+    slide 6
+  </slide>
+</hooper>
+
 ```vue
-<hooper :progress="true" :autoPlay="true" :playSpeed="2000">
+<hooper :progress="true" :autoPlay="true" :playSpeed="2000" :hoverPause="true">
   <slide>
     slide 1
   </slide>
@@ -541,9 +586,20 @@ export default {
   </slide>
 </hooper>
 ```
+
 ## Auto Playing with per slide duration for a fullscreen display
+
+<hooper :autoPlay="true" :playSpeed="2000">
+ <slide :duration="1000">
+  slide 1 - custom duration of 1000ms 
+ </slide>
+ <slide>
+  slide 2 - default duration of 2000ms
+</slide>
+</hooper>
+
 ```vue
-<hooper :autoPlay="true" :playSpeed="2000" :hoverPause="false">
+<hooper :autoPlay="true" :playSpeed="2000">
  <slide :duration="1000">
   slide 1 - custom duration of 1000ms 
  </slide>
@@ -575,7 +631,9 @@ export default {
     slide 6
   </slide>
 
-  <hooper-navigation slot="hooper-addons"></hooper-navigation>
+  <template v-slot:hooper-addons>
+    <hooper-navigation />
+  </template>
 </hooper>
 
 ```vue
@@ -598,6 +656,10 @@ export default {
   <slide>
     slide 6
   </slide>
+
+  <template v-slot:hooper-addons>
+    <hooper-navigation />
+  </template>
 </hooper>
 ```
 
@@ -644,8 +706,10 @@ export default {
     slide 6
   </slide>
 
-  <hooper-navigation slot="hooper-addons"></hooper-navigation>
-  <hooper-pagination slot="hooper-addons"></hooper-pagination>
+  <template v-slot:hooper-addons>
+    <hooper-navigation />
+    <hooper-pagination />
+  </template>
 </hooper>
 
 ```vue
@@ -690,20 +754,20 @@ export default {
     slide 6
   </slide>
 
-  <hooper-navigation slot="hooper-addons"></hooper-navigation>
-  <hooper-pagination slot="hooper-addons"></hooper-pagination>
+  <template v-slot:hooper-addons>
+    <hooper-navigation />
+    <hooper-pagination />
+  </template>
 </hooper>
 ```
 
 ## Custom Controllers
 
-<template>
-<a href="" @click.prevent="slidePrev">prev</a>
+<a href="" @click.prevent="$refs.customControlCarousel.slidePrev">prev</a>
 <input v-model="myCarouselData" type="number" min="0" max="5">
-<a href="" @click.prevent="slideNext">next</a>
-</template>
+<a href="" @click.prevent="$refs.customControlCarousel.slideNext">next</a>
 
-<hooper ref="myCarousel" :itemsToShow="1.5" :centerMode="true" v-on:slide="updateCarousel">
+<hooper ref="customControlCarousel" :itemsToShow="1.5" :centerMode="true" v-on:slide="updateCarousel">
   <slide>
     slide 1
   </slide>
@@ -726,11 +790,11 @@ export default {
 
 ```vue
 <template>
-  <button @click.prevent="slidePrev">prev</button>
-  <input v-model="carouselData" type="number" min="0" max="5">
-  <button @click.prevent="slideNext">next</button>
+  <button @click.prevent="$refs.customControlCarousel.slidePrev">prev</button>
+  <input v-model="carouselData" type="number" min="0" max="5" />
+  <button @click.prevent="$refs.customControlCarousel.slideNext">next</button>
 
-  <hooper ref="carousel" @slide="updateCarousel">
+  <hooper ref="customControlCarousel">
     <slide>
       slide 1
     </slide>
@@ -751,80 +815,58 @@ export default {
     </slide>
   </hooper>
 </template>
-
-<script>
-export default {
-  data () {
-    return {
-      carouselData: 0
-    }
-  },
-  watch: {
-    carouselData () {
-      this.$refs.carousel.slideTo(this.carouselData);
-    }
-  },
-  methods: {
-    slidePrev() {
-      this.$refs.carousel.slidePrev();
-    },
-    slideNext() {
-      this.$refs.carousel.slideNext();
-    },
-    updateCarousel(payload) {
-      this.myCarouselData = payload.currentSlide;
-    }
-  }
-}
-</script>
 ```
 
 ## Dynamic Slides
 
 Hooper plays well with dynamic slides as well.
 
-<template>
-  <input type="text" v-model="body">
-  <a href="#" @click.prevent="addSlide">Add</a>
-  <hooper>
+<input type="text" v-model="body">
+<a href="#" @click.prevent="addSlide">Add</a>
+<hooper ref="dynamicSlidesCarousel">
     <slide v-for="slide in slides">
       {{ slide.body }}
     </slide>
 
-    <hooper-navigation slot="hooper-addons"></hooper-navigation>
-  </hooper>
-</template>
+  <template v-slot:hooper-addons>
+    <hooper-navigation />
+    <hooper-pagination />
+  </template>
+
+</hooper>
 
 ```vue
 <template>
-  <div>
-    <input type="text" v-model="body">
-    <a href="#" @click.prevent="addSlide">Add</a>
-    <hooper>
-      <slide v-for="slide in slides">
-        {{ slide.body }}
-      </slide>
+  <input type="text" v-model="body" />
+  <a href="#" @click.prevent="addSlide">Add</a>
+  <hooper ref="dynamicSlidesCarousel">
+    <slide v-for="slide in slides">
+      {{ slide.body }}
+    </slide>
 
-      <hooper-navigation slot="hooper-addons"></hooper-navigation>
-    </hooper>
-  </div>
+    <template v-slot:hooper-addons>
+      <hooper-navigation />
+      <hooper-pagination />
+    </template>
+  </hooper>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
+      myCarouselData: 0,
       slides: [],
-      body: 'New Slide 1'
-    }
+      body: 'New Slide'
+    };
   },
   methods: {
-    addSlide () {
+    addSlide() {
       this.slides.push({ body: this.body || 'New Slide' });
       this.body = 'New Slide ' + this.slides.length;
     }
   }
-}
+};
 </script>
 ```
 
@@ -837,24 +879,10 @@ export default {
       body: 'New Slide'
     }
   },
-  watch: {
-    myCarouselData () {
-      this.$refs.myCarousel.slideTo(this.myCarouselData);
-    }
-  },
   methods: {
     addSlide () {
       this.slides.push({ body: this.body || 'New Slide' });
       this.body = 'New Slide ' + this.slides.length;
-    },
-    slidePrev() {
-      this.$refs.myCarousel.slidePrev();
-    },
-    slideNext() {
-      this.$refs.myCarousel.slideNext();
-    },
-    updateCarousel(payload) {
-      this.myCarouselData = payload.currentSlide;
     }
   }
 }

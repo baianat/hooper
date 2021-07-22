@@ -14,5 +14,8 @@
   "transform": {
     ".*\\.(vue)$": "vue-jest",
     ".*\\.(js)$": "babel-jest"
+  },
+  "moduleNameMapper":{
+    "\\.(css|less|scss|sass)$": "identity-obj-proxy"
   }
 }

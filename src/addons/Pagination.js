@@ -1,3 +1,4 @@
+import { h } from 'vue';
 import { normalizeSlideIndex } from '../utils';
 import '../styles/pagination.css';
 
@@ -11,8 +12,8 @@ function renderIndicator(h, index, isCurrent, onClick) {
       'button',
       {
         class: { 'hooper-indicator': true, 'is-active': isCurrent },
-        on: { click: onClick },
-        attrs: { type: 'button' }
+        onClick: onClick,
+        type: 'button'
       },
       [h('span', { class: 'hooper-sr-only' }, `item ${index}`)]
     )
@@ -47,15 +48,18 @@ export default {
   },
   computed: {
     currentSlide() {
-      return normalizeSlideIndex(this.$hooper.currentSlide, this.$hooper.slidesCount);
+      return normalizeSlideIndex(this.$hooper.currentSlide.value, this.$hooper.slidesCount.value);
     },
     slides() {
-      const slides = this.$hooper.slides.map((_, index) => index);
-      return slides.slice(this.$hooper.trimStart, this.$hooper.slidesCount - this.$hooper.trimEnd + 1);
+      const slides = this.$hooper.slides.value.map((_, index) => index);
+      return slides.slice(
+        this.$hooper.trimStart.value,
+        this.$hooper.slidesCount.value - this.$hooper.trimEnd.value + 1
+      );
     }
   },
-  render(h) {
-    const totalCount = this.$hooper.slidesCount;
+  render() {
+    const totalCount = this.$hooper.slidesCount.value;
     const children =
       this.mode === 'indicator'
         ? renderDefault(h, this.currentSlide, totalCount, index => this.$hooper.slideTo(index))
@@ -66,7 +70,7 @@ export default {
       {
         class: {
           'hooper-pagination': true,
-          'is-vertical': this.$hooper.config.vertical
+          'is-vertical': this.$hooper.config.value.vertical
         }
       },
       children

@@ -16,12 +16,15 @@
     "test": "jest --config jest.config.json"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
     "@commitlint/cli": "^8.1.0",
-    "@vue/test-utils": "^1.0.0-beta.29",
-    "babel-core": "^7.0.0-bridge.0",
+    "@vue/compat": "^3.1.4",
+    "@vue/compiler-sfc": "^3.1.4",
+    "@vue/test-utils": "2.0.0-rc.10",
     "babel-eslint": "^10.0.2",
-    "babel-jest": "^24.8.0",
+    "babel-jest": "^27.0.6",
+    "browser-sync": "2.27.4",
     "chalk": "^2.4.2",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
@@ -32,8 +35,10 @@
     "gzip-size": "^5.1.1",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^3.0.3",
-    "jest": "24.8.0",
+    "identity-obj-proxy": "3.0.0",
+    "jest": "^27.0.6",
     "lint-staged": "^9.2.1",
+    "mitt": "^3.0.0",
     "mkdirp": "^0.5.1",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1",
@@ -44,13 +49,11 @@
     "rollup-plugin-css-only": "^1.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-vue": "^5.0.1",
+    "rollup-plugin-vue": "^6.0.0-beta.10",
     "uglify-js": "^3.6.0",
-    "vue": "^2.6.10",
-    "vue-jest": "^3.0.4",
-    "vue-server-renderer": "^2.6.10",
-    "vue-template-compiler": "^2.6.10",
-    "vuepress": "^1.0.3"
+    "vue": "^3.1.4",
+    "vue-jest": "^5.0.0-alpha.10",
+    "vuepress": "^2.0.0-beta.22"
   },
   "license": "MIT",
   "keywords": [],
@@ -67,5 +70,7 @@
       "jest --maxWorkers=1 --bail --findRelatedTests"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "lodash.debounce": "4.0.8"
+  }
 }

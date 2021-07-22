@@ -21,8 +21,15 @@ module.exports = {
         label: 'English',
         selectText: 'Languages',
         editLinkText: 'Help us improve this page!',
-        nav: [{ text: 'API', link: '/api' }, { text: 'Examples', link: '/examples' }],
-        sidebar: ['/getting-started', '/examples', '/api']
+        navbar: [
+          { text: 'API', link: '/api.html' },
+          { text: 'Examples', link: '/examples.html' }
+        ],
+        sidebar: [
+          { text: 'Getting started', link: '/getting-started.html' },
+          { text: 'Examples', link: '/examples.html' },
+          { text: 'API', link: '/api.html' }
+        ]
       }
     }
   }

@@ -1,5 +1,8 @@
 node_modules
-dist
+#dist
 *.
 *.log
 coverage
+/docs/.vuepress/.temp/
+/docs/.vuepress/.cache/
+/.idea/

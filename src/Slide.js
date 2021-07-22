@@ -1,4 +1,4 @@
-import { normalizeChildren } from './utils';
+import { h } from 'vue';
 import './styles/slide.css';
 
 export default {
@@ -21,11 +21,11 @@ export default {
   computed: {
     style() {
       const { config, slideHeight, slideWidth } = this.$hooper || {};
-      if (config.vertical) {
-        return `height: ${slideHeight}px`;
+      if (config.value.vertical) {
+        return `height: ${slideHeight.value}px`;
       }
 
-      return `width: ${slideWidth}px`;
+      return `width: ${slideWidth.value}px`;
     },
     isActive() {
       const { upper, lower } = this.$hooper.slideBounds;
@@ -48,7 +48,7 @@ export default {
       return this.index === this.$hooper.currentSlide;
     }
   },
-  render(h) {
+  render() {
     const classes = {
       'hooper-slide': true,
       'is-clone': this.isClone,
@@ -58,7 +58,7 @@ export default {
       'is-current': this.isCurrent
     };
 
-    const children = normalizeChildren(this);
+    const children = this.$slots.default();
 
     return h(
       'li',
