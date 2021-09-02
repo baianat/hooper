@@ -32,7 +32,7 @@ export default {
         return `height: ${slideHeight}px`;
       }
 
-      // return `width: ${slideWidth}px`;
+      return `width: ${slideWidth}px`;
     },
     isActive() {
       const { upper, lower } = this.$hooper.slideBounds;

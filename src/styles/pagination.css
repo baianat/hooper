@@ -1,11 +1,18 @@
 .hooper-pagination {
   position: absolute;
-  bottom: 0;
+  bottom: -70px;
   right: 50%;
   transform: translateX(50%);
   display: flex;
   padding: 5px 10px;
 }
+
+@media (min-width: 1024px) {
+  .hooper-pagination {
+    bottom: -28px;
+  }
+}
+
 .hooper-indicators {
   display: flex;
   list-style: none;
@@ -14,16 +21,19 @@
 }
 .hooper-indicator:hover,
 .hooper-indicator.is-active {
-  background-color: #4285f4;
+  background-color: var(--color-main);
+}
+.hooper-indicator.is-active {
+  transform: scale(1.3);
 }
 .hooper-indicator {
-  margin: 0 2px;
+  margin: 0 4px;
   width: 12px;
-  height: 4px;
-  border-radius: 4px;
+  height: 12px;
+  border-radius: 10px;
   border: none;
   padding: 0;
-  background-color: #fff;
+  background-color: var(--color-06);
   cursor: pointer;
 }
 .hooper-pagination.is-vertical {

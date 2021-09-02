@@ -148,7 +148,6 @@ export default {
     },
     trackTransform() {
       const { infiniteScroll, vertical, rtl, centerMode } = this.config;
-
       const direction = rtl ? -1 : 1;
       const slideLength = vertical ? this.slideHeight : this.slideWidth;
       const containerLength = vertical ? this.containerHeight : this.containerWidth;
@@ -162,8 +161,9 @@ export default {
       if (vertical) {
         return `transform: translate(0, ${translate}px);`;
       }
-
-      return `transform: translate(${translate}px, 0);`;
+      let step = 0;
+      if (this.settings.adaptiveFocus && this.containerWidth > 640) step = Math.ceil(slideLength / 2);
+      return `transform: translate(${translate + step}px, 0);`;
     },
     trackTransition() {
       if (this.initialized && this.isSliding) {

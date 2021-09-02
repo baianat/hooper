@@ -14,10 +14,10 @@
   cursor: not-allowed;
 }
 .hooper-next {
-  right: 0;
+  right: 2%;
 }
 .hooper-prev {
-  left: 0;
+  left: 2%;
 }
 .hooper-navigation.is-vertical .hooper-next {
   top: auto;
