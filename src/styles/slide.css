@@ -5,3 +5,12 @@
   padding: 0;
   list-style: none;
 }
+.isShadow {
+  background: black;
+  z-index: 50;
+  opacity: 0;
+}
+
+.targetShadow{
+  opacity: 0.7;
+}

@@ -6,10 +6,12 @@ bs.init({
   open: false,
   ui: false,
   files: [
-    paths.dist, {
+    paths.dist,
+    {
       match: paths.src,
-      fn (event, file) {
+      fn(event, file) {
         build('umd');
+        build('esm');
       }
     }
   ]
