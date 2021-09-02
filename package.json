@@ -1,6 +1,6 @@
 {
   "name": "hooper-cnb",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "A customizable accessible carousel slider optimized for Vue",
   "module": "dist/hooper.esm.js",
   "unpkg": "dist/hooper.js",
