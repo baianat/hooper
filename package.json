@@ -1,13 +1,13 @@
 {
-  "name": "hooper",
-  "version": "0.3.4",
+  "name": "hooper-cnb",
+  "version": "0.3.12",
   "description": "A customizable accessible carousel slider optimized for Vue",
   "module": "dist/hooper.esm.js",
   "unpkg": "dist/hooper.js",
   "main": "dist/hooper.js",
   "scripts": {
     "lint": "eslint ./src --fix",
-    "build": "NODE_ENV=production node scripts/build",
+    "build": "cross-env NODE_ENV=production node scripts/build",
     "deploy": "bash scripts/deploy.sh",
     "dev": "node scripts/watcher",
     "docs:dev": "vuepress dev docs",
@@ -22,6 +22,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.2",
     "babel-jest": "^24.8.0",
+    "browser-sync": "^2.26.7",
     "chalk": "^2.4.2",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
@@ -54,12 +55,6 @@
   },
   "license": "MIT",
   "keywords": [],
-  "maintainers": [
-    {
-      "name": "Abdelrahman3D",
-      "email": "abdelrahman3d@gmail.com"
-    }
-  ],
   "lint-staged": {
     "*.{js,vue}": [
       "prettier --write",
@@ -67,5 +62,7 @@
       "jest --maxWorkers=1 --bail --findRelatedTests"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "cross-env": "^7.0.3"
+  }
 }
