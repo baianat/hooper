@@ -162,7 +162,7 @@ export default {
       slide 6
     </slide>
 
-    <hooper-navigation slot="hooper-addons"></hooper-navigation>
+    <hooper-progress slot="hooper-addons"></hooper-progress>
   </hooper>
 </template>
 
