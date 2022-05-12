@@ -772,7 +772,7 @@ export default {
       this.$refs.carousel.slideNext();
     },
     updateCarousel(payload) {
-      this.myCarouselData = payload.currentSlide;
+      this.carouselData = payload.currentSlide;
     }
   }
 }
